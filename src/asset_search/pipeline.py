@@ -6,6 +6,7 @@ import time
 from typing import Any
 
 from .config import Config
+from .cost import CostTracker
 from .models import Asset, QAReport
 
 
@@ -29,6 +30,7 @@ async def run(
     config = config or Config()
     start = time.monotonic()
     stages_run: list[str] = []
+    costs = CostTracker()
 
     # --- Stage 1: Profile ---
     from corp_profile.profile import build_context_document
@@ -39,6 +41,12 @@ async def run(
     else:
         from corp_profile.profile import build_profile
         profile = build_profile(isin)
+
+    # Optionally enrich the DB profile with LLM-based estimate refinement
+    if config.profile_enrich:
+        from corp_profile.enrich import EnrichConfig, enrich_profile
+        enrich_cfg = config.profile_enrich_config()
+        profile = enrich_profile(profile, enrich_cfg)
 
     context_doc = build_context_document(profile)
 
@@ -110,17 +118,21 @@ async def run(
     show_cost_summary(
         stages_run=stages_run, url_count=len(discovered_urls),
         page_count=len(pages), asset_count=len(assets), elapsed=elapsed,
+        costs=costs,
     )
 
-    return _result(assets, qa_report, start, stages_run)
+    return _result(assets, qa_report, start, stages_run, costs)
 
 
-def _result(assets, qa_report, start, stages_run):
-    return {
+def _result(assets, qa_report, start, stages_run, costs=None):
+    result = {
         "assets": assets, "qa_report": qa_report,
         "elapsed": time.monotonic() - start,
         "stages_run": stages_run, "asset_count": len(assets),
     }
+    if costs:
+        result["costs"] = costs.summary()
+    return result
 
 
 def _build_existing_summary(profile) -> str | None:

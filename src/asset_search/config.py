@@ -95,6 +95,7 @@ class Config:
     qa_model: str = ""
 
     # ── corp-profile (config.toml [profile]) ──────────────────────────────
+    profile_enrich: bool = False
     profile_web_search: bool = False
     profile_web_search_model: str = ""
 
@@ -116,6 +117,8 @@ class Config:
     rag_embedding_dim: int = 1536
     rag_chunk_tokens: int = 512
     rag_embed_batch_size: int = 100
+    rag_retrieval_top_k: int = 80
+    rag_rerank_top_n: int = 20
     rag_rerank_model: str = "rerank-v3.5"
 
     # ── AWS (config.toml [aws]) ───────────────────────────────────────────
@@ -156,13 +159,14 @@ class Config:
         self.exa_api_key = _env("EXA_API_KEY")
 
         # ── Models ────────────────────────────────────────────────────────
-        self.profile_model = _resolve_str("PROFILE_MODEL", models, "profile", bedrock_default)
+        self.profile_model = _resolve_str("PROFILE_MODEL", models, "profile", "bedrock/us.anthropic.claude-haiku-4-5-20251001-v1:0")
         self.discover_model = _resolve_str("DISCOVER_MODEL", models, "discover", bedrock_default)
         self.extract_model = _resolve_str("EXTRACT_MODEL", models, "extract", bedrock_default)
         self.merge_model = _resolve_str("MERGE_MODEL", models, "merge", "openai/gpt-5-mini")
         self.qa_model = _resolve_str("QA_MODEL", models, "qa", bedrock_default)
 
         # ── corp-profile ──────────────────────────────────────────────────
+        self.profile_enrich = _resolve_bool("PROFILE_ENRICH", profile, "enrich", False)
         self.profile_web_search = _resolve_bool("PROFILE_WEB_SEARCH", profile, "web_search", False)
         self.profile_web_search_model = _resolve_str("PROFILE_WEB_SEARCH_MODEL", profile, "web_search_model", "")
 
@@ -174,8 +178,8 @@ class Config:
         self.scrape_strategy = _resolve_str("SCRAPE_STRATEGY", scraper, "strategy", "browser")
 
         # ── doc-extractor ─────────────────────────────────────────────────
-        self.extract_max_batch_tokens = _resolve_int("EXTRACT_MAX_BATCH_TOKENS", extractor, "max_batch_tokens", 65_000)
-        self.extract_max_page_tokens = _resolve_int("EXTRACT_MAX_PAGE_TOKENS", extractor, "max_page_tokens", 35_000)
+        self.extract_max_batch_tokens = _resolve_int("EXTRACT_MAX_BATCH_TOKENS", extractor, "max_batch_tokens", 120_000)
+        self.extract_max_page_tokens = _resolve_int("EXTRACT_MAX_PAGE_TOKENS", extractor, "max_page_tokens", 60_000)
         self.extract_overlap_tokens = _resolve_int("EXTRACT_OVERLAP_TOKENS", extractor, "overlap_tokens", 5_000)
         self.extract_max_retries = _resolve_int("EXTRACT_MAX_RETRIES", extractor, "max_retries", 2)
 
@@ -184,6 +188,8 @@ class Config:
         self.rag_embedding_dim = _resolve_int("RAG_EMBEDDING_DIM", rag, "embedding_dim", 1536)
         self.rag_chunk_tokens = _resolve_int("RAG_CHUNK_TOKENS", rag, "chunk_tokens", 512)
         self.rag_embed_batch_size = _resolve_int("RAG_EMBED_BATCH_SIZE", rag, "embed_batch_size", 100)
+        self.rag_retrieval_top_k = _resolve_int("RAG_RETRIEVAL_TOP_K", rag, "retrieval_top_k", 80)
+        self.rag_rerank_top_n = _resolve_int("RAG_RERANK_TOP_N", rag, "rerank_top_n", 20)
         self.rag_rerank_model = _resolve_str("RAG_RERANK_MODEL", rag, "rerank_model", "rerank-v3.5")
 
         # ── AWS ───────────────────────────────────────────────────────────
@@ -234,6 +240,8 @@ class Config:
             embedding_dim=self.rag_embedding_dim,
             chunk_tokens=self.rag_chunk_tokens,
             embed_batch_size=self.rag_embed_batch_size,
+            retrieval_top_k=self.rag_retrieval_top_k,
+            rerank_top_n=self.rag_rerank_top_n,
             rerank_model=self.rag_rerank_model,
             cohere_api_key=self.cohere_api_key,
         )

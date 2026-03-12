@@ -8,7 +8,7 @@
 # ── Models ────────────────────────────────────────────────────────────────────
 # Any litellm-supported model string: "openai/gpt-5-mini", "bedrock/us.anthropic.claude-...", etc.
 [models]
-profile  = "bedrock/us.anthropic.claude-opus-4-6-20250219-v1:0"
+profile  = "bedrock/us.anthropic.claude-haiku-4-5-20251001-v1:0"
 discover = "bedrock/us.anthropic.claude-opus-4-6-20250219-v1:0"
 extract  = "bedrock/us.anthropic.claude-opus-4-6-20250219-v1:0"
 merge    = "openai/gpt-5-mini"
@@ -16,6 +16,7 @@ qa       = "bedrock/us.anthropic.claude-opus-4-6-20250219-v1:0"
 
 # ── corp-profile ──────────────────────────────────────────────────────────────
 [profile]
+enrich           = false   # set true to run LLM-based profile enrichment after DB lookup
 web_search       = false
 # web_search_model = ""   # defaults to profile model
 
@@ -28,9 +29,12 @@ client_timeout_s   = 120.0
 strategy           = "browser"
 
 # ── doc-extractor ─────────────────────────────────────────────────────────────
+# max_batch_tokens: how many tokens of page content per extraction call.
+# Default 120K is safe for Opus 4.6 (200K context). If using GPT-5.2 (400K)
+# or GPT-5.4/Opus 1M beta, increase to 300K+.
 [extractor]
-max_batch_tokens = 65_000
-max_page_tokens  = 35_000
+max_batch_tokens = 120_000
+max_page_tokens  = 60_000
 overlap_tokens   = 5_000
 max_retries      = 2
 
@@ -40,6 +44,8 @@ embedding_model  = "text-embedding-3-small"
 embedding_dim    = 1536
 chunk_tokens     = 512
 embed_batch_size = 100
+retrieval_top_k  = 80
+rerank_top_n     = 20
 rerank_model     = "rerank-v3.5"
 
 # ── AWS (shared across all Bedrock-based models) ─────────────────────────────

@@ -22,7 +22,7 @@ from rich.table import Table
 
 console = Console()
 
-TOTAL_STAGES = 7
+TOTAL_STAGES = 6
 
 
 def show_stage(stage: int, label: str) -> None:
@@ -165,29 +165,14 @@ def show_assets_table(
 
 
 def show_cost_summary(
-    # New pipeline-orchestrator kwargs
     stages_run: list[str] | None = None,
     url_count: int = 0,
     page_count: int = 0,
     asset_count: int = 0,
     elapsed: float = 0.0,
-    # Legacy kwargs (kept for backward compatibility)
-    total_cost_usd: float = 0.0,
-    total_tokens: int = 0,
-    pages_crawled: int = 0,
-    assets_found: int = 0,
-    elapsed_seconds: float = 0.0,
+    costs: Any = None,
 ) -> None:
-    """Display a cost/usage summary table.
-
-    Accepts either the new pipeline-orchestrator kwargs (stages_run, url_count,
-    page_count, asset_count, elapsed) or the legacy kwargs for backward compatibility.
-    """
-    # Resolve unified values from whichever set of kwargs was provided
-    _asset_count = asset_count or assets_found
-    _page_count = page_count or pages_crawled
-    _elapsed = elapsed or elapsed_seconds
-
+    """Display a cost/usage summary table with optional CostTracker breakdown."""
     table = Table(
         title="[bold]Pipeline Summary[/bold]",
         show_header=False,
@@ -198,25 +183,30 @@ def show_cost_summary(
     table.add_column("Value")
 
     if stages_run:
-        table.add_row("Stages", " → ".join(stages_run))
+        table.add_row("Stages", " -> ".join(stages_run))
     if url_count:
         table.add_row("URLs discovered", str(url_count))
-    table.add_row("Pages scraped" if page_count else "Pages crawled", str(_page_count))
-    table.add_row("Assets found", str(_asset_count))
+    table.add_row("Pages scraped", str(page_count))
+    table.add_row("Assets found", str(asset_count))
 
-    if total_tokens > 0:
-        tok_str = (
-            f"{total_tokens / 1000:.1f}k"
-            if total_tokens >= 1000
-            else str(total_tokens)
-        )
-        table.add_row("Tokens", tok_str)
+    if costs is not None:
+        total_tokens = costs.total_input_tokens + costs.total_output_tokens
+        if total_tokens > 0:
+            tok_str = f"{total_tokens / 1000:.1f}k" if total_tokens >= 1000 else str(total_tokens)
+            table.add_row("Tokens (in/out)", f"{costs.total_input_tokens:,} / {costs.total_output_tokens:,} ({tok_str} total)")
+        if costs.crawl4ai_pages:
+            table.add_row("Crawl4AI pages", str(costs.crawl4ai_pages))
+        if costs.exa_searches:
+            table.add_row("Exa searches", str(costs.exa_searches))
+        if costs.cohere_rerank_calls:
+            table.add_row("Cohere reranks", str(costs.cohere_rerank_calls))
+        cost_usd = costs.total_cost_usd()
+        cost_gbp = costs.total_cost_gbp()
+        if cost_usd > 0:
+            table.add_row("Cost (est.)", f"${cost_usd:.2f} / \u00a3{cost_gbp:.2f}")
 
-    if total_cost_usd > 0:
-        table.add_row("Cost (est.)", f"${total_cost_usd:.2f}")
-
-    if _elapsed > 0:
-        mins, secs = divmod(int(_elapsed), 60)
+    if elapsed > 0:
+        mins, secs = divmod(int(elapsed), 60)
         if mins:
             table.add_row("Duration", f"{mins}m {secs:02d}s")
         else:
