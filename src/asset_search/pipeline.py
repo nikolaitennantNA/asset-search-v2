@@ -10,14 +10,19 @@ from .models import Asset, QAReport
 
 
 async def run(
-    isin: str, config: Config | None = None, stop_after: str | None = None,
+    isin: str | None,
+    config: Config | None = None,
+    stop_after: str | None = None,
+    profile_file: str | None = None,
 ) -> dict[str, Any]:
     """Run the full 6-stage pipeline for a company.
 
     Args:
-        isin: Company ISIN or issuer_id.
+        isin: Company ISIN or issuer_id. Optional when profile_file is given.
         config: Pipeline config. Defaults from env vars.
         stop_after: Stop after stage (profile/discover/scrape/extract/merge/qa).
+        profile_file: Path to a JSON profile file. When set, Postgres is not
+            queried for the profile and the issuer_id is taken from the file.
 
     Returns: dict with assets, qa_report, elapsed, stages_run, asset_count.
     """
@@ -26,13 +31,22 @@ async def run(
     stages_run: list[str] = []
 
     # --- Stage 1: Profile ---
-    from corp_profile.profile import build_profile, build_context_document
+    from corp_profile.profile import build_context_document
 
-    profile = build_profile(isin)
+    if profile_file:
+        from corp_profile.profile import build_profile_from_file
+        profile = build_profile_from_file(profile_file)
+    else:
+        from corp_profile.profile import build_profile
+        profile = build_profile(isin)
+
     context_doc = build_context_document(profile)
 
+    # Use profile's issuer_id as the canonical identifier for all downstream stages
+    issuer_id = profile.issuer_id or isin
+
     from .display import show_intro_panel
-    show_intro_panel(profile.legal_name, isin, profile)
+    show_intro_panel(profile.legal_name, issuer_id, profile)
     stages_run.append("profile")
 
     if stop_after == "profile":
@@ -41,7 +55,7 @@ async def run(
     # --- Stage 2: Discover ---
     from .stages.discover import run_discover
 
-    discovered_urls = await run_discover(isin, context_doc, config)
+    discovered_urls = await run_discover(issuer_id, context_doc, config)
     stages_run.append("discover")
 
     if stop_after == "discover":
@@ -58,7 +72,7 @@ async def run(
     # --- Stage 3: Scrape ---
     from .stages.scrape import run_scrape
 
-    pages = await run_scrape(isin, discovered_urls, config, rag_store)
+    pages = await run_scrape(issuer_id, discovered_urls, config, rag_store)
     stages_run.append("scrape")
 
     if stop_after == "scrape":
@@ -68,7 +82,7 @@ async def run(
     from .stages.extract import run_extract
 
     existing_summary = _build_existing_summary(profile)
-    assets = await run_extract(isin, profile.legal_name, pages, config, existing_summary)
+    assets = await run_extract(issuer_id, profile.legal_name, pages, config, existing_summary)
     stages_run.append("extract")
 
     if stop_after == "extract":
@@ -77,7 +91,7 @@ async def run(
     # --- Stage 5: Merge ---
     from .stages.merge import run_merge
 
-    assets = await run_merge(isin, assets, config, industry_code=profile.primary_industry)
+    assets = await run_merge(issuer_id, assets, config, industry_code=profile.primary_industry)
     stages_run.append("merge")
 
     if stop_after == "merge":
@@ -86,7 +100,7 @@ async def run(
     # --- Stage 6: QA ---
     from .stages.qa import run_qa
 
-    qa_report = await run_qa(isin, context_doc, assets, config, rag_store)
+    qa_report = await run_qa(issuer_id, context_doc, assets, config, rag_store)
     stages_run.append("qa")
 
     # --- Display results ---

@@ -15,7 +15,11 @@ def main():
     subparsers = parser.add_subparsers(dest="command")
 
     run_parser = subparsers.add_parser("run", help="Run pipeline for a company")
-    run_parser.add_argument("isin", help="Company ISIN or issuer_id")
+    run_parser.add_argument("isin", nargs="?", help="Company ISIN or issuer_id")
+    run_parser.add_argument(
+        "--from-file", "-f",
+        help="Load company profile from JSON file instead of Postgres",
+    )
     run_parser.add_argument(
         "--stop-after",
         choices=["profile", "discover", "scrape", "extract", "merge", "qa"],
@@ -25,8 +29,15 @@ def main():
     args = parser.parse_args()
 
     if args.command == "run":
+        if not args.isin and not args.from_file:
+            run_parser.error("provide an ISIN or --from-file")
         config = Config()
-        result = asyncio.run(run(args.isin, config, stop_after=args.stop_after))
+        result = asyncio.run(run(
+            args.isin,
+            config,
+            stop_after=args.stop_after,
+            profile_file=args.from_file,
+        ))
         print(f"\nDone. {result['asset_count']} assets in {result['elapsed']:.1f}s")
     else:
         parser.print_help()
