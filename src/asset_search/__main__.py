@@ -6,53 +6,31 @@ import argparse
 import asyncio
 import sys
 
+from .config import Config
+from .pipeline import run
 
-def main() -> None:
-    parser = argparse.ArgumentParser(
-        prog="asset_search",
-        description="Web-based physical asset discovery pipeline",
-    )
-    sub = parser.add_subparsers(dest="command")
 
-    run_parser = sub.add_parser("run", help="Run asset discovery pipeline")
+def main():
+    parser = argparse.ArgumentParser(description="Asset Search v2")
+    subparsers = parser.add_subparsers(dest="command")
+
+    run_parser = subparsers.add_parser("run", help="Run pipeline for a company")
+    run_parser.add_argument("isin", help="Company ISIN or issuer_id")
     run_parser.add_argument(
-        "isin",
-        nargs="?",
-        default=None,
-        help="ISIN identifier for the target company",
-    )
-    run_parser.add_argument(
-        "--portfolio",
-        action="store_true",
-        help="Run in batch mode across the portfolio",
-    )
-    run_parser.add_argument(
-        "--max-companies",
-        type=int,
-        default=5,
-        help="Max companies to process in batch mode (default: 5)",
+        "--stop-after",
+        choices=["profile", "discover", "scrape", "extract", "merge", "qa"],
+        help="Stop after this stage",
     )
 
     args = parser.parse_args()
 
-    if args.command != "run":
+    if args.command == "run":
+        config = Config()
+        result = asyncio.run(run(args.isin, config, stop_after=args.stop_after))
+        print(f"\nDone. {result['asset_count']} assets in {result['elapsed']:.1f}s")
+    else:
         parser.print_help()
         sys.exit(1)
-
-    if args.portfolio:
-        print(
-            f"Batch mode: processing up to {args.max_companies} companies"
-        )
-        raise NotImplementedError("Batch mode not yet implemented")
-
-    if not args.isin:
-        run_parser.error("ISIN is required (or use --portfolio)")
-
-    from .config import Config
-    from .pipeline import run
-
-    config = Config()
-    asyncio.run(run(args.isin, config))
 
 
 if __name__ == "__main__":

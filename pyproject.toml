@@ -17,12 +17,14 @@ dependencies = [
     "web-scraper",
     "doc-extractor",
     "rag",
+    "corp-profile",
 ]
 
 [tool.uv.sources]
 web-scraper = { path = "../web-scraper", editable = true }
 doc-extractor = { path = "../doc-extractor", editable = true }
 rag = { path = "../rag", editable = true }
+corp-profile = { path = "../corp-profile", editable = true }
 
 [build-system]
 requires = ["hatchling"]
