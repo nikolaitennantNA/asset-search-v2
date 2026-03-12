@@ -100,7 +100,7 @@ async def run_discover(
             tools.map_domain,
             tools.save_urls,
             tools.get_saved_urls,
-        ],
+        ] + builtin_tools,
         toolsets=toolsets or None,
     )
 

@@ -32,7 +32,13 @@ async def run_qa(
     if rag_store:
         async def rag_query(text: str, top_k: int = 20) -> list[dict]:
             """Search already-scraped pages for missed information."""
-            return await rag_store.query(text, namespace=issuer_id, top_k=top_k)
+            from rag import Usage as RAGUsage
+            rag_usage = RAGUsage()
+            results = await rag_store.query(text, namespace=issuer_id, top_k=top_k, usage=rag_usage)
+            if costs:
+                costs.track_embedding(rag_usage.embedding_tokens)
+                costs.track_cohere_rerank(rag_usage.rerank_calls)
+            return results
         qa_tools.append(rag_query)
 
     async def scrape_and_extract(urls: list[str]) -> list[dict[str, Any]]:
@@ -68,7 +74,7 @@ async def run_qa(
         _to_pydantic_ai_model(config.qa_model),
         system_prompt=system_prompt,
         output_type=QAReport,
-        tools=qa_tools,
+        tools=qa_tools + builtin_tools,
         toolsets=toolsets or None,
     )
 

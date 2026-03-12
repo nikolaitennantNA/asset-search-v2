@@ -56,7 +56,8 @@ def save_scraped_page(
     conn: psycopg.Connection, issuer_id: str, url: str,
     markdown: str, raw_html: str, signals: dict | None, tokens: int | None,
     stale_days: int = 30,
-) -> str:
+) -> tuple[str, str]:
+    """Save a scraped page. Returns (page_id, content_hash)."""
     pid = url_hash(url)
     content_hash = hashlib.sha256(markdown.encode()).hexdigest()
     stale_after = datetime.now(timezone.utc) + timedelta(days=stale_days)
@@ -74,7 +75,7 @@ def save_scraped_page(
              psycopg.types.json.Json(signals) if signals else None, tokens, stale_after),
         )
     conn.commit()
-    return pid
+    return pid, content_hash
 
 
 def get_extraction_result(conn: psycopg.Connection, page_id: str, model: str) -> dict[str, Any] | None:

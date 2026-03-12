@@ -26,7 +26,7 @@ TOTAL_STAGES = 6
 
 
 def show_stage(stage: int, label: str) -> None:
-    """Print a bold stage header like '[3/7] Crawling & ingesting...'"""
+    """Print a bold stage header like '[3/6] Crawling & ingesting...'"""
     console.print(
         f"  [bold cyan][{stage}/{TOTAL_STAGES}][/bold cyan] {label}"
     )

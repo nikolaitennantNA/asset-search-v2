@@ -49,7 +49,7 @@ async def run(
     if config.profile_llm:
         from corp_profile.enrich import EnrichConfig, enrich_profile
         enrich_cfg = config.profile_enrich_config()
-        profile = enrich_profile(profile, enrich_cfg)
+        profile, _changes = enrich_profile(profile, enrich_cfg)
 
     context_doc = build_context_document(profile)
 

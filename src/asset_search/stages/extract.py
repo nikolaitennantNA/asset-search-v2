@@ -49,12 +49,18 @@ async def run_extract(
 
     try:
         to_extract: list[dict[str, Any]] = []
+        # Dedup cached assets by (name, entity) since batched extraction
+        # saves the full batch result against every page in the batch.
+        seen_cached: set[tuple[str, str]] = set()
         for page in pages:
             pid = page.get("page_id") or url_hash(page["url"])
             cached = get_extraction_result(conn, pid, config.extract_model)
             if cached:
                 for ad in (cached.get("assets_json") or []):
-                    all_assets.append(Asset(**ad))
+                    key = (ad.get("asset_name", ""), ad.get("entity_name", ""))
+                    if key not in seen_cached:
+                        seen_cached.add(key)
+                        all_assets.append(Asset(**ad))
             else:
                 to_extract.append(page)
 
@@ -93,18 +99,16 @@ async def run_extract(
                 "extract",
             )
 
-        # Save per-page extraction results
-        by_page: dict[str, list[Asset]] = {}
-        for asset in new_assets:
-            pid = url_hash(asset.source_url) if asset.source_url else "unknown"
-            by_page.setdefault(pid, []).append(asset)
-
+        # Save extraction results per page.
+        # Since doc-extractor batches pages together, we can't reliably map
+        # individual assets to individual pages. Save all batch assets against
+        # each page so the cache correctly detects "already extracted".
+        all_dumped = [a.model_dump() for a in new_assets]
         for page in to_extract:
             pid = page.get("page_id") or url_hash(page["url"])
-            page_assets = by_page.get(pid, [])
             save_extraction_result(
                 conn, pid, issuer_id, page.get("content_hash", ""),
-                config.extract_model, [a.model_dump() for a in page_assets],
+                config.extract_model, all_dumped,
             )
 
         all_assets.extend(new_assets)

@@ -75,25 +75,30 @@ async def run_scrape(
         all_pages: list[dict[str, Any]] = list(cached_pages)
         for page in scraped:
             if page.success and page.markdown:
-                pid = save_scraped_page(
+                pid, chash = save_scraped_page(
                     conn, issuer_id, page.url, page.markdown, page.raw_html,
                     page.signals, None, stale_days=config.page_stale_days,
                 )
                 all_pages.append({
                     "page_id": pid, "url": page.url,
                     "markdown": page.markdown, "signals": page.signals,
+                    "content_hash": chash,
                 })
 
         if costs and scraper_usage.pages_crawled:
             costs.track_crawl4ai(scraper_usage.pages_crawled)
 
         if rag_store and all_pages:
+            from rag import Usage as RAGUsage
+            rag_usage = RAGUsage()
             rag_docs = [
                 {"id": p.get("page_id", url_hash(p["url"])), "content": p["markdown"],
                  "metadata": {"url": p["url"]}}
                 for p in all_pages if p.get("markdown")
             ]
-            await rag_store.ingest(rag_docs, namespace=issuer_id)
+            await rag_store.ingest(rag_docs, namespace=issuer_id, usage=rag_usage)
+            if costs:
+                costs.track_embedding(rag_usage.embedding_tokens)
 
     finally:
         conn.close()
