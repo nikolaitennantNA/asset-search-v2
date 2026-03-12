@@ -2,13 +2,99 @@
 
 from __future__ import annotations
 
+import csv
+import json
+import re
 import time
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 from .config import Config
 from .cost import CostTracker
 from .models import Asset, QAReport
 
+
+# ---------------------------------------------------------------------------
+# Intermediate file saving
+# ---------------------------------------------------------------------------
+
+def _make_run_dir(issuer_id: str) -> Path:
+    """Create and return output/<issuer_id>/<timestamp>/ directory."""
+    ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H-%M-%S")
+    run_dir = Path("output") / issuer_id / ts
+    run_dir.mkdir(parents=True, exist_ok=True)
+    return run_dir
+
+
+def _save_profile(run_dir: Path, profile, context_doc: str) -> None:
+    (run_dir / "profile.json").write_text(
+        json.dumps(profile.model_dump(), indent=2, default=str)
+    )
+    (run_dir / "context.md").write_text(context_doc)
+
+
+def _save_urls(run_dir: Path, urls: list[dict[str, Any]]) -> None:
+    path = run_dir / "discovered_urls.csv"
+    if not urls:
+        path.write_text("url,category,notes\n")
+        return
+    with open(path, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["url", "category", "notes"])
+        writer.writeheader()
+        for u in urls:
+            writer.writerow({
+                "url": u.get("url", ""),
+                "category": u.get("category", ""),
+                "notes": u.get("notes", ""),
+            })
+
+
+def _slug(url: str) -> str:
+    """Turn a URL into a filesystem-safe filename."""
+    # Strip protocol and trailing slash
+    name = re.sub(r"^https?://", "", url).rstrip("/")
+    # Replace non-alphanumeric with hyphens, collapse runs
+    name = re.sub(r"[^a-zA-Z0-9]+", "-", name).strip("-")
+    return name[:120]
+
+
+def _save_pages(run_dir: Path, pages: list[dict[str, Any]]) -> None:
+    pages_dir = run_dir / "pages"
+    pages_dir.mkdir(exist_ok=True)
+    html_dir = run_dir / "pages_html"
+    html_dir.mkdir(exist_ok=True)
+    for page in pages:
+        slug = _slug(page.get("url", "unknown"))
+        md = page.get("markdown", "")
+        if md:
+            (pages_dir / f"{slug}.md").write_text(md)
+        raw_html = page.get("raw_html", "")
+        if raw_html:
+            (html_dir / f"{slug}.html").write_text(raw_html)
+
+
+def _save_extractions(run_dir: Path, assets: list[Asset]) -> None:
+    (run_dir / "extracted_assets.json").write_text(
+        json.dumps([a.model_dump() for a in assets], indent=2, default=str)
+    )
+
+
+def _save_merged(run_dir: Path, assets: list[Asset]) -> None:
+    (run_dir / "final_assets.json").write_text(
+        json.dumps([a.model_dump() for a in assets], indent=2, default=str)
+    )
+
+
+def _save_qa(run_dir: Path, qa_report: QAReport) -> None:
+    (run_dir / "qa_report.json").write_text(
+        json.dumps(qa_report.model_dump(), indent=2, default=str)
+    )
+
+
+# ---------------------------------------------------------------------------
+# Pipeline
+# ---------------------------------------------------------------------------
 
 async def run(
     isin: str | None,
@@ -60,6 +146,9 @@ async def run(
     show_intro_panel(profile.legal_name, issuer_id, profile)
     stages_run.append("profile")
 
+    run_dir = _make_run_dir(issuer_id)
+    _save_profile(run_dir, profile, context_doc)
+
     if stop_after == "profile":
         return _result([], None, start, stages_run)
 
@@ -68,6 +157,7 @@ async def run(
 
     discovered_urls = await run_discover(issuer_id, context_doc, config, costs)
     stages_run.append("discover")
+    _save_urls(run_dir, discovered_urls)
 
     if stop_after == "discover":
         return _result([], None, start, stages_run)
@@ -85,6 +175,7 @@ async def run(
 
     pages = await run_scrape(issuer_id, discovered_urls, config, rag_store, costs)
     stages_run.append("scrape")
+    _save_pages(run_dir, pages)
 
     if stop_after == "scrape":
         return _result([], None, start, stages_run)
@@ -95,6 +186,7 @@ async def run(
     existing_summary = _build_existing_summary(profile)
     assets = await run_extract(issuer_id, profile.legal_name, pages, config, existing_summary, costs)
     stages_run.append("extract")
+    _save_extractions(run_dir, assets)
 
     if stop_after == "extract":
         return _result(assets, None, start, stages_run)
@@ -104,6 +196,7 @@ async def run(
 
     assets = await run_merge(issuer_id, assets, config, industry_code=profile.primary_industry, costs=costs)
     stages_run.append("merge")
+    _save_merged(run_dir, assets)
 
     if stop_after == "merge":
         return _result(assets, None, start, stages_run)
@@ -113,6 +206,7 @@ async def run(
 
     qa_report = await run_qa(issuer_id, context_doc, assets, config, rag_store, costs)
     stages_run.append("qa")
+    _save_qa(run_dir, qa_report)
 
     # Persist QA report (including coverage flags) to DB
     from .db import get_connection, save_qa_report
@@ -132,6 +226,9 @@ async def run(
         page_count=len(pages), asset_count=len(assets), elapsed=elapsed,
         costs=costs,
     )
+
+    from .display import show_detail
+    show_detail(f"Run output saved to {run_dir}")
 
     return _result(assets, qa_report, start, stages_run, costs)
 

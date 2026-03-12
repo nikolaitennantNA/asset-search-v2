@@ -81,8 +81,8 @@ async def run_scrape(
                 )
                 all_pages.append({
                     "page_id": pid, "url": page.url,
-                    "markdown": page.markdown, "signals": page.signals,
-                    "content_hash": chash,
+                    "markdown": page.markdown, "raw_html": page.raw_html,
+                    "signals": page.signals, "content_hash": chash,
                 })
 
         if costs and scraper_usage.pages_crawled:
