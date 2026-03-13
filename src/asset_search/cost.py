@@ -33,7 +33,8 @@ _MODEL_PRICING: dict[str, tuple[float, float]] = {
 }
 
 # Non-LLM API pricing (USD)
-_CRAWL4AI_USD_PER_PAGE = 0.001
+# 1 credit = $0.001. Base page = 1 credit, datacenter = 2, residential = 5.
+_CRAWL4AI_USD_PER_CREDIT = 0.001
 _EXA_USD_PER_SEARCH = 0.015
 _EMBEDDING_USD_PER_1M = 0.02  # text-embedding-3-small
 _COHERE_USD_PER_RERANK = 0.002
@@ -64,6 +65,7 @@ class CostTracker:
 
     # Non-LLM API counters
     crawl4ai_pages: int = 0
+    crawl4ai_credits_used: float = 0.0
     exa_searches: int = 0
     embedding_tokens: int = 0
     cohere_rerank_calls: int = 0
@@ -112,8 +114,9 @@ class CostTracker:
         out = response.usage.completion_tokens or 0
         self.track_llm(model, inp, out, stage)
 
-    def track_crawl4ai(self, pages: int) -> None:
+    def track_crawl4ai(self, pages: int, credits_used: float = 0.0) -> None:
         self.crawl4ai_pages += pages
+        self.crawl4ai_credits_used += credits_used
 
     def track_exa(self, searches: int = 1) -> None:
         self.exa_searches += searches
@@ -151,12 +154,19 @@ class CostTracker:
 
     def api_cost_usd(self) -> float:
         """Calculate non-LLM API costs."""
+        # Use actual API-reported credits when available (includes correct
+        # proxy multipliers and $0 for cached pages). Fall back to page-count
+        # estimate only when no credit data was received (e.g. crawl_page tool).
+        if self.crawl4ai_credits_used > 0:
+            crawl4ai_cost = self.crawl4ai_credits_used * _CRAWL4AI_USD_PER_CREDIT
+        else:
+            crawl4ai_cost = self.crawl4ai_pages * _CRAWL4AI_USD_PER_CREDIT
         return (
-            self.crawl4ai_pages * _CRAWL4AI_USD_PER_PAGE
+            crawl4ai_cost
             + self.exa_searches * _EXA_USD_PER_SEARCH
             + self.embedding_tokens * _EMBEDDING_USD_PER_1M / 1_000_000
             + self.cohere_rerank_calls * _COHERE_USD_PER_RERANK
-            + self.firecrawl_credits * _CRAWL4AI_USD_PER_PAGE
+            + self.firecrawl_credits * _CRAWL4AI_USD_PER_CREDIT
         )
 
     def total_cost_usd(self) -> float:
@@ -177,6 +187,7 @@ class CostTracker:
             "by_model": dict(self.tokens_by_model),
             "by_stage": dict(self.tokens_by_stage),
             "crawl4ai_pages": self.crawl4ai_pages,
+            "crawl4ai_credits_used": round(self.crawl4ai_credits_used, 2),
             "exa_searches": self.exa_searches,
             "embedding_tokens": self.embedding_tokens,
             "cohere_rerank_calls": self.cohere_rerank_calls,

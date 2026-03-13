@@ -124,7 +124,7 @@ class Config:
     # ── web-scraper (config.toml [scraper]) ───────────────────────────────
     # Keys mirror ScraperConfig: base_url, batch_limit, poll_interval_s,
     # client_timeout_s, strategy, default_timeout_ms, default_proxy
-    scraper_base_url: str = "https://api.crawl4ai.com/v1"
+    scraper_base_url: str = "https://api.crawl4ai.com"
     scraper_batch_limit: int = 10
     scraper_poll_interval_s: float = 2.0
     scraper_client_timeout_s: float = 120.0
@@ -206,7 +206,7 @@ class Config:
         self.profile_web_search_model = _resolve_str("PROFILE_WEB_SEARCH_MODEL", profile, "web_search_model", "")
 
         # ── web-scraper (keys mirror ScraperConfig) ──────────────────────
-        self.scraper_base_url = _resolve_str("SCRAPER_BASE_URL", scraper, "base_url", "https://api.crawl4ai.com/v1")
+        self.scraper_base_url = _resolve_str("SCRAPER_BASE_URL", scraper, "base_url", "https://api.crawl4ai.com")
         self.scraper_batch_limit = _resolve_int("SCRAPER_BATCH_LIMIT", scraper, "batch_limit", 10)
         self.scraper_poll_interval_s = _resolve_float("SCRAPER_POLL_INTERVAL_S", scraper, "poll_interval_s", 2.0)
         self.scraper_client_timeout_s = _resolve_float("SCRAPER_CLIENT_TIMEOUT_S", scraper, "client_timeout_s", 120.0)

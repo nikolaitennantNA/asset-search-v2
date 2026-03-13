@@ -85,7 +85,7 @@ async def run_scrape(
                 })
 
         if costs and scraper_usage.pages_crawled:
-            costs.track_crawl4ai(scraper_usage.pages_crawled)
+            costs.track_crawl4ai(scraper_usage.pages_crawled, credits_used=scraper_usage.credits_used)
 
         if rag_store and all_pages:
             from rag import Usage as RAGUsage

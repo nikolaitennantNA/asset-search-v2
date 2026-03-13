@@ -98,7 +98,7 @@ async def fetch_sitemap(domain: str) -> list[dict[str, str]]:
 
     # Crawl4AI fallback if WAF-blocked and no URLs found via plain HTTP
     if waf_blocked and not urls:
-        result = await crawl_page(f"https://{domain}/sitemap.xml")
+        result = await crawl_page(f"https://{domain}/sitemap.xml", proxy="auto")
         if result.get("markdown"):
             try:
                 root = ET.fromstring(result["markdown"])
@@ -123,7 +123,11 @@ async def fetch_sitemap(domain: str) -> list[dict[str, str]]:
     return urls
 
 
-async def crawl_page(url: str, browser: bool = False) -> dict[str, Any]:
+async def crawl_page(
+    url: str,
+    browser: bool = False,
+    proxy: str | None = None,
+) -> dict[str, Any]:
     """Fetch a single page via Crawl4AI Cloud. Lightweight exploration tool.
 
     Args:
@@ -131,37 +135,53 @@ async def crawl_page(url: str, browser: bool = False) -> dict[str, Any]:
         browser: If True, use browser strategy (full JS rendering). Default is
                  HTTP mode (faster, no JS). Use browser=True to check if a page
                  has JS-rendered content that HTTP mode misses.
+        proxy: Proxy mode — "auto" (smart escalation: direct → datacenter →
+               residential), "datacenter" (2x credits), "residential" (5x
+               credits), or None (direct only, 1x credits). Use "auto" for
+               sites that may be WAF-blocked.
 
     Returns dict with keys: markdown, links_internal, links_external, metadata, error.
     """
     assert _config is not None
+    from crawl4ai_cloud import AsyncWebCrawler
+
     strategy = "browser" if browser else "http"
-    async with httpx.AsyncClient(
-        base_url="https://api.crawl4ai.com/v1",
-        headers={"X-API-Key": _config.crawl4ai_api_key},
-        timeout=30.0,
-    ) as client:
-        try:
-            resp = await client.post("/crawl", json={
-                "url": url,
-                "strategy": strategy,
-                "include_fields": ["links", "metadata"],
-            })
-            resp.raise_for_status()
-            data = resp.json()
-            if not data.get("success"):
-                return {"markdown": "", "error": data.get("error", "Unknown error")}
+    # Resolve proxy to documented API format
+    proxy_cfg: dict | None = None
+    if proxy == "auto":
+        proxy_cfg = {"use_proxy": True, "skip_direct": False}
+    elif proxy in ("datacenter", "residential"):
+        proxy_cfg = {"mode": proxy}
+
+    try:
+        async with AsyncWebCrawler(
+            api_key=_config.crawl4ai_api_key,
+            timeout=30.0,
+        ) as crawler:
+            result = await crawler.run(
+                url,
+                config={"word_count_threshold": 10},
+                strategy=strategy,
+                proxy=proxy_cfg,
+                include_fields=["links", "metadata"],
+            )
+            if not result.success:
+                return {"markdown": "", "error": result.error_message or "Unknown error"}
             if _costs:
-                _costs.track_crawl4ai(1)
-            links = data.get("links", {})
+                credits = result.usage.crawl.credits_used if result.usage else 0
+                _costs.track_crawl4ai(1, credits_used=credits)
+            markdown = ""
+            if result.markdown:
+                markdown = result.markdown.raw_markdown or ""
+            links = result.links or {}
             return {
-                "markdown": data.get("markdown", ""),
+                "markdown": markdown,
                 "links_internal": links.get("internal", []),
                 "links_external": links.get("external", []),
-                "metadata": data.get("metadata", {}),
+                "metadata": result.metadata or {},
             }
-        except Exception as e:
-            return {"markdown": "", "error": str(e)}
+    except Exception as e:
+        return {"markdown": "", "error": str(e)}
 
 
 async def map_domain(domain: str, search: str | None = None) -> list[dict[str, str]]:
