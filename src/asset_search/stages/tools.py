@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import asyncio
+import re
 import xml.etree.ElementTree as ET
 from typing import Any
 
@@ -250,3 +252,70 @@ async def get_saved_urls(issuer_id: str | None = None) -> list[dict[str, Any]]:
         return get_discovered_urls(conn, iid)
     finally:
         conn.close()
+
+
+async def probe_urls(urls: list[str]) -> list[dict[str, Any]]:
+    """Batch-probe URLs with lightweight HTTP GET.
+
+    Returns metadata for each URL without full page rendering. Use this to
+    quickly check which pages exist, their content type, size, and title
+    before deciding what to save and how to scrape.
+
+    Args:
+        urls: List of URLs to probe (max 100 per call).
+
+    Returns list of dicts with keys per URL:
+        - url, status, content_type, content_length, title, server
+        - waf_blocked (True if 403)
+        - error (on connection failure)
+    """
+    if not urls:
+        return []
+    urls = urls[:100]
+    async with httpx.AsyncClient(
+        timeout=10.0,
+        follow_redirects=True,
+        headers={"User-Agent": "Mozilla/5.0 (compatible; asset-search/2.0)"},
+    ) as client:
+        tasks = [_probe_one(client, url) for url in urls]
+        return list(await asyncio.gather(*tasks))
+
+
+_TITLE_RE = re.compile(r"<title[^>]*>(.*?)</title>", re.IGNORECASE | re.DOTALL)
+
+
+async def _probe_one(client: httpx.AsyncClient, url: str) -> dict[str, Any]:
+    """Probe a single URL — GET with title extraction."""
+    try:
+        resp = await client.get(url)
+        content_type = resp.headers.get("content-type", "")
+        ct_clean = content_type.split(";")[0].strip().lower() if content_type else ""
+        content_length = 0
+        cl_header = resp.headers.get("content-length")
+        if cl_header:
+            try:
+                content_length = int(cl_header)
+            except ValueError:
+                pass
+        if not content_length:
+            content_length = len(resp.content)
+        title = ""
+        if "html" in ct_clean:
+            head = resp.text[:4096] if resp.text else ""
+            m = _TITLE_RE.search(head)
+            if m:
+                title = m.group(1).strip()
+        return {
+            "url": url,
+            "status": resp.status_code,
+            "content_type": ct_clean or content_type,
+            "content_length": content_length,
+            "title": title,
+            "server": resp.headers.get("server", ""),
+            "waf_blocked": resp.status_code == 403,
+        }
+    except Exception as e:
+        return {
+            "url": url, "status": 0, "content_type": "", "content_length": 0,
+            "title": "", "server": "", "waf_blocked": False, "error": str(e),
+        }
