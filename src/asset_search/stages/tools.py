@@ -121,15 +121,19 @@ async def fetch_sitemap(domain: str) -> list[dict[str, str]]:
     return urls
 
 
-async def crawl_page(url: str) -> dict[str, Any]:
+async def crawl_page(url: str, browser: bool = False) -> dict[str, Any]:
     """Fetch a single page via Crawl4AI Cloud. Lightweight exploration tool.
 
     Args:
         url: The full URL to fetch and render.
+        browser: If True, use browser strategy (full JS rendering). Default is
+                 HTTP mode (faster, no JS). Use browser=True to check if a page
+                 has JS-rendered content that HTTP mode misses.
 
-    Returns dict with keys: markdown, links_internal, links_external, metadata, error (on failure).
+    Returns dict with keys: markdown, links_internal, links_external, metadata, error.
     """
     assert _config is not None
+    strategy = "browser" if browser else "http"
     async with httpx.AsyncClient(
         base_url="https://api.crawl4ai.com/v1",
         headers={"X-API-Key": _config.crawl4ai_api_key},
@@ -138,7 +142,7 @@ async def crawl_page(url: str) -> dict[str, Any]:
         try:
             resp = await client.post("/crawl", json={
                 "url": url,
-                "strategy": "http",
+                "strategy": strategy,
                 "include_fields": ["links", "metadata"],
             })
             resp.raise_for_status()

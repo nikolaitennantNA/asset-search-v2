@@ -32,3 +32,43 @@ async def test_save_urls_passes_structured_fields(mock_save, mock_get, mock_conn
     assert saved[0]["strategy"] == "browser"
     assert saved[0]["proxy_mode"] == "auto"
     assert saved[0]["wait_for"] == ".locations-list"
+
+
+@pytest.mark.asyncio
+@patch("asset_search.stages.tools.httpx.AsyncClient")
+async def test_crawl_page_default_uses_http(_mock_client_cls):
+    mock_client = AsyncMock()
+    _mock_client_cls.return_value.__aenter__ = AsyncMock(return_value=mock_client)
+    _mock_client_cls.return_value.__aexit__ = AsyncMock(return_value=False)
+    mock_client.post.return_value = MagicMock(
+        status_code=200,
+        raise_for_status=MagicMock(),
+        json=MagicMock(return_value={
+            "success": True, "markdown": "# Page",
+            "links": {"internal": [], "external": []}, "metadata": {},
+        }),
+    )
+    result = await tools.crawl_page("https://example.com/page")
+    payload = mock_client.post.call_args[1]["json"]
+    assert payload["strategy"] == "http"
+    assert result["markdown"] == "# Page"
+
+
+@pytest.mark.asyncio
+@patch("asset_search.stages.tools.httpx.AsyncClient")
+async def test_crawl_page_browser_uses_browser_strategy(_mock_client_cls):
+    mock_client = AsyncMock()
+    _mock_client_cls.return_value.__aenter__ = AsyncMock(return_value=mock_client)
+    _mock_client_cls.return_value.__aexit__ = AsyncMock(return_value=False)
+    mock_client.post.return_value = MagicMock(
+        status_code=200,
+        raise_for_status=MagicMock(),
+        json=MagicMock(return_value={
+            "success": True, "markdown": "# JS Page",
+            "links": {"internal": [], "external": []}, "metadata": {},
+        }),
+    )
+    result = await tools.crawl_page("https://example.com/page", browser=True)
+    payload = mock_client.post.call_args[1]["json"]
+    assert payload["strategy"] == "browser"
+    assert result["markdown"] == "# JS Page"
