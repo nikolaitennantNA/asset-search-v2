@@ -50,3 +50,44 @@ def test_coverage_flag():
     f = CoverageFlag(flag_type="missing_region", description="No assets in QLD", severity="high")
     assert f.flag_type == "missing_region"
     assert f.severity == "high"
+
+
+from asset_search.models import DiscoveredUrl
+
+
+def test_discovered_url_minimal():
+    """Only url and category are required."""
+    u = DiscoveredUrl(url="https://example.com/page", category="facility_page")
+    assert u.url == "https://example.com/page"
+    assert u.strategy is None
+    assert u.proxy_mode is None
+    assert u.notes == ""
+
+
+def test_discovered_url_with_scrape_config():
+    u = DiscoveredUrl(
+        url="https://example.com/locations",
+        category="facility_page",
+        notes="React SPA, needs JS rendering",
+        strategy="browser",
+        proxy_mode="auto",
+        wait_for=".locations-list",
+    )
+    assert u.strategy == "browser"
+    assert u.proxy_mode == "auto"
+    assert u.wait_for == ".locations-list"
+
+
+def test_discovered_url_strategy_validation():
+    """Invalid strategy should raise ValidationError."""
+    import pytest
+    from pydantic import ValidationError
+    with pytest.raises(ValidationError):
+        DiscoveredUrl(url="https://x.com", category="x", strategy="invalid")
+
+
+def test_discovered_url_proxy_mode_validation():
+    import pytest
+    from pydantic import ValidationError
+    with pytest.raises(ValidationError):
+        DiscoveredUrl(url="https://x.com", category="x", proxy_mode="invalid")

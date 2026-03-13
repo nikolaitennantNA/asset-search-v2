@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Literal
+
 from pydantic import BaseModel
 
 
@@ -49,3 +51,22 @@ class QAReport(BaseModel):
     issues: list[str] = []
     should_enrich: bool = False
     coverage_flags: list[CoverageFlag] = []
+
+
+class DiscoveredUrl(BaseModel):
+    """URL discovered by the discover agent with optional scrape configuration.
+
+    The agent sets structured fields to control how the scrape stage processes
+    each URL. Freeform notes remain for human-readable context.
+    """
+    url: str
+    category: str
+    notes: str = ""
+
+    # Scrape config — agent sets these based on what it learned about the page/domain
+    strategy: Literal["http", "browser"] | None = None  # None = use pipeline default
+    proxy_mode: Literal["auto", "datacenter", "residential"] | None = None
+    wait_for: str | None = None
+    js_code: str | None = None
+    scan_full_page: bool = False
+    screenshot: bool = False
