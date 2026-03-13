@@ -1,16 +1,28 @@
+# Python
 __pycache__/
 *.pyc
 *.pyo
-.venv/
-dist/
 *.egg-info/
+dist/
+
+# Virtual environments
+.venv/
+
+# Testing / type checking
 .pytest_cache/
 .mypy_cache/
+
+# Secrets
 .env
-docs/2026-03-12-asset-search-v2-unified-design.md
-docs/llms-full.txt
-docs/crawl4aiapi.md
-.firecrawl
+
+# Pipeline output
 output/
+
+# Tool caches
+.firecrawl
+
+# Git worktrees
 .worktrees/
-docs/superpowers/plans/2026-03-13-smart-scrape-strategy.md
+
+# Local docs / research (not tracked)
+docs/
