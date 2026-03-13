@@ -45,10 +45,14 @@ def test_extraction_id_different_inputs():
 
 
 def test_save_discovered_urls_params(mock_conn):
-    urls = [{"url": "https://example.com", "category": "facility_page", "notes": "test"}]
+    urls = [
+        {"url": "https://a.com", "category": "facility_page",
+         "notes": "React SPA", "strategy": "browser", "proxy_mode": "auto"},
+        {"url": "https://b.com", "category": "pdf", "notes": "annual report"},
+    ]
     count = save_discovered_urls(mock_conn, "issuer-1", urls)
-    assert count == 1
-    mock_conn.commit.assert_called_once()
+    assert count == 2
+    assert mock_conn.cursor().__enter__().execute.call_count == 2
 
 
 def test_save_discovered_urls_empty(mock_conn):

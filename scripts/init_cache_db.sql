@@ -18,9 +18,25 @@ CREATE TABLE IF NOT EXISTS discovered_urls (
     issuer_id       TEXT,
     category        TEXT NOT NULL,
     notes           TEXT,
+    strategy        TEXT,
+    proxy_mode      TEXT,
+    wait_for        TEXT,
+    js_code         TEXT,
+    scan_full_page  BOOLEAN DEFAULT FALSE,
+    screenshot      BOOLEAN DEFAULT FALSE,
     discovered_at   TIMESTAMPTZ DEFAULT NOW()
 );
 CREATE INDEX IF NOT EXISTS idx_discovered_urls_issuer ON discovered_urls (issuer_id);
+
+-- Migration: add scrape config columns if missing
+DO $$ BEGIN
+    ALTER TABLE discovered_urls ADD COLUMN IF NOT EXISTS strategy TEXT;
+    ALTER TABLE discovered_urls ADD COLUMN IF NOT EXISTS proxy_mode TEXT;
+    ALTER TABLE discovered_urls ADD COLUMN IF NOT EXISTS wait_for TEXT;
+    ALTER TABLE discovered_urls ADD COLUMN IF NOT EXISTS js_code TEXT;
+    ALTER TABLE discovered_urls ADD COLUMN IF NOT EXISTS scan_full_page BOOLEAN DEFAULT FALSE;
+    ALTER TABLE discovered_urls ADD COLUMN IF NOT EXISTS screenshot BOOLEAN DEFAULT FALSE;
+END $$;
 
 -- Scraped pages: cached markdown + raw HTML, stale after 30 days
 CREATE TABLE IF NOT EXISTS scraped_pages (
