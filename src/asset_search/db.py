@@ -131,6 +131,12 @@ def save_qa_report(
     conn.commit()
 
 
+def get_qa_report(conn: psycopg.Connection, issuer_id: str) -> dict[str, Any] | None:
+    with conn.cursor() as cur:
+        cur.execute("SELECT * FROM qa_results WHERE issuer_id = %s", (issuer_id,))
+        return cur.fetchone()
+
+
 def get_discovered_assets(conn: psycopg.Connection, issuer_id: str) -> list[dict[str, Any]]:
     with conn.cursor() as cur:
         cur.execute("SELECT * FROM discovered_assets WHERE issuer_id = %s", (issuer_id,))
