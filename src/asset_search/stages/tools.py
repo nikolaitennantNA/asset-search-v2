@@ -137,7 +137,7 @@ async def crawl_page(url: str) -> dict[str, Any]:
         try:
             resp = await client.post("/crawl", json={
                 "url": url,
-                "strategy": "browser",
+                "strategy": "http",
                 "include_fields": ["links", "metadata"],
             })
             resp.raise_for_status()

@@ -19,18 +19,48 @@ def test_config_from_notes_empty():
 
 def test_config_from_notes_waf():
     cfg = _config_from_notes("waf_blocked")
-    assert cfg.use_proxy is True
+    assert cfg.proxy_mode == "auto"
 
 
 def test_config_from_notes_wait_for():
     cfg = _config_from_notes("wait_for:.locations-list")
     assert cfg.wait_for == ".locations-list"
+    assert cfg.strategy == "browser"
 
 
 def test_config_from_notes_combined():
     cfg = _config_from_notes("waf_blocked wait_for:.results")
-    assert cfg.use_proxy is True
+    assert cfg.proxy_mode == "auto"
     assert cfg.wait_for == ".results"
+    assert cfg.strategy == "browser"
+
+
+def test_config_from_notes_ajax():
+    cfg = _config_from_notes("ajax store_locator")
+    assert cfg.strategy == "browser"
+
+
+def test_config_from_notes_lazy_load():
+    cfg = _config_from_notes("lazy_load")
+    assert cfg.scan_full_page is True
+    assert cfg.strategy == "browser"
+
+
+def test_config_from_notes_screenshot():
+    cfg = _config_from_notes("screenshot")
+    assert cfg.screenshot is True
+
+
+def test_config_from_notes_js_code():
+    cfg = _config_from_notes("js_code:document.querySelector('.btn').click()")
+    assert cfg.js_code == "document.querySelector('.btn').click()"
+    assert cfg.strategy == "browser"
+
+
+def test_config_from_notes_pdf():
+    """PDF notes should not change strategy — HTTP is fine for PDFs."""
+    cfg = _config_from_notes("pdf")
+    assert cfg.strategy is None
 
 
 # ── run_scrape ──────────────────────────────────────────────────────────────

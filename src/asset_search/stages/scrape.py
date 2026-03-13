@@ -15,23 +15,55 @@ from ..display import show_stage
 def _config_from_notes(notes: str | None) -> ScrapeConfig:
     """Build per-URL ScrapeConfig from discover agent notes.
 
-    Maps human-readable notes (store_locator, waf_blocked, wait_for:selector)
-    to actual Crawl4AI Cloud API parameters.
+    Maps human-readable notes to actual Crawl4AI Cloud API parameters.
+    Vocabulary:
+    - waf_blocked → proxy_mode="auto"
+    - wait_for:.css-selector → wait_for + strategy="browser"
+    - ajax / store_locator / dynamic / javascript → strategy="browser"
+    - js_code:... → js_code + strategy="browser"
+    - lazy_load / infinite_scroll → scan_full_page + strategy="browser"
+    - screenshot / debug → screenshot=True
+    - pdf → no special config (HTTP is fine)
     """
     if not notes:
         return ScrapeConfig()
     notes_lower = notes.lower()
     kwargs: dict = {}
-    # WAF-blocked sites need proxy escalation
+
+    # WAF-blocked sites need proxy auto-escalation
     if "waf_blocked" in notes_lower:
-        kwargs["use_proxy"] = True
-    # Store locators / AJAX pages need a wait_for selector if specified
+        kwargs["proxy_mode"] = "auto"
+
+    # Keywords that require browser rendering
+    browser_keywords = ("ajax", "store_locator", "dynamic", "javascript")
+    if any(kw in notes_lower for kw in browser_keywords):
+        kwargs["strategy"] = "browser"
+
+    # wait_for selector — implies browser
     if "wait_for:" in notes_lower:
-        # Extract selector from notes like "wait_for:.locations-list"
         for part in notes.split():
             if part.lower().startswith("wait_for:"):
                 kwargs["wait_for"] = part.split(":", 1)[1]
+                kwargs["strategy"] = "browser"
                 break
+
+    # js_code pass-through — implies browser
+    if "js_code:" in notes_lower:
+        for part in notes.split():
+            if part.lower().startswith("js_code:"):
+                kwargs["js_code"] = part.split(":", 1)[1]
+                kwargs["strategy"] = "browser"
+                break
+
+    # Lazy-loaded / infinite scroll pages — need full-page scan + browser
+    if "lazy_load" in notes_lower or "infinite_scroll" in notes_lower:
+        kwargs["scan_full_page"] = True
+        kwargs["strategy"] = "browser"
+
+    # Screenshot for debugging
+    if "screenshot" in notes_lower or "debug" in notes_lower:
+        kwargs["screenshot"] = True
+
     return ScrapeConfig(**kwargs) if kwargs else ScrapeConfig()
 
 

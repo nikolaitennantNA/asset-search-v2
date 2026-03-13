@@ -131,6 +131,8 @@ class Config:
     scraper_strategy: str = "browser"
     scraper_default_timeout_ms: int = 30_000
     scraper_default_proxy: bool = False
+    scraper_default_proxy_mode: str = ""
+    scraper_remove_overlays: bool = True
 
     # ── doc-extractor (config.toml [extractor]) ───────────────────────────
     # Keys mirror ExtractorConfig: max_batch_tokens, max_page_tokens,
@@ -163,7 +165,7 @@ class Config:
     search_provider: str = "exa"
 
     # ── Pipeline caps (config.toml [pipeline]) ────────────────────────────
-    max_scrape_concurrency: int = 100
+    max_scrape_concurrency: int = 20
     page_stale_days: int = 30
     max_discover_tool_calls: int = 200
     max_discover_minutes: int = 15
@@ -211,6 +213,8 @@ class Config:
         self.scraper_strategy = _resolve_str("SCRAPER_STRATEGY", scraper, "strategy", "browser")
         self.scraper_default_timeout_ms = _resolve_int("SCRAPER_DEFAULT_TIMEOUT_MS", scraper, "default_timeout_ms", 30_000)
         self.scraper_default_proxy = _resolve_bool("SCRAPER_DEFAULT_PROXY", scraper, "default_proxy", False)
+        self.scraper_default_proxy_mode = _resolve_str("SCRAPER_DEFAULT_PROXY_MODE", scraper, "default_proxy_mode", "")
+        self.scraper_remove_overlays = _resolve_bool("SCRAPER_REMOVE_OVERLAYS", scraper, "remove_overlays", True)
 
         # ── doc-extractor (keys mirror ExtractorConfig) ──────────────────
         self.extractor_max_batch_tokens = _resolve_int("EXTRACTOR_MAX_BATCH_TOKENS", extractor, "max_batch_tokens", 120_000)
@@ -241,7 +245,7 @@ class Config:
         self.search_provider = _resolve_str("SEARCH_PROVIDER", search, "provider", "exa")
 
         # ── Pipeline caps ─────────────────────────────────────────────────
-        self.max_scrape_concurrency = _resolve_int("MAX_SCRAPE_CONCURRENCY", pipeline, "max_scrape_concurrency", 100)
+        self.max_scrape_concurrency = _resolve_int("MAX_SCRAPE_CONCURRENCY", pipeline, "max_scrape_concurrency", 20)
         self.page_stale_days = _resolve_int("PAGE_STALE_DAYS", pipeline, "page_stale_days", 30)
         self.max_discover_tool_calls = _resolve_int("MAX_DISCOVER_TOOL_CALLS", pipeline, "max_discover_tool_calls", 200)
         self.max_discover_minutes = _resolve_int("MAX_DISCOVER_MINUTES", pipeline, "max_discover_minutes", 15)
@@ -261,6 +265,8 @@ class Config:
             strategy=self.scraper_strategy,
             default_timeout_ms=self.scraper_default_timeout_ms,
             default_proxy=self.scraper_default_proxy,
+            default_proxy_mode=self.scraper_default_proxy_mode,
+            remove_overlays=self.scraper_remove_overlays,
         )
 
     def extractor_config(self):

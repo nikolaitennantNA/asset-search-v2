@@ -88,11 +88,15 @@ These are valid scrape targets -- the scraper handles PDFs. Note "pdf" in the no
 
 ## Scraper capabilities (so you know what it can handle)
 
-The scraper uses Crawl4AI Cloud with browser strategy -- full JS rendering, proxy escalation.
-Note special requirements in your URL notes so the scraper can apply appropriate config:
-- "waf_blocked" -- enables proxy escalation (use_proxy=True)
-- "wait_for:.css-selector" -- waits for a CSS selector to appear before capture (for AJAX/JS content)
-- "pdf" -- PDF mode
+The scraper uses Crawl4AI Cloud with browser rendering (full JS execution) by default.
+Note requirements in your URL notes so the scraper can apply appropriate config:
+- "waf_blocked" -- proxy escalation (auto: direct -> datacenter -> residential)
+- "wait_for:.css-selector" -- wait for element before capture (AJAX/JS content)
+- "ajax" / "store_locator" / "dynamic" -- notes for pages needing extra JS handling
+- "js_code:document.querySelector('.btn').click()" -- runs custom JS before capture
+- "lazy_load" / "infinite_scroll" -- scrolls entire page to trigger lazy content
+- "pdf" -- PDF document
+- "screenshot" -- captures screenshot for debugging
 
 ## Working style
 - Save URLs to the database as you find them -- don't accumulate huge lists in memory.

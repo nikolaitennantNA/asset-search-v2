@@ -13,6 +13,32 @@ from ..display import show_stage
 from ..models import Asset
 
 
+_COORD_DEDUP_THRESHOLD = 0.0005  # ~55m at equator — matches signals.py
+
+
+def _dedup_by_coords(assets: list[Asset], threshold: float = _COORD_DEDUP_THRESHOLD) -> list[Asset]:
+    """Deduplicate assets whose coordinates are within ~55m of each other.
+
+    Keeps the first occurrence (which typically has richer metadata from signal
+    injection). This prevents the LLM from double-counting coordinates that
+    appear both in the signal header and in the page body.
+    """
+    result: list[Asset] = []
+    seen_coords: list[tuple[float, float]] = []
+    for asset in assets:
+        if asset.latitude is not None and asset.longitude is not None:
+            is_dup = False
+            for elat, elng in seen_coords:
+                if abs(elat - asset.latitude) < threshold and abs(elng - asset.longitude) < threshold:
+                    is_dup = True
+                    break
+            if is_dup:
+                continue
+            seen_coords.append((asset.latitude, asset.longitude))
+        result.append(asset)
+    return result
+
+
 NATURESENSE_TYPES = [
     "Agricultural & Food Production", "Electricity Distribution", "Energy Production",
     "Heavy Industrial & Manufacturing", "IT Facility/Data Center", "Mining Operations",
@@ -129,4 +155,6 @@ async def run_extract(
     finally:
         conn.close()
 
+    # Dedup assets with near-identical coordinates (signal injection double-count)
+    all_assets = _dedup_by_coords(all_assets)
     return all_assets

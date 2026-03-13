@@ -50,7 +50,7 @@ provider = "exa"  # exa | brave | tavily | openai
 
 # ── Pipeline caps ─────────────────────────────────────────────────────────────
 [pipeline]
-max_scrape_concurrency = 100
+max_scrape_concurrency = 20
 page_stale_days = 30
 max_discover_tool_calls = 200
 max_discover_minutes = 15
