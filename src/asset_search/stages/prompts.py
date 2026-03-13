@@ -86,21 +86,48 @@ if you can identify the container element.
 Annual reports, sustainability reports, and regulatory filings are often PDFs.
 These are valid scrape targets -- the scraper handles PDFs. Note "pdf" in the notes field.
 
-## Scraper capabilities (so you know what it can handle)
+## Scraper capabilities
 
-The scraper uses Crawl4AI Cloud with browser rendering (full JS execution) by default.
-Note requirements in your URL notes so the scraper can apply appropriate config:
-- "waf_blocked" -- proxy escalation (auto: direct -> datacenter -> residential)
-- "wait_for:.css-selector" -- wait for element before capture (AJAX/JS content)
-- "ajax" / "store_locator" / "dynamic" -- notes for pages needing extra JS handling
-- "js_code:document.querySelector('.btn').click()" -- runs custom JS before capture
-- "lazy_load" / "infinite_scroll" -- scrolls entire page to trigger lazy content
-- "pdf" -- PDF document
-- "screenshot" -- captures screenshot for debugging
+The scraper defaults to HTTP mode (fast, no JS). When you save URLs, you can set
+structured scrape config fields to control how each URL is processed:
+- strategy: "browser" for full JS rendering, or omit for HTTP default
+- proxy_mode: "auto" for proxy escalation (WAF-blocked sites), or "datacenter"/"residential"
+- wait_for: CSS selector to wait for before capture (e.g. ".locations-list")
+- js_code: custom JavaScript to run before capture (e.g. "document.querySelector('.btn').click()")
+- scan_full_page: true to scroll entire page (lazy-loaded / infinite scroll content)
+- screenshot: true to capture screenshot for debugging
+
+Example:
+  save_urls(urls=[{
+      "url": "https://example.com/locations",
+      "category": "facility_page",
+      "notes": "React SPA with store locator",
+      "strategy": "browser",
+      "wait_for": ".store-list"
+  }])
+
+The notes field is freeform -- use it for human-readable context about the page.
+The structured fields (strategy, proxy_mode, etc.) are what the scraper actually uses.
+
+## Tools for understanding pages before saving
+
+**crawl_page(url, browser=False)** -- fetches a single page. By default uses HTTP mode
+(fast, no JS). Pass `browser=True` to get full JS rendering. Useful for comparing
+what HTTP gives you vs what browser gives you on a sample page from a prefix group.
+If HTTP returns empty/thin content but browser returns a full page, set
+`strategy="browser"` on that group's URLs.
+
+**probe_urls(urls)** -- batch-probes up to 100 URLs in parallel via lightweight HTTP GET.
+Returns metadata for each URL: status code, content_type, content_length, title, server,
+and a waf_blocked flag. Useful for quickly filtering a large URL list -- you can see
+which pages are 404s, which are PDFs, which are WAF-blocked, and which have meaningful
+titles. Does not consume Crawl4AI credits.
 
 ## Working style
 - Save URLs to the database as you find them -- don't accumulate huge lists in memory.
 - Work domain by domain: understand each site fully before moving to the next.
+- Use your judgement on when to sample, probe, or just save. For a handful of URLs, just save them.
+  For hundreds of URLs from a prefix group, it's worth probing or sampling a few first.
 - Be thorough but efficient. When in doubt about a URL, save it -- the scraper is cheap, missing data is expensive.
 - Note anything unusual: WAF-blocked sites, unusual site structures, AJAX-heavy pages.
 """
@@ -122,6 +149,14 @@ Compare the asset list against the company profile:
 2. **Web search + scrape** -- if RAG doesn't fill the gap, search for specific missing things.
 
 ## Iteration: Max 2 deep search iterations. If still gaps after 2 -> done.
+
+## Scrape quality check
+Before evaluating asset coverage, review the scraped pages:
+- Pages with very little content (<500 chars of markdown) may have been JS-rendered
+  pages that were scraped with HTTP mode. Flag these as potential re-scrape candidates.
+- Pages that returned errors or empty content should be noted.
+- If multiple pages from the same prefix group are thin/empty, the whole group may
+  need browser rendering -- note this in your coverage flags.
 
 ## Output coverage flags for remaining gaps:
 - flag_type: "missing_geography" | "missing_asset_type" | "low_count"
