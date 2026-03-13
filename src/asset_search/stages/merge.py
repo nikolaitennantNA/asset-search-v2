@@ -1,4 +1,4 @@
-"""Stage 5: Merge — cross-batch dedup, ALD dedup, naturesense classification."""
+"""Stage 5: Merge — cross-batch dedup, ALD dedup, GICS classification."""
 
 from __future__ import annotations
 
@@ -13,25 +13,18 @@ from ..config import Config
 from ..cost import CostTracker
 from ..db import get_connection, get_discovered_assets, save_discovered_assets
 from ..display import show_stage
+from ..gics import GICSMapping, get_gics_mapping
 from ..models import Asset
 
-NATURESENSE_TYPES = [
-    "Agricultural & Food Production", "Electricity Distribution", "Energy Production",
-    "Heavy Industrial & Manufacturing", "IT Facility/Data Center", "Mining Operations",
-    "Office/Housing", "Oil & Gas Facilities",
-    "Other (5km buffer area of influence)", "Other (10km buffer area of influence)",
-    "Other (20km buffer area of influence)", "Other (50km buffer area of influence)",
-    "R&D Facility", "Retail", "Transportation and Logistics Facility", "Warehouse",
-]
-
 MERGE_PROMPT = """\
-You are deduplicating and classifying physical assets.
+You are deduplicating physical assets.
 
 Given a batch of newly extracted assets and existing known assets:
 1. Check if each new asset matches an existing one (same facility, different name).
 2. If match: set matched_asset_id to the existing asset_id. Merge: keep richer data.
 3. If new: set matched_asset_id to null.
-4. Classify naturesense_asset_type from: {types}
+
+Do NOT set naturesense_asset_type or industry_code — those are assigned post-merge.
 
 Return JSON array of objects with all Asset fields plus matched_asset_id.
 """
@@ -60,6 +53,8 @@ async def run_merge(
     if not extracted_assets:
         return []
 
+    gics = get_gics_mapping()
+
     conn = get_connection(config)
     try:
         existing = get_discovered_assets(conn, issuer_id)
@@ -78,7 +73,11 @@ async def run_merge(
                 if asset.asset_id in seen_ids:
                     continue
                 seen_ids.add(asset.asset_id)
-                asset.industry_code = industry_code
+
+                # GICS lookup: per-asset naturesense + industry code from mapping CSV.
+                # Falls back to LLM-assigned naturesense and company-level industry code.
+                _apply_gics(asset, gics, industry_code)
+
                 asset.attribution_source = "asset_search"
                 asset.date_researched = date.today().isoformat()
                 final_assets.append(asset)
@@ -117,7 +116,7 @@ async def _merge_batch(
         ],
         default=str,
     )
-    prompt = MERGE_PROMPT.format(types=", ".join(NATURESENSE_TYPES))
+    prompt = MERGE_PROMPT
 
     response = await litellm.acompletion(
         model=model,
@@ -148,6 +147,19 @@ async def _merge_batch(
         return merged
     except Exception:
         return batch
+
+
+def _apply_gics(asset: Asset, gics: GICSMapping, fallback_industry_code: str) -> None:
+    """Apply GICS mapping to a single asset, falling back to LLM-assigned values."""
+    match = gics.lookup(asset.asset_type_raw)
+    if match:
+        # Deterministic naturesense from the mapping CSV (overrides LLM classification)
+        asset.naturesense_asset_type = match.naturesense_asset_type
+        # Per-asset industry code from GICS mapping
+        asset.industry_code = match.industry_code if match.industry_code else fallback_industry_code
+    else:
+        # No mapping match — keep LLM-assigned naturesense, use company-level industry code
+        asset.industry_code = fallback_industry_code
 
 
 async def _final_dedup(

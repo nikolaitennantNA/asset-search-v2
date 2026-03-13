@@ -1,0 +1,1998 @@
+asset_type,asset_type_category,asset_type_category_raf_reviewed,asset_gics_industry,industry_code
+Environment renewable natural resources,Agricultural & Food Production,Other (20km buffer area of influence),?,
+Garden,Agricultural & Food Production,,?,
+Aerated drinks supplier,Agricultural & Food Production,Agricultural & Food Production,Beverages,302010
+Alcohol manufacturer,Agricultural & Food Production,Agricultural & Food Production,Beverages,302010
+Beverage supplier,Agricultural & Food Production,Agricultural & Food Production,Beverages,302010
+Beverages,Agricultural & Food Production,Agricultural & Food Production,Beverages,302010
+Bottled water supplier,Agricultural & Food Production,Agricultural & Food Production,Beverages,302010
+Brewery,Agricultural & Food Production,Agricultural & Food Production,Beverages,302010
+Distillery,Agricultural & Food Production,Agricultural & Food Production,Beverages,302010
+Mineral water company,Agricultural & Food Production,Agricultural & Food Production,Beverages,302010
+Sake brewery,Agricultural & Food Production,Agricultural & Food Production,Beverages,302010
+Tea manufacturer,Agricultural & Food Production,Agricultural & Food Production,Beverages,302010
+Winery,Agricultural & Food Production,,Beverages,302010
+Agricultural service,Agricultural & Food Production,Agricultural & Food Production,Commercial Services & Supplies,202010
+Flavours fragrances and aroma supplier,Agricultural & Food Production,Agricultural & Food Production,Consumer Staples Distribution & Retail,301010
+Frozen dessert supplier,Agricultural & Food Production,Agricultural & Food Production,Consumer Staples Distribution & Retail,301010
+Agricultural,Agricultural & Food Production,,Food Products,302020
+Agricultural cooperative,Agricultural & Food Production,,Food Products,302020
+agricultural organisation,Agricultural & Food Production,,Food Products,302020
+Agricultural organization,Agricultural & Food Production,,Food Products,302020
+Agricultural production,Agricultural & Food Production,,Food Products,302020
+"Agricultural service, Service establishment",Agricultural & Food Production,,Food Products,302020
+Agriculture,Agricultural & Food Production,,Food Products,302020
+Aquaculture farm,Agricultural & Food Production,,Food Products,302020
+Cannery,Agricultural & Food Production,,Food Products,302020
+Cattle farm,Agricultural & Food Production,,Food Products,302020
+Cattle Feedlot,Agricultural & Food Production,,Food Products,302020
+Cheese manufacturer,Agricultural & Food Production,,Food Products,302020
+chicken hatchery,Agricultural & Food Production,,Food Products,302020
+Chocolate factory,Agricultural & Food Production,Agricultural & Food Production,Food Products,302020
+"Chocolate factory, Food manufacturing supply",Agricultural & Food Production,Agricultural & Food Production,Food Products,302020
+coffee roasters,Agricultural & Food Production,,Food Products,302020
+Crop grower,Agricultural & Food Production,,Food Products,302020
+Dairy,Agricultural & Food Production,,Food Products,302020
+Dairy farm,Agricultural & Food Production,,Food Products,302020
+Dairy supplier,Agricultural & Food Production,,Food Products,302020
+"enteric-fermentation-cattle-feedlot,manure-management-cattle-feedlot",Agricultural & Food Production,,Food Products,302020
+Farm,Agricultural & Food Production,,Food Products,302020
+Farming and cattle raising,Agricultural & Food Production,,Food Products,302020
+Feed manufacturer,Agricultural & Food Production,,Food Products,302020
+Fish farm,Agricultural & Food Production,,Food Products,302020
+Fish industry,Agricultural & Food Production,,Food Products,302020
+Fish processing,Agricultural & Food Production,,Food Products,302020
+Flour mill,Agricultural & Food Production,,Food Products,302020
+Food,Agricultural & Food Production,,Food Products,302020
+Food industry,Agricultural & Food Production,,Food Products,302020
+Food manufacturer,Agricultural & Food Production,Agricultural & Food Production,Food Products,302020
+"Food manufacturer, Marketing consultant",Agricultural & Food Production,Agricultural & Food Production,Food Products,302020
+Food manufacturing supply,Agricultural & Food Production,Agricultural & Food Production,Food Products,302020
+Food processing company,Agricultural & Food Production,,Food Products,302020
+"Food processing company, Food service",Agricultural & Food Production,,Food Products,302020
+Food producer,Agricultural & Food Production,,Food Products,302020
+food production,Agricultural & Food Production,,Food Products,302020
+Food products supplier,Agricultural & Food Production,Agricultural & Food Production,Food Products,302020
+"Food products supplier, Manufacturer",Agricultural & Food Production,Agricultural & Food Production,Food Products,302020
+Food seasoning manufacturer,Agricultural & Food Production,,Food Products,302020
+Frozen food manufacturer,Agricultural & Food Production,Agricultural & Food Production,Food Products,302020
+Fruit and vegetable processing,Agricultural & Food Production,,Food Products,302020
+Greenhouse,Agricultural & Food Production,,Food Products,302020
+horse breeder,Agricultural & Food Production,,Food Products,302020
+Livestock breeder,Agricultural & Food Production,,Food Products,302020
+livestock producer,Agricultural & Food Production,,Food Products,302020
+"Manufacturer, Food products supplier",Agricultural & Food Production,,Food Products,302020
+"Manufacturer, Meat processor",Agricultural & Food Production,Agricultural & Food Production,Food Products,302020
+Meat packer,Agricultural & Food Production,,Food Products,302020
+Meat processor,Agricultural & Food Production,Agricultural & Food Production,Food Products,302020
+olive oil bottling company,Agricultural & Food Production,,Food Products,302020
+"Organic farm, Service establishment",Agricultural & Food Production,,Food Products,302020
+Organic Operation,Agricultural & Food Production,,Food Products,302020
+pet food and animal feeds,Agricultural & Food Production,,Food Products,302020
+Poultry farm,Agricultural & Food Production,,Food Products,302020
+Ranch,Agricultural & Food Production,,Food Products,302020
+Rice mill,Agricultural & Food Production,,Food Products,302020
+Seafood farm,Agricultural & Food Production,,Food Products,302020
+Seed supplier,Agricultural & Food Production,,Food Products,302020
+Slaughterhouse,Agricultural & Food Production,Agricultural & Food Production,Food Products,302020
+"Slaughterhouse, Manufacturer, Meat packer",Agricultural & Food Production,Agricultural & Food Production,Food Products,302020
+sod supplier,Agricultural & Food Production,,Food Products,302020
+staple food package,Agricultural & Food Production,,Food Products,302020
+Sugar factory,Agricultural & Food Production,,Food Products,302020
+tree farm,Agricultural & Food Production,,Food Products,302020
+vineyard,Agricultural & Food Production,,Food Products,302020
+Dude ranch,Agricultural & Food Production,Agricultural & Food Production,"Hotels, Restaurants & Leisure",253010
+Forestry service,Agricultural & Food Production,,Paper & Forest Products,151050
+Logging contractor,Agricultural & Food Production,Agricultural & Food Production,Paper & Forest Products,151050
+Cotton mill,Agricultural & Food Production,Agricultural & Food Production,"Textiles, Apparel & Luxury Goods",252030
+electric utility company,Electricity Distribution,,Electric Utilities,551010
+Electric vehicle charging station,Electricity Distribution,,Electric Utilities,551010
+Electric vehicle charging station contractor,Electricity Distribution,,Electric Utilities,551010
+Electrical substation,Electricity Distribution,,Electric Utilities,551010
+electricity board,Electricity Distribution,,Electric Utilities,551010
+Distribution Service,Transportation and Logistics Facility,,Distributors,255010
+River,Energy Production,Other (20km buffer area of influence),?,
+electricity-generation,Energy Production,,Electric Utilities,551010
+Energy supplier,Energy Production,Energy Production,Electric Utilities,551010
+Nuclear Plant,Energy Production,,Electric Utilities,551010
+Nuclear power plant,Energy Production,,Electric Utilities,551010
+nuclear_power,Energy Production,,Electric Utilities,551010
+Power Plant,Energy Production,,Electric Utilities,551010
+Power station,Energy Production,,Electric Utilities,551010
+power_plants,Energy Production,,Electric Utilities,551010
+Thermal power plant,Energy Production,,Electric Utilities,551010
+Industrial gas supplier,Energy Production,Energy Production,Gas Utilities,551020
+bioenergy,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+Bioenergy Plant,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+Geothermal Plant,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+geothermal_high,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+geothermal_low,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+Green energy supplier,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+heat plant,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+hydro_power_high,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+hydro_power_low,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+Hydroelectric power plant,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+Hydropower Plant,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+Solar Farm,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+Solar photovoltaic power plant,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+solar_high_capacity,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+solar_low_capacity,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+Wind farm,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+Wind Farm,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+wind_power_high,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+wind_power_low,Energy Production,,Independent Power and Renewable Electricity Producers,551050
+Coal Plant,Energy Production,,"Oil, Gas & Consumable Fuels",101020
+coal_emissions,Energy Production,,"Oil, Gas & Consumable Fuels",101020
+water-reservoirs,Energy Production,,Water Utilities,551040
+Stadium,Heavy Industrial & Manufacturing,Other (5km buffer area of influence),?,
+Aerospace company,Heavy Industrial & Manufacturing,,Aerospace & Defense,201010
+Aircraft maintenance company,Heavy Industrial & Manufacturing,,Aerospace & Defense,201010
+Aircraft manufacturer,Heavy Industrial & Manufacturing,,Aerospace & Defense,201010
+Ammunition supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Aerospace & Defense,201010
+Auto air conditioning service,Heavy Industrial & Manufacturing,,Automobile Components,251010
+Auto body parts supplier,Heavy Industrial & Manufacturing,,Automobile Components,251010
+Auto parts manufacturer,Heavy Industrial & Manufacturing,,Automobile Components,251010
+Auto wrecker,Heavy Industrial & Manufacturing,,Automobile Components,251010
+Truck parts supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Automobile Components,251010
+Truck topper supplier,Heavy Industrial & Manufacturing,,Automobile Components,251010
+Tyre manufacturer,Heavy Industrial & Manufacturing,,Automobile Components,251010
+Automative,Heavy Industrial & Manufacturing,,Automobiles,251020
+Automotive,Heavy Industrial & Manufacturing,,Automobiles,251020
+Car factory,Heavy Industrial & Manufacturing,,Automobiles,251020
+Car manufacturer,Heavy Industrial & Manufacturing,,Automobiles,251020
+Trailer manufacturer,Heavy Industrial & Manufacturing,,Automobiles,251020
+Air conditioning contractor,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Building Products,201020
+Door supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Building Products,201020
+Finishing materials supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Building Products,201020
+Garage door supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Building Products,201020
+Gypsum product supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Building Products,201020
+Heating equipment supplier,Heavy Industrial & Manufacturing,,Building Products,201020
+Lighting manufacturer,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Building Products,201020
+Paving materials supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Building Products,201020
+Pipe supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Building Products,201020
+Screw supplier,Heavy Industrial & Manufacturing,,Building Products,201020
+Water pump supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Building Products,201020
+Wood and laminate flooring supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Building Products,201020
+Agrochemicals supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Chemicals,151010
+chemical exporter,Heavy Industrial & Manufacturing,,Chemicals,151010
+Chemical industry,Heavy Industrial & Manufacturing,,Chemicals,151010
+Chemical manufacturer,Heavy Industrial & Manufacturing,,Chemicals,151010
+chemical manufacturer,Heavy Industrial & Manufacturing,,Chemicals,151010
+Chemical plant,Heavy Industrial & Manufacturing,,Chemicals,151010
+"Fertiliser Supplier, Agricultural product wholesaler, Agrochemicals supplier",Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Chemicals,151010
+Fertilizer supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Chemicals,151010
+Foam rubber producer,Heavy Industrial & Manufacturing,,Chemicals,151010
+Foam rubber supplier,Heavy Industrial & Manufacturing,,Chemicals,151010
+Match box manufacturer,Heavy Industrial & Manufacturing,,Chemicals,151010
+Paint manufacturer,Heavy Industrial & Manufacturing,,Chemicals,151010
+petrochemical engineering service,Heavy Industrial & Manufacturing,,Chemicals,151010
+Petrochemical Plant,Heavy Industrial & Manufacturing,,Chemicals,151010
+petrochemicals,Heavy Industrial & Manufacturing,,Chemicals,151010
+Plastic resin manufacturer,Heavy Industrial & Manufacturing,,Chemicals,151010
+Polymer supplier,Heavy Industrial & Manufacturing,,Chemicals,151010
+PVC industry,Heavy Industrial & Manufacturing,,Chemicals,151010
+Rubber products supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Chemicals,151010
+Wax supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Chemicals,151010
+Abrasives supplier,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+adhesives and glue supplier,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Air compressor repair service,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+biochemical supplier,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Blacksmith,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Boat builders,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Building equipment hire service,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+chemical engineering service,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Construction machine dealer,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Contractor,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Commercial Services & Supplies,202010
+Crane service,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+demolition contractor,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Electric motor repair shop,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Engine rebuilding service,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Engraver,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Fire alarm supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Commercial Services & Supplies,202010
+Fire protection equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Commercial Services & Supplies,202010
+Garbage dump,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Garbage dump service,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+General contractor,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Commercial Services & Supplies,202010
+Hose supplier,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+laminating equipment supplier,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+line marking service,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+locks supplier,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+masonry contractor,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Mechanic,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Metal stamping service,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Mold maker,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Office equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Commercial Services & Supplies,202010
+pottery manufacturer,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Powder coating service,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Promotional products supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Commercial Services & Supplies,202010
+rainwater tank supplier,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Recycling center,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+recycling centre,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Recycling drop-off location,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Road construction machine repair service,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+rolled metal products supplier,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Safety equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Commercial Services & Supplies,202010
+Salvage yard,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Security system supplier,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+sewing company,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Shipbuilding and repair company,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Shipyard,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Solid Waste Disposal,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+solid-waste-disposal,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+superfund site,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Tool repair shop,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Tractor repair shop,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+truss manufacturer,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Turnery,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+vacuum cleaning system supplier,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Vending machine supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Commercial Services & Supplies,202010
+Waste management service,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Waste-Management Service,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Welder,Heavy Industrial & Manufacturing,,Commercial Services & Supplies,202010
+Fiber optic products supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Communications Equipment,452010
+Telecommunications equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Communications Equipment,452010
+Asphalt contractor,Heavy Industrial & Manufacturing,,Construction & Engineering,201030
+Construction machine rental service,Heavy Industrial & Manufacturing,,Construction & Engineering,201030
+Drainage service,Heavy Industrial & Manufacturing,,Construction & Engineering,201030
+Drilling contractor,Heavy Industrial & Manufacturing,,Construction & Engineering,201030
+Excavating contractor,Heavy Industrial & Manufacturing,,Construction & Engineering,201030
+Flooring contractor,Heavy Industrial & Manufacturing,,Construction & Engineering,201030
+Heating contractor,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Construction & Engineering,201030
+HVAC contractor,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Construction & Engineering,201030
+Interior construction contractor,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Construction & Engineering,201030
+Mechanical contractor,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Construction & Engineering,201030
+Mechanical Engineering,Heavy Industrial & Manufacturing,,Construction & Engineering,201030
+Paving contractor,Heavy Industrial & Manufacturing,,Construction & Engineering,201030
+Road construction company,Heavy Industrial & Manufacturing,,Construction & Engineering,201030
+Roofing contractor,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Construction & Engineering,201030
+Sheet metal contractor,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Construction & Engineering,201030
+Steel construction company,Heavy Industrial & Manufacturing,,Construction & Engineering,201030
+Steel framework contractor,Heavy Industrial & Manufacturing,,Construction & Engineering,201030
+Swimming pool contractor,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Construction & Engineering,201030
+Well drilling contractor,Heavy Industrial & Manufacturing,,Construction & Engineering,201030
+Air conditioning system supplier,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Aluminum window,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Asphalt mixing plant,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Brick manufacturer,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Building materials supplier,Heavy Industrial & Manufacturing,,Construction Materials,151020
+cement,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Cement manufacturer,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Cement Manufacturer,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Cement Plant,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Cement supplier,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Ceramic manufacturer,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Concrete contractor,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Construction Materials,151020
+Concrete factory,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Concrete product supplier,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Door manufacturer,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Fiberglass supplier,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Fire protection system supplier,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Glass block supplier,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Glass industry,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Glass manufacturer,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Granite supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Construction Materials,151020
+Insulator supplier,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Metal construction company,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Patio enclosure supplier,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Ready mix concrete supplier,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Ready-Mix Concrete Supplier,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Sanitary ware manufacturer and supplier,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Stone cutter,Heavy Industrial & Manufacturing,,Construction Materials,151020
+stone supplier,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Sunblind supplier,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Tile manufacturer,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Window supplier,Heavy Industrial & Manufacturing,,Construction Materials,151020
+Container supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Containers & Packaging,151030
+containers supplier,Heavy Industrial & Manufacturing,,Containers & Packaging,151030
+Cork products manufacturer,Heavy Industrial & Manufacturing,,Containers & Packaging,151030
+Packaging company,Heavy Industrial & Manufacturing,,Containers & Packaging,151030
+packaging contractors and services,Heavy Industrial & Manufacturing,,Containers & Packaging,151030
+plastic,Heavy Industrial & Manufacturing,,Containers & Packaging,151030
+Plastic bag supplier,Heavy Industrial & Manufacturing,,Containers & Packaging,151030
+Plastic injection molding service,Heavy Industrial & Manufacturing,,Containers & Packaging,151030
+Plastic products supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Containers & Packaging,151030
+plastic supplier,Heavy Industrial & Manufacturing,,Containers & Packaging,151030
+Auto restoration service,Heavy Industrial & Manufacturing,,Diversified Consumer Services,253020
+Small engine repair service,Heavy Industrial & Manufacturing,,Diversified Consumer Services,253020
+Cable company,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Diversified Telecommunication Services,501010
+Telecommunications contractor,Heavy Industrial & Manufacturing,,Diversified Telecommunication Services,501010
+digital printer,Heavy Industrial & Manufacturing,,Electrical Equipment,201040
+dynamometer supplier,Heavy Industrial & Manufacturing,,Electrical Equipment,201040
+Electrical equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Electrical Equipment,201040
+Insulation contractor,Heavy Industrial & Manufacturing,,Electrical Equipment,201040
+Electronic parts supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,"Electronic Equipment, Instruments & Components",452030
+Electronics company,Heavy Industrial & Manufacturing,,"Electronic Equipment, Instruments & Components",452030
+electronics company,Heavy Industrial & Manufacturing,,"Electronic Equipment, Instruments & Components",452030
+Electronics manufacturer,Heavy Industrial & Manufacturing,,"Electronic Equipment, Instruments & Components",452030
+GPS supplier,Heavy Industrial & Manufacturing,,"Electronic Equipment, Instruments & Components",452030
+Optical products manufacturer,Heavy Industrial & Manufacturing,,"Electronic Equipment, Instruments & Components",452030
+Energy equipment and solutions,Heavy Industrial & Manufacturing,,Energy Equipment & Services,101010
+Oil field equipment supplier,Heavy Industrial & Manufacturing,,Energy Equipment & Services,101010
+Power plant equipment supplier,Heavy Industrial & Manufacturing,,Energy Equipment & Services,101010
+Solar energy equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Energy Equipment & Services,101010
+FMCG manufacturer,Heavy Industrial & Manufacturing,,Food Products,302020
+Ice supplier,Heavy Industrial & Manufacturing,,Food Products,302020
+Gas cylinders supplier,Heavy Industrial & Manufacturing,,Gas Utilities,551020
+Welding gas supplier,Heavy Industrial & Manufacturing,,Gas Utilities,551020
+Railroad contractor,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Ground Transportation,203040
+Train repairing center,Heavy Industrial & Manufacturing,,Ground Transportation,203040
+Contact lenses supplier,Heavy Industrial & Manufacturing,,Health Care Equipment & Supplies,351010
+Diabetes equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Health Care Equipment & Supplies,351010
+Hospital equipment and supplies,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Health Care Equipment & Supplies,351010
+Janitorial equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Health Care Equipment & Supplies,351010
+Laboratory equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Health Care Equipment & Supplies,351010
+Medical equipment manufacturer,Heavy Industrial & Manufacturing,,Health Care Equipment & Supplies,351010
+Medical equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Health Care Equipment & Supplies,351010
+Medical technology manufacturer,Heavy Industrial & Manufacturing,,Health Care Equipment & Supplies,351010
+Mobility equipment supplier,Heavy Industrial & Manufacturing,,Health Care Equipment & Supplies,351010
+Oxygen equipment supplier,Heavy Industrial & Manufacturing,,Health Care Equipment & Supplies,351010
+X-ray equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Health Care Equipment & Supplies,351010
+Cabinet maker,Heavy Industrial & Manufacturing,,Household Durables,252010
+carpet manufacturer,Heavy Industrial & Manufacturing,,Household Durables,252010
+Fireplace manufacturer,Heavy Industrial & Manufacturing,,Household Durables,252010
+Furniture accessories,Heavy Industrial & Manufacturing,,Household Durables,252010
+Furniture maker,Heavy Industrial & Manufacturing,,Household Durables,252010
+Furniture manufacturer,Heavy Industrial & Manufacturing,,Household Durables,252010
+Glassware manufacturer,Heavy Industrial & Manufacturing,,Household Durables,252010
+Watch manufacturer,Heavy Industrial & Manufacturing,,Household Durables,252010
+Water filter supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Household Durables,252010
+Water purifier supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Household Durables,252010
+Beauty product supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Household Products,303010
+Cleaning products supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Household Products,303010
+toy and game manufacturer,Heavy Industrial & Manufacturing,,Household Products,303010
+toy manufacturer,Heavy Industrial & Manufacturing,,Household Products,303010
+Audio visual equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Leisure Products,252020
+Musical instrument manufacturer,Heavy Industrial & Manufacturing,,Leisure Products,252020
+Agricultural machinery manufacturer,Heavy Industrial & Manufacturing,,Machinery,201060
+Air compressor supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Machinery,201060
+Air filter supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Amusement machine supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Battery manufacturer,Heavy Industrial & Manufacturing,,Machinery,201060
+Bearing supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Blast cleaning service,Heavy Industrial & Manufacturing,,Machinery,201060
+Boiler manufacturer,Heavy Industrial & Manufacturing,,Machinery,201060
+Boiler supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Coffee machine supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Commercial refrigerator supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Construction equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Machinery,201060
+Crane Dealer and Manufacturer,Heavy Industrial & Manufacturing,,Machinery,201060
+display stand manufacturer,Heavy Industrial & Manufacturing,,Machinery,201060
+Drilling equipment supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Elevator manufacturer,Heavy Industrial & Manufacturing,,Machinery,201060
+Equipment supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Factory,Heavy Industrial & Manufacturing,,Machinery,201060
+Factory equipment supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Farm equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Machinery,201060
+"Farm equipment supplier, Car dealer",Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Machinery,201060
+Fastener supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Machinery,201060
+Fire department equipment supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Food machinery supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Food processing equipment,Heavy Industrial & Manufacturing,,Machinery,201060
+Foundry,Heavy Industrial & Manufacturing,,Machinery,201060
+gasket manufacturer,Heavy Industrial & Manufacturing,,Machinery,201060
+Hydraulic equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Machinery,201060
+Hydraulic repair service,Heavy Industrial & Manufacturing,,Machinery,201060
+Ice cream equipment supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Industrial equipment supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Industrial vacuum equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Machinery,201060
+Industry,Heavy Industrial & Manufacturing,,Machinery,201060
+Irrigation equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Machinery,201060
+Laser equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Machinery,201060
+Machine construction,Heavy Industrial & Manufacturing,,Machinery,201060
+Machine maintenance service,Heavy Industrial & Manufacturing,,Machinery,201060
+Machine repair service,Heavy Industrial & Manufacturing,,Machinery,201060
+Machine workshop,Heavy Industrial & Manufacturing,,Machinery,201060
+machinery,Heavy Industrial & Manufacturing,,Machinery,201060
+Machinery parts manufacturer,Heavy Industrial & Manufacturing,,Machinery,201060
+Machining manufacturer,Heavy Industrial & Manufacturing,,Machinery,201060
+Manufacturer,Heavy Industrial & Manufacturing,,Machinery,201060
+Material handling equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Machinery,201060
+Measuring instruments supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Mechanical plant,Heavy Industrial & Manufacturing,,Machinery,201060
+Mechanical workshop,Heavy Industrial & Manufacturing,,Machinery,201060
+Metal machinery supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Metal workshop,Heavy Industrial & Manufacturing,,Machinery,201060
+metalwork,Heavy Industrial & Manufacturing,,Machinery,201060
+Mill,Heavy Industrial & Manufacturing,,Machinery,201060
+Mining equipment,Heavy Industrial & Manufacturing,,Machinery,201060
+Other Manufacturing,Heavy Industrial & Manufacturing,,Machinery,201060
+other-manufacturing,Heavy Industrial & Manufacturing,,Machinery,201060
+Packaging machinery,Heavy Industrial & Manufacturing,,Machinery,201060
+Pipe manufacturer,Heavy Industrial & Manufacturing,,Machinery,201060
+Printing equipment supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Pump supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Machinery,201060
+Railroad equipment supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Scale supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Scientific equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Machinery,201060
+Shipping equipment industry,Heavy Industrial & Manufacturing,,Machinery,201060
+Spring supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Store equipment supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Tool manufacturer,Heavy Industrial & Manufacturing,,Machinery,201060
+Toolroom,Heavy Industrial & Manufacturing,,Machinery,201060
+Ventilating equipment manufacturer,Heavy Industrial & Manufacturing,,Machinery,201060
+Water softening equipment supplier,Heavy Industrial & Manufacturing,,Machinery,201060
+Water works equipment supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Machinery,201060
+Wind turbine builder,Heavy Industrial & Manufacturing,,Machinery,201060
+Aluminium products manufacturer,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+aluminum,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Aluminum Plant,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Aluminum supplier,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Copper supplier,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+incineration plant,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+iron & steel industry,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Iron and steel industry,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Iron steel contractor,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Iron works,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Metal fabricator,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Metal finisher,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Metal heat treating service,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Metal industry suppliers,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Metal processing company,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Metal supplier,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Metallic materials suppliers,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Metallurgy company,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Metalware producer,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Metalworking,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Stainless steel plant,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+steel,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Steel fabricator,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Steel industry,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Steel Plant,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+steel_plant,Heavy Industrial & Manufacturing,,Metals & Mining,151040
+Utility contractor,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Multi-Utilities,551030
+LPG conversion,Heavy Industrial & Manufacturing,,"Oil, Gas & Consumable Fuels",101020
+Barrel supplier,Heavy Industrial & Manufacturing,,Paper & Forest Products,151050
+Envelope supplier,Heavy Industrial & Manufacturing,,Paper & Forest Products,151050
+Pallet supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Paper & Forest Products,151050
+Paper bag supplier,Heavy Industrial & Manufacturing,,Paper & Forest Products,151050
+paper exporter,Heavy Industrial & Manufacturing,,Paper & Forest Products,151050
+paper industry,Heavy Industrial & Manufacturing,,Paper & Forest Products,151050
+Paper mill,Heavy Industrial & Manufacturing,,Paper & Forest Products,151050
+Paper Product Supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Paper & Forest Products,151050
+Saw mill,Heavy Industrial & Manufacturing,,Paper & Forest Products,151050
+Stationery manufacturer,Heavy Industrial & Manufacturing,,Paper & Forest Products,151050
+wood industry,Heavy Industrial & Manufacturing,,Paper & Forest Products,151050
+Wood supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Paper & Forest Products,151050
+Cosmetic products manufacturer,Heavy Industrial & Manufacturing,,Personal Care Products,303020
+Cosmetics,Heavy Industrial & Manufacturing,,Personal Care Products,303020
+Cosmetics industry,Heavy Industrial & Manufacturing,,Personal Care Products,303020
+Incense supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Personal Care Products,303020
+Pharmaceutical company,Heavy Industrial & Manufacturing,,Pharmaceuticals,352020
+Semi conductor supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Semiconductors & Semiconductor Equipment,453010
+Computer hardware manufacturer,Heavy Industrial & Manufacturing,,"Technology Hardware, Storage & Peripherals",452020
+Photocopiers supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,"Technology Hardware, Storage & Peripherals",452020
+clock and watch maker,Heavy Industrial & Manufacturing,,"Textiles, Apparel & Luxury Goods",252030
+Clothes and fabric manufacturer,Heavy Industrial & Manufacturing,,"Textiles, Apparel & Luxury Goods",252030
+Clothing manufacturer,Heavy Industrial & Manufacturing,,"Textiles, Apparel & Luxury Goods",252030
+Clothing supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,"Textiles, Apparel & Luxury Goods",252030
+Fabric product manufacturer,Heavy Industrial & Manufacturing,,"Textiles, Apparel & Luxury Goods",252030
+Jewelry manufacturer,Heavy Industrial & Manufacturing,,"Textiles, Apparel & Luxury Goods",252030
+Knitwear manufacturer,Heavy Industrial & Manufacturing,,"Textiles, Apparel & Luxury Goods",252030
+Leather goods manufacturer,Heavy Industrial & Manufacturing,,"Textiles, Apparel & Luxury Goods",252030
+Lingerie manufacturer,Heavy Industrial & Manufacturing,,"Textiles, Apparel & Luxury Goods",252030
+Shoe factory,Heavy Industrial & Manufacturing,,"Textiles, Apparel & Luxury Goods",252030
+Sportwear manufacturer,Heavy Industrial & Manufacturing,,"Textiles, Apparel & Luxury Goods",252030
+Tannery,Heavy Industrial & Manufacturing,,"Textiles, Apparel & Luxury Goods",252030
+Textile mill,Heavy Industrial & Manufacturing,,"Textiles, Apparel & Luxury Goods",252030
+Textiles,Heavy Industrial & Manufacturing,,"Textiles, Apparel & Luxury Goods",252030
+Weaving mill,Heavy Industrial & Manufacturing,,"Textiles, Apparel & Luxury Goods",252030
+Tobacco supplier,Heavy Industrial & Manufacturing,Heavy Industrial & Manufacturing,Tobacco,302030
+Desalination plant,Heavy Industrial & Manufacturing,,Water Utilities,551040
+hot water system supplier,Heavy Industrial & Manufacturing,,Water Utilities,551040
+Sewage disposal service,Heavy Industrial & Manufacturing,,Water Utilities,551040
+Sewage treatment plant,Heavy Industrial & Manufacturing,,Water Utilities,551040
+Wastewater Treatment Plant,Heavy Industrial & Manufacturing,,Water Utilities,551040
+wastewater-treatment-and-discharge,Heavy Industrial & Manufacturing,,Water Utilities,551040
+Water purification company,Heavy Industrial & Manufacturing,,Water Utilities,551040
+Water treatment plant,Heavy Industrial & Manufacturing,,Water Utilities,551040
+Water treatment supplier,Heavy Industrial & Manufacturing,,Water Utilities,551040
+Water works,Heavy Industrial & Manufacturing,,Water Utilities,551040
+Internet service provider,IT Facility/Data Center,,Diversified Telecommunication Services,501010
+Mobile network operator,IT Facility/Data Center,,Diversified Telecommunication Services,501010
+Computer networking service,IT Facility/Data Center,,IT Services,451020
+Data center,IT Facility/Data Center,,IT Services,451020
+Database management company,IT Facility/Data Center,,IT Services,451020
+Datacenter,IT Facility/Data Center,,IT Services,451020
+Datacenter (Building),IT Facility/Data Center,,IT Services,451020
+Datacenter (Campus),IT Facility/Data Center,,IT Services,451020
+Datacenter (Hyperscaler),IT Facility/Data Center,,IT Services,451020
+E-commerce service,IT Facility/Data Center,,IT Services,451020
+information and technology services,IT Facility/Data Center,,IT Services,451020
+Internet,IT Facility/Data Center,,IT Services,451020
+Web hosting company,IT Facility/Data Center,,IT Services,451020
+Software company,IT Facility/Data Center,IT Facility/Data Center,Software,451030
+mining engineer,Mining Operations,,Commercial Services & Supplies,202010
+Bauxite Mine,Mining Operations,,Metals & Mining,151040
+bauxite-mining,Mining Operations,,Metals & Mining,151040
+Closed Coal Mine,Mining Operations,,Metals & Mining,151040
+Coal Mine,Mining Operations,,Metals & Mining,151040
+Copper Mine,Mining Operations,,Metals & Mining,151040
+Copper or Iron Ore Mine,Mining Operations,,Metals & Mining,151040
+copper-mining,Mining Operations,,Metals & Mining,151040
+"copper-mining,iron-mining",Mining Operations,,Metals & Mining,151040
+Gold mining company,Mining Operations,,Metals & Mining,151040
+Gravel pit,Mining Operations,,Metals & Mining,151040
+gravel plant,Mining Operations,,Metals & Mining,151040
+Iron Ore Mine,Mining Operations,,Metals & Mining,151040
+iron-mining,Mining Operations,,Metals & Mining,151040
+Mine,Mining Operations,,Metals & Mining,151040
+mineral supplier,Mining Operations,,Metals & Mining,151040
+mines,Mining Operations,,Metals & Mining,151040
+Mining company,Mining Operations,,Metals & Mining,151040
+Quarry,Mining Operations,,Metals & Mining,151040
+Sand plant,Mining Operations,,Metals & Mining,151040
+closed_coal_mines,Mining Operations,,"Oil, Gas & Consumable Fuels",101020
+Coal Mines,Mining Operations,,"Oil, Gas & Consumable Fuels",101020
+coal-mining,Mining Operations,,"Oil, Gas & Consumable Fuels",101020
+coalfield,Mining Operations,,"Oil, Gas & Consumable Fuels",101020
+open_coal_mines,Mining Operations,,"Oil, Gas & Consumable Fuels",101020
+Academic department,Office/Housing,,?,
+Adult education school,Office/Housing,,?,
+Apprenticeship center,Office/Housing,,?,
+Archive,Office/Housing,,?,
+Athletic field,Office/Housing,,?,
+Buddhist temple,Office/Housing,Other (5km buffer area of influence),?,
+Building society,Office/Housing,,?,
+Business school,Office/Housing,,?,
+Cemetery,Office/Housing,Other (20km buffer area of influence),?,
+Chamber of Commerce,Office/Housing,,?,
+Channel,Office/Housing,Other (20km buffer area of influence),?,
+Charity,Office/Housing,,?,
+Citizen information bureau,Office/Housing,,?,
+City or town hall,Office/Housing,,?,
+city park,Office/Housing,,?,
+Civil defense,Office/Housing,,?,
+College,Office/Housing,,?,
+Computer training school,Office/Housing,,?,
+Correctional services department,Office/Housing,,?,
+Council,Office/Housing,,?,
+Department for Regional Development,Office/Housing,,?,
+Department of finance,Office/Housing,,?,
+Department of Public Safety,Office/Housing,,?,
+Department of Transportation,Office/Housing,,?,
+Detention center,Office/Housing,Other (20km buffer area of influence),?,
+Display home centre,Office/Housing,,?,
+Distance learning center,Office/Housing,,?,
+Emergency management ministry,Office/Housing,,?,
+Emergency training,Office/Housing,,?,
+Employment agency,Office/Housing,,?,
+Employment center,Office/Housing,,?,
+Environment office,Office/Housing,,?,
+Environmental health service,Office/Housing,,?,
+Environmental organization,Office/Housing,,?,
+Environmental program,Office/Housing,,?,
+Environmental Programme,Office/Housing,Other (5km buffer area of influence),?,
+Establishment,Office/Housing,,?,
+Family service center,Office/Housing,,?,
+Flight school,Office/Housing,,?,
+Foundation,Office/Housing,,?,
+Funeral home,Office/Housing,,?,
+Historical landmark,Office/Housing,Other (20km buffer area of influence),?,
+Historical place,Office/Housing,,?,
+Immigration detention centre,Office/Housing,,?,
+Labor union,Office/Housing,,?,
+Language school,Office/Housing,,?,
+Learning center,Office/Housing,,?,
+lift service,Office/Housing,,?,
+Local government office,Office/Housing,,?,
+Mountain peak,Office/Housing,Other (20km buffer area of influence),?,
+Municipal Department Science Technology,Office/Housing,,?,
+Natural feature,Office/Housing,Other (20km buffer area of influence),?,
+Non-governmental organization,Office/Housing,,?,
+Non-profit organization,Office/Housing,,?,
+Open university,Office/Housing,,?,
+Passport agent,Office/Housing,,?,
+Prison,Office/Housing,Other (20km buffer area of influence),?,
+Private educational institution,Office/Housing,,?,
+Private university,Office/Housing,,?,
+Rectory,Office/Housing,,Professional Services,202020
+Registry office,Office/Housing,,Professional Services,202020
+Retirement community,Office/Housing,,?,
+School,Office/Housing,,?,
+Smog inspection station,Office/Housing,,?,
+Student dormitory,Office/Housing,,?,
+Student housing center,Office/Housing,,?,
+Temp agency,Office/Housing,,?,
+Trade school,Office/Housing,,?,
+Unemployment office,Office/Housing,,Professional Services,202020
+University,Office/Housing,,?,
+Visa and passport office,Office/Housing,,Professional Services,202020
+Aeronautical engineer,Office/Housing,,Aerospace & Defense,201010
+Aircraft rental service,Office/Housing,,Aerospace & Defense,201010
+Ground self defense force,Office/Housing,,Aerospace & Defense,201010
+Military base,Office/Housing,Other (50km buffer area of influence),Aerospace & Defense,201010
+Customs broker,Office/Housing,,Air Freight & Logistics,203010
+Ferry service,Office/Housing,,Air Freight & Logistics,203010
+Shipping service,Office/Housing,,Air Freight & Logistics,203010
+Auto bodywork mechanic,Office/Housing,Office/Housing,Automobile Components,251010
+Auto upholsterer,Office/Housing,,Automobile Components,251010
+Auto auction,Office/Housing,Office/Housing,Automobiles,251020
+Auto broker,Office/Housing,,Automobiles,251020
+Automobile storage facility,Office/Housing,,Automobiles,251020
+Car leasing service,Office/Housing,,Automobiles,251020
+Recreational vehicle rental agency,Office/Housing,,Automobiles,251020
+Bank,Office/Housing,,Banks,401010
+Bank or ATM,Office/Housing,,Banks,401010
+Banking and finance,Office/Housing,,Banks,401010
+Central bank,Office/Housing,,Banks,401010
+Cooperative bank,Office/Housing,,Banks,401010
+Private sector bank,Office/Housing,,Banks,401010
+private sector bank,Office/Housing,,Banks,401010
+Public sector bank,Office/Housing,,Banks,401010
+Savings bank,Office/Housing,,Banks,401010
+Trust bank,Office/Housing,,Banks,401010
+Deck builder,Office/Housing,,Building Products,201020
+Flooring,Office/Housing,Office/Housing,Building Products,201020
+Marquee hire service,Office/Housing,Office/Housing,Building Products,201020
+Materiaux,Office/Housing,Office/Housing,Building Products,201020
+Painting,Office/Housing,,Building Products,201020
+Scaffolding service,Office/Housing,Office/Housing,Building Products,201020
+Broker house,Office/Housing,,Capital Markets,402030
+Business broker,Office/Housing,,Capital Markets,402030
+Investment bank,Office/Housing,,Capital Markets,402030
+Investment company,Office/Housing,,Capital Markets,402030
+Investment service,Office/Housing,,Capital Markets,402030
+Pension office,Office/Housing,,Capital Markets,402030
+Private equity firm,Office/Housing,,Capital Markets,402030
+Stock broker,Office/Housing,,Capital Markets,402030
+Stock exchange building,Office/Housing,,Capital Markets,402030
+Venture capital company,Office/Housing,,Capital Markets,402030
+3D printing service,Office/Housing,Office/Housing,Commercial Services & Supplies,202010
+Accountant,Office/Housing,,Professional Services,202020
+accounting,Office/Housing,,Professional Services,202020
+Accounting firm,Office/Housing,,Professional Services,202020
+Advertising agency,Office/Housing,,Commercial Services & Supplies,202010
+Advertising service,Office/Housing,,Commercial Services & Supplies,202010
+agent,Office/Housing,,Commercial Services & Supplies,202010
+Air duct cleaning service,Office/Housing,,Commercial Services & Supplies,202010
+Appraiser,Office/Housing,,Commercial Services & Supplies,202010
+Attorney,Office/Housing,,Professional Services,202020
+audio visual consultant,Office/Housing,,Commercial Services & Supplies,202010
+Aviation consultant,Office/Housing,,Commercial Services & Supplies,202010
+Aviation training institute,Office/Housing,,Commercial Services & Supplies,202010
+Back office,Office/Housing,,Office REITs,601040
+back office,Office/Housing,,Office REITs,601040
+Bathroom remodeler,Office/Housing,,Commercial Services & Supplies,202010
+beauty school,Office/Housing,,Professional Services,202020
+Bookkeeping service,Office/Housing,,Professional Services,202020
+BPO company,Office/Housing,,Commercial Services & Supplies,202010
+Branding agency,Office/Housing,,Professional Services,202020
+building inspector,Office/Housing,,Commercial Services & Supplies,202010
+Business administration service,Office/Housing,,Professional Services,202020
+Business development service,Office/Housing,,Professional Services,202020
+Business management consultant,Office/Housing,,Professional Services,202020
+Business networking company,Office/Housing,,Commercial Services & Supplies,202010
+Business to business service,Office/Housing,,Professional Services,202020
+Business-to-Business service,Office/Housing,,Professional Services,202020
+Call center,Office/Housing,,Professional Services,202020
+carpet cleaning service,Office/Housing,,Professional Services,202020
+Certification agency,Office/Housing,,Professional Services,202020
+Certified public accountant,Office/Housing,,Professional Services,202020
+Chartered accountant,Office/Housing,,Professional Services,202020
+Civil engineer,Office/Housing,,Professional Services,202020
+Cleaners,Office/Housing,,Commercial Services & Supplies,202010
+Cleaning service,Office/Housing,,Commercial Services & Supplies,202010
+Commercial agent,Office/Housing,,Professional Services,202020
+Commercial printer,Office/Housing,Office/Housing,Commercial Services & Supplies,202010
+Construction and maintenance office,Office/Housing,,Professional Services,202020
+Consultant,Office/Housing,,Professional Services,202020
+consumer advice center,Office/Housing,,Commercial Services & Supplies,202010
+Counselor,Office/Housing,,Professional Services,202020
+Crane rental agency,Office/Housing,Office/Housing,Commercial Services & Supplies,202010
+customs department,Office/Housing,,Commercial Services & Supplies,202010
+department of motor vehicles,Office/Housing,,Commercial Services & Supplies,202010
+department of social services,Office/Housing,,Commercial Services & Supplies,202010
+Design agency,Office/Housing,,Professional Services,202020
+Design engineer,Office/Housing,,Professional Services,202020
+design services,Office/Housing,,Professional Services,202020
+desktop publishing service,Office/Housing,,Commercial Services & Supplies,202010
+Digital printing service,Office/Housing,Office/Housing,Commercial Services & Supplies,202010
+domestic services,Office/Housing,,Professional Services,202020
+donations center,Office/Housing,,Commercial Services & Supplies,202010
+Driving test center,Office/Housing,,Commercial Services & Supplies,202010
+Economic consultant,Office/Housing,,Professional Services,202020
+Economic development agency,Office/Housing,,Professional Services,202020
+education,Office/Housing,,Commercial Services & Supplies,202010
+Education center,Office/Housing,,Professional Services,202020
+Educational institution,Office/Housing,,Commercial Services & Supplies,202010
+educational testing service,Office/Housing,,Commercial Services & Supplies,202010
+Electrical engineer,Office/Housing,,Professional Services,202020
+Electrician,Office/Housing,Office/Housing,Professional Services,202020
+Electronics engineer,Office/Housing,,Professional Services,202020
+Elevator service,Office/Housing,,Commercial Services & Supplies,202010
+Employment consultant,Office/Housing,,Professional Services,202020
+Employment services,Office/Housing,,Professional Services,202020
+english language school,Office/Housing,,Commercial Services & Supplies,202010
+Environmental consultant,Office/Housing,,Professional Services,202020
+Equipment rental agency,Office/Housing,Office/Housing,Commercial Services & Supplies,202010
+Executive search firm,Office/Housing,,Commercial Services & Supplies,202010
+Exhibition planner,Office/Housing,,Commercial Services & Supplies,202010
+expertise service provider,Office/Housing,,Commercial Services & Supplies,202010
+eye care center,Office/Housing,,Commercial Services & Supplies,202010
+faculty of chemistry,Office/Housing,,Commercial Services & Supplies,202010
+Federal government office,Office/Housing,,Commercial Services & Supplies,202010
+fire protection service,Office/Housing,,Commercial Services & Supplies,202010
+Food and beverage consultant,Office/Housing,,Professional Services,202020
+forensic consultant,Office/Housing,,Professional Services,202020
+Forklift rental service,Office/Housing,Office/Housing,Commercial Services & Supplies,202010
+Furniture rental service,Office/Housing,,Professional Services,202020
+futsal court,Office/Housing,,Commercial Services & Supplies,202010
+Gardening products and services,Office/Housing,Office/Housing,Commercial Services & Supplies,202010
+geological service,Office/Housing,,Commercial Services & Supplies,202010
+government,Office/Housing,,Commercial Services & Supplies,202010
+Government office,Office/Housing,,Commercial Services & Supplies,202010
+Graphic designer,Office/Housing,,Commercial Services & Supplies,202010
+Handyman/Handywoman/Handyperson,Office/Housing,,Professional Services,202020
+Head start center,Office/Housing,,Commercial Services & Supplies,202010
+hotel management school,Office/Housing,,Commercial Services & Supplies,202010
+house cleaning service,Office/Housing,,Commercial Services & Supplies,202010
+houseboat rental service,Office/Housing,,Commercial Services & Supplies,202010
+Human resource consulting,Office/Housing,,Professional Services,202020
+human resources,Office/Housing,,Professional Services,202020
+hydraulic engineer,Office/Housing,,Professional Services,202020
+immigration & naturalization service,Office/Housing,,Commercial Services & Supplies,202010
+Industrial consultant,Office/Housing,,Professional Services,202020
+Industrial design company,Office/Housing,,Professional Services,202020
+industrial technical engineers association,Office/Housing,,Commercial Services & Supplies,202010
+Information centers,Office/Housing,,Commercial Services & Supplies,202010
+Institute of technology,Office/Housing,,Commercial Services & Supplies,202010
+Interior architect office,Office/Housing,,Professional Services,202020
+interior fitting contractor,Office/Housing,,Commercial Services & Supplies,202010
+International trade consultant,Office/Housing,,Professional Services,202020
+Janitorial service,Office/Housing,,Commercial Services & Supplies,202010
+Kitchen remodeler,Office/Housing,,Commercial Services & Supplies,202010
+Lamination service,Office/Housing,Office/Housing,Commercial Services & Supplies,202010
+Land surveying office,Office/Housing,,Commercial Services & Supplies,202010
+Landscape architect,Office/Housing,,Professional Services,202020
+Landscape designer,Office/Housing,,Professional Services,202020
+Landscape Gardener,Office/Housing,,Commercial Services & Supplies,202010
+Landscaper,Office/Housing,,Commercial Services & Supplies,202010
+law firm,Office/Housing,,Professional Services,202020
+legal aid office,Office/Housing,,Professional Services,202020
+Legal services,Office/Housing,,Professional Services,202020
+marine self defense force,Office/Housing,,Commercial Services & Supplies,202010
+marine surveyor,Office/Housing,,Professional Services,202020
+Market Researcher,Office/Housing,,Professional Services,202020
+marketing,Office/Housing,,Professional Services,202020
+Marketing agency,Office/Housing,,Professional Services,202020
+Marketing consultant,Office/Housing,,Professional Services,202020
+mediation service,Office/Housing,,Professional Services,202020
+Meeting planning service,Office/Housing,,Professional Services,202020
+Mining consultant,Office/Housing,,Professional Services,202020
+Occupational safety and health,Office/Housing,,Commercial Services & Supplies,202010
+office administration service,Office/Housing,,Professional Services,202020
+Office equipment rental service,Office/Housing,,Commercial Services & Supplies,202010
+Office services,Office/Housing,,Commercial Services & Supplies,202010
+pain control clinic,Office/Housing,,Professional Services,202020
+painter,Office/Housing,,Professional Services,202020
+Paralegal services provider,Office/Housing,,Professional Services,202020
+Payroll service,Office/Housing,,Professional Services,202020
+personal trainer,Office/Housing,,Professional Services,202020
+Pest control service,Office/Housing,,Professional Services,202020
+pet sitter,Office/Housing,,Professional Services,202020
+phone repair service,Office/Housing,,Professional Services,202020
+Plating service,Office/Housing,Office/Housing,Professional Services,202020
+Post office,Office/Housing,,Professional Services,202020
+post office,Office/Housing,,Professional Services,202020
+Power plant consultant,Office/Housing,Office/Housing,Professional Services,202020
+Process server,Office/Housing,,Professional Services,202020
+Professional organizer,Office/Housing,,Professional Services,202020
+Property maintenance,Office/Housing,,Professional Services,202020
+Public relations firm,Office/Housing,,Professional Services,202020
+Recruiter,Office/Housing,,Professional Services,202020
+Regional government office,Office/Housing,,Professional Services,202020
+Research foundation,Office/Housing,Office/Housing,Commercial Services & Supplies,202010
+Resume service,Office/Housing,,Professional Services,202020
+Sanitation service,Office/Housing,Office/Housing,Professional Services,202020
+Screen printer,Office/Housing,Office/Housing,Commercial Services & Supplies,202010
+Security guard service,Office/Housing,,Professional Services,202020
+Security service,Office/Housing,,Commercial Services & Supplies,202010
+Security system installation service,Office/Housing,,Commercial Services & Supplies,202010
+serviced apartment,Office/Housing,,Commercial Services & Supplies,202010
+Services,Office/Housing,,Professional Services,202020
+Services for industry,Office/Housing,,Professional Services,202020
+Shopfitter,Office/Housing,Office/Housing,Professional Services,202020
+Shredding service,Office/Housing,,Professional Services,202020
+superannuation consultant,Office/Housing,,Professional Services,202020
+Surveyor,Office/Housing,,Professional Services,202020
+Talent agency,Office/Housing,,Professional Services,202020
+tax assessor,Office/Housing,,Professional Services,202020
+Telemarketing service,Office/Housing,,Professional Services,202020
+timeshare agency,Office/Housing,,Commercial Services & Supplies,202010
+Tool rental service,Office/Housing,,Commercial Services & Supplies,202010
+Training centre,Office/Housing,,Commercial Services & Supplies,202010
+Training provider,Office/Housing,,Commercial Services & Supplies,202010
+transcription service,Office/Housing,,Professional Services,202020
+Translation service,Office/Housing,,Professional Services,202020
+Transportation escort service,Office/Housing,,Professional Services,202020
+travel,Office/Housing,,Professional Services,202020
+travel clinic,Office/Housing,,Professional Services,202020
+travel services,Office/Housing,,Professional Services,202020
+typing service,Office/Housing,,Professional Services,202020
+utilities contractor,Office/Housing,,Professional Services,202020
+vehicle inspection service,Office/Housing,,Professional Services,202020
+Visa consulting service,Office/Housing,,Professional Services,202020
+waterproofing service,Office/Housing,,Professional Services,202020
+Weather forecast service,Office/Housing,,Professional Services,202020
+window installation service,Office/Housing,,Professional Services,202020
+Communications tower,Office/Housing,,Communications Equipment,452010
+Telephone exchange,Office/Housing,Office/Housing,Communications Equipment,452010
+Acoustical consultant,Office/Housing,,Construction & Engineering,201030
+Architect,Office/Housing,,Construction & Engineering,201030
+Architectural designer,Office/Housing,,Construction & Engineering,201030
+Architecture firm,Office/Housing,,Construction & Engineering,201030
+Builder,Office/Housing,,Construction & Engineering,201030
+Building consultant,Office/Housing,,Construction & Engineering,201030
+Building firm,Office/Housing,,Construction & Engineering,201030
+Carpenter,Office/Housing,,Construction & Engineering,201030
+Civil engineering company,Office/Housing,,Construction & Engineering,201030
+Construction,Office/Housing,Other (20km buffer area of influence),Construction & Engineering,201030
+Construction company,Office/Housing,,Construction & Engineering,201030
+Construction Company,Office/Housing,,Construction & Engineering,201030
+Drafting service,Office/Housing,,Construction & Engineering,201030
+Earth works company,Office/Housing,Office/Housing,Construction & Engineering,201030
+Electrical installation service,Office/Housing,,Construction & Engineering,201030
+Engineer,Office/Housing,,Construction & Engineering,201030
+Engineering consultant,Office/Housing,,Construction & Engineering,201030
+Environmental engineer,Office/Housing,,Construction & Engineering,201030
+Fire damage restoration service,Office/Housing,,Construction & Engineering,201030
+Gas engineer,Office/Housing,,Construction & Engineering,201030
+Gasfitter,Office/Housing,,Construction & Engineering,201030
+Glazier,Office/Housing,Office/Housing,Construction & Engineering,201030
+Industrial engineer,Office/Housing,,Construction & Engineering,201030
+Installation service,Office/Housing,,Construction & Engineering,201030
+Instrumentation engineer,Office/Housing,,Construction & Engineering,201030
+Marine engineer,Office/Housing,,Construction & Engineering,201030
+Mechanical engineer,Office/Housing,,Construction & Engineering,201030
+Plumber,Office/Housing,,Construction & Engineering,201030
+Precision engineer,Office/Housing,Office/Housing,Construction & Engineering,201030
+Real Estate Builders & Construction Company,Office/Housing,,Construction & Engineering,201030
+Remodeler,Office/Housing,,Construction & Engineering,201030
+Structural engineer,Office/Housing,,Construction & Engineering,201030
+Water damage restoration service,Office/Housing,,Construction & Engineering,201030
+Car finance and loan company,Office/Housing,,Consumer Finance,402020
+Cashpoint,Office/Housing,,Consumer Finance,402020
+Credit counseling service,Office/Housing,,Consumer Finance,402020
+Currency exchange service,Office/Housing,,Consumer Finance,402020
+Debt collecting,Office/Housing,,Consumer Finance,402020
+Loan agency,Office/Housing,,Consumer Finance,402020
+Food broker,Office/Housing,,Consumer Staples Distribution & Retail,301010
+Custom label printer,Office/Housing,Office/Housing,Containers & Packaging,151030
+Plastic fabrication company,Office/Housing,,Containers & Packaging,151030
+Bicycle rental service,Office/Housing,Office/Housing,Diversified Consumer Services,253020
+Car inspection station,Office/Housing,Office/Housing,Diversified Consumer Services,253020
+Coaching center,Office/Housing,,Diversified Consumer Services,253020
+Educational consultant,Office/Housing,,Diversified Consumer Services,253020
+Gardener,Office/Housing,,Diversified Consumer Services,253020
+Home help,Office/Housing,,Diversified Consumer Services,253020
+Home help service agency,Office/Housing,,Diversified Consumer Services,253020
+Interior designer,Office/Housing,,Diversified Consumer Services,253020
+Interior plant service,Office/Housing,,Diversified Consumer Services,253020
+Lawn care service,Office/Housing,,Diversified Consumer Services,253020
+Oil change service,Office/Housing,,Diversified Consumer Services,253020
+Stylist,Office/Housing,,Diversified Consumer Services,253020
+Valet parking service,Office/Housing,,Diversified Consumer Services,253020
+christian church,Office/Housing,,Diversified REITs,601010
+Executive suite rental agency,Office/Housing,,Diversified REITs,601010
+middle school,Office/Housing,,Diversified REITs,601010
+modern art museum,Office/Housing,,Diversified REITs,601010
+monastery,Office/Housing,,Diversified REITs,601010
+reformed church,Office/Housing,,Diversified REITs,601010
+religious destination,Office/Housing,,Diversified REITs,601010
+religious institution,Office/Housing,,Diversified REITs,601010
+religious organization,Office/Housing,,Diversified REITs,601010
+science museum,Office/Housing,,Diversified REITs,601010
+state department housing and urban development,Office/Housing,,Diversified REITs,601010
+technical school,Office/Housing,,Diversified REITs,601010
+telecommunication school,Office/Housing,,Diversified REITs,601010
+wi-fi spot,Office/Housing,,Diversified REITs,601010
+Satellite communication service,Office/Housing,,Diversified Telecommunication Services,501010
+Telecommunications,Office/Housing,,Diversified Telecommunication Services,501010
+Telecommunications engineer,Office/Housing,,Diversified Telecommunication Services,501010
+Telecommunications service provider,Office/Housing,,Diversified Telecommunication Services,501010
+Telephone answering service,Office/Housing,,Diversified Telecommunication Services,501010
+Telephone company,Office/Housing,,Diversified Telecommunication Services,501010
+Nuclear power company,Office/Housing,Office/Housing,Electric Utilities,551010
+Automation company,Office/Housing,,"Electronic Equipment, Instruments & Components",452030
+Electronic engineering service,Office/Housing,,"Electronic Equipment, Instruments & Components",452030
+Home automation company,Office/Housing,,"Electronic Equipment, Instruments & Components",452030
+Nuclear engineering service,Office/Housing,,Energy Equipment & Services,101010
+Artist,Office/Housing,,Entertainment,502020
+Concert hall,Office/Housing,,Entertainment,502020
+Entertainment agency,Office/Housing,,Entertainment,502020
+Performing arts theater,Office/Housing,,Entertainment,502020
+Business banking service,Office/Housing,,Financial Services,402010
+Credit reporting agency,Office/Housing,,Financial Services,402010
+Credit union,Office/Housing,,Financial Services,402010
+Debt collection agency,Office/Housing,,Financial Services,402010
+Escrow service,Office/Housing,,Financial Services,402010
+federal credit union,Office/Housing,,Financial Services,402010
+Finance broker,Office/Housing,,Financial Services,402010
+Financial advisor,Office/Housing,,Financial Services,402010
+financial audit,Office/Housing,,Financial Services,402010
+Financial consultant,Office/Housing,,Financial Services,402010
+Financial institution,Office/Housing,,Financial Services,402010
+Financial planner,Office/Housing,,Financial Services,402010
+Leasing service,Office/Housing,,Financial Services,402010
+Money transfer service,Office/Housing,,Financial Services,402010
+Tax consultant,Office/Housing,,Financial Services,402010
+Tax preparation,Office/Housing,,Financial Services,402010
+Tax preparation service,Office/Housing,,Financial Services,402010
+"Food products supplier, Corporate office",Office/Housing,,Food Products,302020
+Chauffeur service,Office/Housing,,Ground Transportation,203040
+Railroad company,Office/Housing,,Ground Transportation,203040
+Trucking company,Office/Housing,,Ground Transportation,203040
+Health,Office/Housing,,Health Care Equipment & Supplies,351010
+Acupuncture clinic,Office/Housing,,Health Care Providers & Services,351020
+Acupuncturist,Office/Housing,,Health Care Providers & Services,351020
+Addiction treatment center,Office/Housing,,Health Care Providers & Services,351020
+Adult day care center,Office/Housing,,Health Care Providers & Services,351020
+Aged care,Office/Housing,,Health Care Providers & Services,351020
+Alternative medicine practitioner,Office/Housing,,Health Care Providers & Services,351020
+Animal hospital,Office/Housing,,Health Care Providers & Services,351020
+Assisted living facility,Office/Housing,,Health Care Providers & Services,351020
+Audiologist,Office/Housing,,Health Care Providers & Services,351020
+Blood bank,Office/Housing,,Health Care Providers & Services,351020
+Blood donation center,Office/Housing,,Health Care Providers & Services,351020
+Blood testing service,Office/Housing,,Health Care Providers & Services,351020
+Cancer treatment center,Office/Housing,,Health Care Providers & Services,351020
+Care services,Office/Housing,,Health Care Providers & Services,351020
+child health care centre,Office/Housing,,Health Care Providers & Services,351020
+Chinese medicine clinic,Office/Housing,,Health Care Providers & Services,351020
+Club,Office/Housing,,Health Care Providers & Services,351020
+community health centre,Office/Housing,,Health Care Providers & Services,351020
+Dental clinic,Office/Housing,,Health Care Providers & Services,351020
+Dentist,Office/Housing,,Health Care Providers & Services,351020
+Dermatologist,Office/Housing,,Health Care Providers & Services,351020
+Diabetologist,Office/Housing,,Health Care Providers & Services,351020
+Diagnostic center,Office/Housing,,Health Care Providers & Services,351020
+Dialysis center,Office/Housing,,Health Care Providers & Services,351020
+Disability services,Office/Housing,,Health Care Providers & Services,351020
+Disability services and support organization,Office/Housing,,Health Care Providers & Services,351020
+Doctor,Office/Housing,,Health Care Providers & Services,351020
+emergency room,Office/Housing,,Health Care Providers & Services,351020
+Endocrinologist,Office/Housing,,Health Care Providers & Services,351020
+fertility clinic,Office/Housing,,Health Care Providers & Services,351020
+First aid station,Office/Housing,,Health Care Providers & Services,351020
+General hospital,Office/Housing,,Health Care Providers & Services,351020
+general practitioner,Office/Housing,,Health Care Providers & Services,351020
+Health consultant,Office/Housing,,Health Care Providers & Services,351020
+Health counselor,Office/Housing,,Health Care Providers & Services,351020
+hearing aid repair service,Office/Housing,,Health Care Providers & Services,351020
+Heart hospital,Office/Housing,,Health Care Providers & Services,351020
+Hematologist,Office/Housing,,Health Care Providers & Services,351020
+Holistic medicine practitioner,Office/Housing,,Health Care Providers & Services,351020
+Home health care service,Office/Housing,,Health Care Providers & Services,351020
+Hospice,Office/Housing,,Health Care Providers & Services,351020
+Hospital,Office/Housing,,Health Care Providers & Services,351020
+Hospital department,Office/Housing,,Health Care Providers & Services,351020
+Internist,Office/Housing,,Health Care Providers & Services,351020
+Local medical services,Office/Housing,,Health Care Providers & Services,351020
+Maternity hospital,Office/Housing,,Health Care Providers & Services,351020
+Medical billing service,Office/Housing,,Health Care Providers & Services,351020
+Medical Center,Office/Housing,,Health Care Providers & Services,351020
+Medical clinic,Office/Housing,,Health Care Providers & Services,351020
+Medical diagnostic imaging center,Office/Housing,,Health Care Providers & Services,351020
+Medical group,Office/Housing,,Health Care Providers & Services,351020
+Medical office,Office/Housing,,Health Care Providers & Services,351020
+Medical school,Office/Housing,,Health Care Providers & Services,351020
+Medical transcription service,Office/Housing,,Health Care Providers & Services,351020
+Mental health clinic,Office/Housing,,Health Care Providers & Services,351020
+Mental health service,Office/Housing,,Health Care Providers & Services,351020
+Nephrologist,Office/Housing,,Health Care Providers & Services,351020
+Neurologist,Office/Housing,,Health Care Providers & Services,351020
+Nursing agency,Office/Housing,,Health Care Providers & Services,351020
+Nursing home,Office/Housing,,Health Care Providers & Services,351020
+Nutritionist,Office/Housing,,Health Care Providers & Services,351020
+Occupational health service,Office/Housing,,Health Care Providers & Services,351020
+Occupational therapist,Office/Housing,,Health Care Providers & Services,351020
+Oncologist,Office/Housing,,Health Care Providers & Services,351020
+ophthalmologist,Office/Housing,,Health Care Providers & Services,351020
+ophthalmology clinic,Office/Housing,,Health Care Providers & Services,351020
+Optometrist,Office/Housing,,Health Care Providers & Services,351020
+orthopedic clinic,Office/Housing,,Health Care Providers & Services,351020
+Orthotics & prosthetics service,Office/Housing,,Health Care Providers & Services,351020
+Osteopath,Office/Housing,,Health Care Providers & Services,351020
+Pathologist,Office/Housing,,Health Care Providers & Services,351020
+Physical therapist,Office/Housing,,Health Care Providers & Services,351020
+physical therapy clinic,Office/Housing,,Health Care Providers & Services,351020
+Private hospital,Office/Housing,,Health Care Providers & Services,351020
+Psychiatric hospital,Office/Housing,,Health Care Providers & Services,351020
+Psychologist,Office/Housing,,Health Care Providers & Services,351020
+public health department,Office/Housing,,Health Care Providers & Services,351020
+Radiologist,Office/Housing,,Health Care Providers & Services,351020
+Rehabilitation center,Office/Housing,,Health Care Providers & Services,351020
+Reproductive health clinic,Office/Housing,,Health Care Providers & Services,351020
+Retirement home,Office/Housing,,Health Care Providers & Services,351020
+Skin care clinic,Office/Housing,,Health Care Providers & Services,351020
+Sleep clinic,Office/Housing,,Health Care Providers & Services,351020
+Social services organization,Office/Housing,,Health Care Providers & Services,351020
+Specialized clinic,Office/Housing,,Health Care Providers & Services,351020
+Specialized hospital,Office/Housing,,Health Care Providers & Services,351020
+Surgical center,Office/Housing,,Health Care Providers & Services,351020
+University hospital,Office/Housing,,Health Care Providers & Services,351020
+urgent care center,Office/Housing,,Health Care Providers & Services,351020
+Veterinarian,Office/Housing,,Health Care Providers & Services,351020
+Veterinary care,Office/Housing,,Health Care Providers & Services,351020
+walk-in clinic,Office/Housing,,Health Care Providers & Services,351020
+weight loss service,Office/Housing,,Health Care Providers & Services,351020
+Wellness center,Office/Housing,,Health Care Providers & Services,351020
+aquatic centre,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Arena,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Art museum,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Asian restaurant,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+baseball,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Bed & breakfast,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Betting agency,Office/Housing,Office/Housing,"Hotels, Restaurants & Leisure",253010
+Bowling alley,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+boxing gym,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Campground,Office/Housing,Other (20km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+Casino,Office/Housing,Office/Housing,"Hotels, Restaurants & Leisure",253010
+Casino hotel,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Community center,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Convention center,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Cruise agency,Office/Housing,Office/Housing,"Hotels, Restaurants & Leisure",253010
+Cultural landmark,Office/Housing,Other (20km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+Dog park,Office/Housing,Other (20km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+entertainer,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Event management company,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Event planner,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Event venue,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Events Venue,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Exhibit,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Extended stay hotel,Office/Housing,Office/Housing,"Hotels, Restaurants & Leisure",253010
+Fitness center,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+football club,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Golf club,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Golf course,Office/Housing,Other (20km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+Guest house,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Gym,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Gymnastics center,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+hall,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Health spa,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Heritage museum,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+heritage preservation,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Hiking area,Office/Housing,Other (20km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+historical society,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Holiday apartment,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+holiday apartment rental,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+hospitality and tourism school,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Hotel,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Hunting club,Office/Housing,Other (20km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+Ice skating rink,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Indoor lodging,Office/Housing,Office/Housing,"Hotels, Restaurants & Leisure",253010
+Inn,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Japanese inn,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Japanese-style business hotel,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Lodge,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Lodging,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Motel,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Museum,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Nature preserve,Office/Housing,Other (20km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+Off roading area,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Park,Office/Housing,Other (20km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+Party planner,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Physical fitness program,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Pub,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Racecourse,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Recreation center,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Resort hotel,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Retreat center,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+RV park,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+sauna,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+school cafeteria,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Serviced accommodation,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Shrine,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Sightseeing tour agency,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Ski resort,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Soccer club,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Social club,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Soup kitchen,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Spa,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Spa and health club,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Sports,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Sports club,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+sports complex,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Technology museum,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Tour agency,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Tour operator,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Travel agency,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Travel Agent,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Vacation home rental agency,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Visitor center,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Wellness hotel,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Wellness program,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Western restaurant,Office/Housing,,"Hotels, Restaurants & Leisure",253010
+Appliances customer service,Office/Housing,,Household Durables,252010
+Solar energy company,Office/Housing,Office/Housing,Independent Power and Renewable Electricity Producers,551050
+Solar energy system service,Office/Housing,Office/Housing,Independent Power and Renewable Electricity Producers,551050
+Holding company,Office/Housing,,Industrial Conglomerates,201050
+Auto insurance agency,Office/Housing,,Insurance,403010
+Health insurance agency,Office/Housing,,Insurance,403010
+Home insurance agency,Office/Housing,,Insurance,403010
+Insurance,Office/Housing,,Insurance,403010
+Insurance agency,Office/Housing,,Insurance,403010
+Insurance broker,Office/Housing,,Insurance,403010
+Insurance company,Office/Housing,,Insurance,403010
+Life insurance agency,Office/Housing,,Insurance,403010
+Life Insurance Agency,Office/Housing,,Insurance,403010
+Loss adjuster,Office/Housing,,Insurance,403010
+Computer consultant,Office/Housing,,IT Services,451020
+Computer security service,Office/Housing,,IT Services,451020
+Computer service,Office/Housing,,IT Services,451020
+Computer support and services,Office/Housing,,IT Services,451020
+Data entry service,Office/Housing,,IT Services,451020
+Data recovery service,Office/Housing,,IT Services,451020
+E commerce agency,Office/Housing,,IT Services,451020
+Event technology service,Office/Housing,,IT Services,451020
+Information services,Office/Housing,,IT Services,451020
+IT support and services,Office/Housing,,IT Services,451020
+Mapping service,Office/Housing,,IT Services,451020
+Software training institute,Office/Housing,,IT Services,451020
+Website designer,Office/Housing,,IT Services,451020
+Outdoor activity organiser,Office/Housing,,Leisure Products,252020
+Fabrication engineer,Office/Housing,Office/Housing,Machinery,201060
+Plant and machinery hire,Office/Housing,,Machinery,201060
+Animation studio,Office/Housing,,Media,502010
+Book publisher,Office/Housing,,Media,502010
+DJ service,Office/Housing,,Media,502010
+Film production company,Office/Housing,,Media,502010
+Media company,Office/Housing,,Media,502010
+Media house,Office/Housing,,Media,502010
+Movie studio,Office/Housing,,Media,502010
+music management and promotion,Office/Housing,,Media,502010
+Music producer,Office/Housing,,Media,502010
+Music publisher,Office/Housing,,Media,502010
+news service,Office/Housing,,Media,502010
+Newspaper publisher,Office/Housing,,Media,502010
+Photo agency,Office/Housing,,Media,502010
+Photography studio,Office/Housing,,Media,502010
+Publisher,Office/Housing,,Media,502010
+Radio broadcaster,Office/Housing,,Media,502010
+Record company,Office/Housing,,Media,502010
+recording studio,Office/Housing,,Media,502010
+Television station,Office/Housing,Other (20km buffer area of influence),Media,502010
+Video production service,Office/Housing,,Media,502010
+Mortgage broker,Office/Housing,,"Mortgage Real Estate Investment Trusts (REITs)",
+Mortgage lender,Office/Housing,,"Mortgage Real Estate Investment Trusts (REITs)",
+army facility,Office/Housing,,Office REITs,601040
+chartered surveyor,Office/Housing,,Office REITs,601040
+check cashing service,Office/Housing,,Office REITs,601040
+child care agency,Office/Housing,,Office REITs,601040
+city district office,Office/Housing,,Office REITs,601040
+city government office,Office/Housing,,Office REITs,601040
+commercial real estate inspector,Office/Housing,,Office REITs,601040
+coworking space,Office/Housing,,Office REITs,601040
+cultural center,Office/Housing,,Office REITs,601040
+customs office,Office/Housing,,Office REITs,601040
+online share trading center,Office/Housing,,Office REITs,601040
+regional council,Office/Housing,,Office REITs,601040
+state government office,Office/Housing,,Office REITs,601040
+tourist information center,Office/Housing,,Office REITs,601040
+urban planning department,Office/Housing,,Office REITs,601040
+Gas installation service,Office/Housing,,"Oil, Gas & Consumable Fuels",101020
+Airline ticket agency,Office/Housing,Office/Housing,Passenger Airlines,203020
+Animal protection organization,Office/Housing,,Professional Services,202020
+Business related,Office/Housing,,Professional Services,202020
+Day care center,Office/Housing,,Professional Services,202020
+Foreign exchange students organization,Office/Housing,,Professional Services,202020
+Homeopath,Office/Housing,,Professional Services,202020
+Internet marketing service,Office/Housing,Office/Housing,Professional Services,202020
+Market researcher,Office/Housing,Office/Housing,Professional Services,202020
+Private investigator,Office/Housing,,Professional Services,202020
+Professional services,Office/Housing,,Professional Services,202020
+Research and product development,Office/Housing,Office/Housing,Professional Services,202020
+Apartment building,Office/Housing,,Real Estate Management & Development,602010
+Apartment complex,Office/Housing,,Real Estate Management & Development,602010
+Apartment rental agency,Office/Housing,,Real Estate Management & Development,602010
+Apartments,Office/Housing,,Real Estate Management & Development,602010
+Association / Organization,Office/Housing,,Real Estate Management & Development,602010
+Boarding house,Office/Housing,,Real Estate Management & Development,602010
+Business center,Office/Housing,,Real Estate Management & Development,602010
+business centre,Office/Housing,,Real Estate Management & Development,602010
+Business park,Office/Housing,,Real Estate Management & Development,602010
+business park,Office/Housing,,Real Estate Management & Development,602010
+Commercial real estate agency,Office/Housing,,Real Estate Management & Development,602010
+Company,Office/Housing,,Real Estate Management & Development,602010
+Company registry,Office/Housing,,Real Estate Management & Development,602010
+Condominium complex,Office/Housing,,Real Estate Management & Development,602010
+Condominium rental agency,Office/Housing,,Real Estate Management & Development,602010
+Conference center,Office/Housing,,Real Estate Management & Development,602010
+Corporate campus,Office/Housing,,Real Estate Management & Development,602010
+Corporate office,Office/Housing,,Real Estate Management & Development,602010
+Cottage,Office/Housing,,Real Estate Management & Development,602010
+Custom home builder,Office/Housing,,Real Estate Management & Development,602010
+District office,Office/Housing,,Real Estate Management & Development,602010
+Estate Agent,Office/Housing,,Real Estate Management & Development,602010
+Flat Complex,Office/Housing,,Real Estate Management & Development,602010
+Furnished apartment building,Office/Housing,,Real Estate Management & Development,602010
+Gated community,Office/Housing,,Real Estate Management & Development,602010
+Halfway house,Office/Housing,,Real Estate Management & Development,602010
+Home builder,Office/Housing,,Real Estate Management & Development,602010
+Housing authority,Office/Housing,,Real Estate Management & Development,602010
+Housing complex,Office/Housing,,Real Estate Management & Development,602010
+housing cooperative,Office/Housing,,Real Estate Management & Development,602010
+Housing development,Office/Housing,,Real Estate Management & Development,602010
+Housing society,Office/Housing,,Real Estate Management & Development,602010
+HQ,Office/Housing,,Real Estate Management & Development,602010
+Industrial real estate agency,Office/Housing,,Real Estate Management & Development,602010
+Mobile home park,Office/Housing,,Real Estate Management & Development,602010
+Office,Office/Housing,,Real Estate Management & Development,602010
+Office of Vital Records,Office/Housing,,Real Estate Management & Development,602010
+Office space rental agency,Office/Housing,,Real Estate Management & Development,602010
+Parking lot,Office/Housing,,Real Estate Management & Development,602010
+Property Developer,Office/Housing,,Real Estate Management & Development,602010
+Property investment company,Office/Housing,,Real Estate Management & Development,602010
+Property management company,Office/Housing,,Real Estate Management & Development,602010
+Real estate,Office/Housing,,Real Estate Management & Development,602010
+Real estate agency,Office/Housing,,Real Estate Management & Development,602010
+Real Estate Agency,Office/Housing,,Real Estate Management & Development,602010
+Real estate agent,Office/Housing,,Real Estate Management & Development,602010
+Real estate appraiser,Office/Housing,,Real Estate Management & Development,602010
+Real estate auctioneer,Office/Housing,,Real Estate Management & Development,602010
+Real estate consultant,Office/Housing,,Real Estate Management & Development,602010
+Real estate developer,Office/Housing,,Real Estate Management & Development,602010
+real estate related services,Office/Housing,,Real Estate Management & Development,602010
+Real estate rental agency,Office/Housing,,Real Estate Management & Development,602010
+Registered Head Offices,Office/Housing,,Real Estate Management & Development,602010
+Technology park,Office/Housing,,Real Estate Management & Development,602010
+Tenant ownership,Office/Housing,,Real Estate Management & Development,602010
+Title company,Office/Housing,,Real Estate Management & Development,602010
+Villa,Office/Housing,,Real Estate Management & Development,602010
+department of housing,Office/Housing,,Residential REITs,601060
+homes,Office/Housing,,Residential REITs,601060
+senior citizen center,Office/Housing,,Residential REITs,601060
+townhouse complex,Office/Housing,,Residential REITs,601060
+Accounting software company,Office/Housing,,Software,451030
+mosque,Office/Housing,,Specialized REITs,601080
+planetarium,Office/Housing,,Specialized REITs,601080
+preschool,Office/Housing,,Specialized REITs,601080
+primary school,Office/Housing,,Specialized REITs,601080
+Private college,Office/Housing,,Specialized REITs,601080
+public university,Office/Housing,,Specialized REITs,601080
+public works department,Office/Housing,,Specialized REITs,601080
+rail museum,Office/Housing,,Specialized REITs,601080
+Photography service,Office/Housing,,Specialty Retail,255040
+Computers,Office/Housing,Office/Housing,"Technology Hardware, Storage & Peripherals",452020
+Embroidery service,Office/Housing,Office/Housing,"Textiles, Apparel & Luxury Goods",252030
+Fashion designer,Office/Housing,,"Textiles, Apparel & Luxury Goods",252030
+Jewelry designer,Office/Housing,,"Textiles, Apparel & Luxury Goods",252030
+Textile engineer,Office/Housing,,"Textiles, Apparel & Luxury Goods",252030
+Agricultural association,Office/Housing,Office/Housing,Trading Companies & Distributors,201070
+Auction house,Office/Housing,,Trading Companies & Distributors,201070
+Trading company,Office/Housing,,Trading Companies & Distributors,201070
+Yacht broker,Office/Housing,,Trading Companies & Distributors,201070
+Water utility company,Office/Housing,,Water Utilities,551040
+Diesel fuel supplier,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+Fuel supplier,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+Gas company,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+gas company,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+Gas Infrastructure,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+heating oil supplier,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+lgn_terminals,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+Oil & natural gas company,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+Oil and gas exploration service,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+Oil and Gas Extraction,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+Oil and Gas Plant,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+Oil and Gas Refining,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+Oil depot,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+Oil industry container,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+Oil refinery,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+Oil wholesaler,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+oil_and_gas_plant,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+oil-and-gas-refining,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+Oilfield,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+oilgas_mines,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+Petroleum products company,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+Propane supplier,Oil & Gas Facilities,,"Oil, Gas & Consumable Fuels",101020
+Biotechnology company,R&D Facility,,Biotechnology,352010
+Chemistry lab,R&D Facility,,Chemicals,151010
+asbestos testing service,R&D Facility,,Commercial Services & Supplies,202010
+research engineer,R&D Facility,,Commercial Services & Supplies,202010
+Research institute,R&D Facility,,Commercial Services & Supplies,202010
+soil testing service,R&D Facility,,Commercial Services & Supplies,202010
+Water testing service,R&D Facility,,Commercial Services & Supplies,202010
+Dental laboratory,R&D Facility,R&D Facility,Health Care Equipment & Supplies,351010
+Laboratory,R&D Facility,R&D Facility,Health Care Equipment & Supplies,351010
+Drug testing service,R&D Facility,R&D Facility,Health Care Providers & Services,351020
+Medical laboratory,R&D Facility,,Health Care Providers & Services,351020
+MRI center,R&D Facility,R&D Facility,Health Care Providers & Services,351020
+X-ray lab,R&D Facility,R&D Facility,Health Care Providers & Services,351020
+Biochemistry lab,R&D Facility,,Life Sciences Tools & Services,352030
+Nanotechnology engineering service,R&D Facility,,Machinery,201060
+Pharmaceutical lab,R&D Facility,,Pharmaceuticals,352020
+Gun shop,Retail,,Aerospace & Defense,201010
+Auto body shop,Retail,Retail,Automobile Components,251010
+Auto glass shop,Retail,,Automobile Components,251010
+Auto machine shop,Retail,Retail,Automobile Components,251010
+Auto parts market,Retail,,Automobile Components,251010
+Auto parts store,Retail,,Automobile Components,251010
+Auto repair shop,Retail,Retail,Automobile Components,251010
+Auto spring shop,Retail,Retail,Automobile Components,251010
+Brake shop,Retail,Retail,Automobile Components,251010
+Car accessories store,Retail,,Automobile Components,251010
+Motorcycle parts store,Retail,,Automobile Components,251010
+Tire shop,Retail,,Automobile Components,251010
+Transmission shop,Retail,Retail,Automobile Components,251010
+Wheel store,Retail,,Automobile Components,251010
+Acura dealer,Retail,,Automobiles,251020
+Aston Martin dealer,Retail,,Automobiles,251020
+ATV dealer,Retail,,Automobiles,251020
+audi dealer,Retail,,Automobiles,251020
+auto accessories wholesaler,Retail,,Automobiles,251020
+auto electrical service,Retail,,Automobiles,251020
+Auto market,Retail,,Automobiles,251020
+Bentley dealer,Retail,,Automobiles,251020
+BMW dealer,Retail,,Automobiles,251020
+Boat dealer,Retail,,Automobiles,251020
+Buick dealer,Retail,,Automobiles,251020
+Car dealer,Retail,,Automobiles,251020
+Cars,Retail,,Automobiles,251020
+Chevrolet dealer,Retail,,Automobiles,251020
+Electric motor store,Retail,,Automobiles,251020
+Ferrari dealer,Retail,,Automobiles,251020
+Fiat dealer,Retail,,Automobiles,251020
+Ford dealer,Retail,,Automobiles,251020
+Gas and automotive,Retail,,Automobiles,251020
+Honda dealer,Retail,,Automobiles,251020
+Hyundai dealer,Retail,,Automobiles,251020
+Isuzu dealer,Retail,,Automobiles,251020
+Land Rover dealer,Retail,,Automobiles,251020
+Lincoln dealer,Retail,,Automobiles,251020
+Mazda dealer,Retail,,Automobiles,251020
+Mercedes-Benz dealer,Retail,,Automobiles,251020
+Mitsubishi dealer,Retail,,Automobiles,251020
+Motor scooter dealer,Retail,,Automobiles,251020
+Motor vehicle dealer,Retail,,Automobiles,251020
+Motorbike dealer,Retail,,Automobiles,251020
+Motorcycle dealer,Retail,,Automobiles,251020
+Motorcycle shop,Retail,,Automobiles,251020
+Nissan dealer,Retail,,Automobiles,251020
+Peugeot dealer,Retail,,Automobiles,251020
+Porsche dealer,Retail,,Automobiles,251020
+Powersports vehicle dealer,Retail,,Automobiles,251020
+Race car dealer,Retail,,Automobiles,251020
+Renault dealer,Retail,,Automobiles,251020
+RV dealer,Retail,,Automobiles,251020
+Snowmobile dealer,Retail,,Automobiles,251020
+Subaru dealer,Retail,,Automobiles,251020
+Suzuki dealer,Retail,,Automobiles,251020
+Tesla showroom,Retail,,Automobiles,251020
+Toyota dealer,Retail,,Automobiles,251020
+Tractor dealer,Retail,,Automobiles,251020
+Trailer dealer,Retail,,Automobiles,251020
+Truck dealer,Retail,,Automobiles,251020
+Used car dealer,Retail,,Automobiles,251020
+Used truck dealer,Retail,,Automobiles,251020
+Volkswagen dealer,Retail,,Automobiles,251020
+Volvo dealer,Retail,,Automobiles,251020
+beer store,Retail,,Beverages,302010
+Agricultural product wholesaler,Retail,Retail,Broadline Retail,255030
+Cash and carry wholesaler,Retail,Retail,Broadline Retail,255030
+Clothing store,Retail,Retail,Broadline Retail,255030
+Department store,Retail,,Broadline Retail,255030
+Discount store,Retail,,Broadline Retail,255030
+Dollar store,Retail,,Broadline Retail,255030
+General store,Retail,,Broadline Retail,255030
+Outlet mall,Retail,,Broadline Retail,255030
+Outlet store,Retail,,Broadline Retail,255030
+Produce wholesaler,Retail,Retail,Broadline Retail,255030
+Retail,Retail,,Broadline Retail,255030
+Shop,Retail,,Broadline Retail,255030
+Shopping mall,Retail,,Broadline Retail,255030
+Shops and Shopping,Retail,,Broadline Retail,255030
+Sporting goods store,Retail,Retail,Broadline Retail,255030
+Sportswear store,Retail,Retail,Broadline Retail,255030
+Store,Retail,Retail,Broadline Retail,255030
+Stores and shopping,Retail,,Broadline Retail,255030
+Variety store,Retail,,Broadline Retail,255030
+Wholesale bakery,Retail,Retail,Broadline Retail,255030
+Wholesale plant nursery,Retail,Retail,Broadline Retail,255030
+Bathroom supply store,Retail,,Building Products,201020
+Building materials market,Retail,,Building Products,201020
+Building materials store,Retail,,Building Products,201020
+Construction material wholesaler,Retail,Retail,Building Products,201020
+Countertop store,Retail,,Building Products,201020
+Flooring Shop,Retail,,Building Products,201020
+Glass & mirror shop,Retail,,Building Products,201020
+Glass shop,Retail,,Building Products,201020
+Home improvement store,Retail,,Building Products,201020
+Insulation materials store,Retail,,Building Products,201020
+Kitchen supply store,Retail,,Building Products,201020
+Lighting store,Retail,,Building Products,201020
+Masonry supply store,Retail,,Building Products,201020
+Paint store,Retail,,Building Products,201020
+Plumbing supply store,Retail,,Building Products,201020
+Roofing supply store,Retail,,Building Products,201020
+Chemical wholesaler,Retail,Retail,Chemicals,151010
+Industrial chemicals wholesaler,Retail,Retail,Chemicals,151010
+Air conditioning repair service,Retail,Retail,Commercial Services & Supplies,202010
+Appliance repair service,Retail,Retail,Commercial Services & Supplies,202010
+Copier repair service,Retail,Retail,Commercial Services & Supplies,202010
+Crane dealer,Retail,,Commercial Services & Supplies,202010
+Diesel engine repair service,Retail,Retail,Commercial Services & Supplies,202010
+Electronics repair shop,Retail,,Commercial Services & Supplies,202010
+Farm equipment repair service,Retail,Retail,Commercial Services & Supplies,202010
+FMCG goods wholesaler,Retail,Retail,Commercial Services & Supplies,202010
+Forklift dealer,Retail,Retail,Commercial Services & Supplies,202010
+gas logs supplier,Retail,,Commercial Services & Supplies,202010
+Glass repair service,Retail,Retail,Commercial Services & Supplies,202010
+Machine shop,Retail,Retail,Commercial Services & Supplies,202010
+Metal working shop,Retail,Retail,Commercial Services & Supplies,202010
+musical instrument repair shop,Retail,,Commercial Services & Supplies,202010
+Office accessories wholesaler,Retail,Retail,Commercial Services & Supplies,202010
+Office equipment repair service,Retail,Retail,Commercial Services & Supplies,202010
+Office supply store,Retail,,Commercial Services & Supplies,202010
+Office supply wholesaler,Retail,Retail,Commercial Services & Supplies,202010
+Oil Store,Retail,Retail,Commercial Services & Supplies,202010
+Photo shop,Retail,,Commercial Services & Supplies,202010
+Printer repair service,Retail,Retail,Commercial Services & Supplies,202010
+Repair service,Retail,Retail,Commercial Services & Supplies,202010
+Repairs,Retail,,Commercial Services & Supplies,202010
+retail space rental agency,Retail,,Commercial Services & Supplies,202010
+Scale repair service,Retail,Retail,Commercial Services & Supplies,202010
+Sign shop,Retail,Retail,Commercial Services & Supplies,202010
+Surplus store,Retail,,Commercial Services & Supplies,202010
+Tool & die shop,Retail,Retail,Commercial Services & Supplies,202010
+Truck repair shop,Retail,,Commercial Services & Supplies,202010
+Welding supply store,Retail,,Commercial Services & Supplies,202010
+ATM,Retail,,Consumer Finance,402020
+Cheque cashing service,Retail,,Consumer Finance,402020
+Alcoholic beverage wholesaler,Retail,Retail,Consumer Staples Distribution & Retail,301010
+Animal feed store,Retail,,Consumer Staples Distribution & Retail,301010
+Asian grocery store,Retail,,Consumer Staples Distribution & Retail,301010
+"Bakery, Sweet shop, Chocolate shop, Food manufacturer, Supermarket",Retail,,Consumer Staples Distribution & Retail,301010
+Beauty products wholesaler,Retail,Retail,Consumer Staples Distribution & Retail,301010
+Butcher shop,Retail,,Consumer Staples Distribution & Retail,301010
+Cafe,Retail,,Consumer Staples Distribution & Retail,301010
+Cake shop,Retail,,Consumer Staples Distribution & Retail,301010
+Candy store,Retail,,Consumer Staples Distribution & Retail,301010
+Catering food and drink supplier,Retail,,Consumer Staples Distribution & Retail,301010
+Cheese shop,Retail,,Consumer Staples Distribution & Retail,301010
+Chocolate shop,Retail,,Consumer Staples Distribution & Retail,301010
+Coffee wholesaler,Retail,Retail,Consumer Staples Distribution & Retail,301010
+"Coffee wholesaler, Coffee shop",Retail,,Consumer Staples Distribution & Retail,301010
+confectionery store,Retail,,Consumer Staples Distribution & Retail,301010
+Confectionery wholesaler,Retail,Retail,Consumer Staples Distribution & Retail,301010
+Convenience store,Retail,,Consumer Staples Distribution & Retail,301010
+convenience store,Retail,,Consumer Staples Distribution & Retail,301010
+Cured ham store,Retail,,Consumer Staples Distribution & Retail,301010
+Dairy store,Retail,,Consumer Staples Distribution & Retail,301010
+Diaper service,Retail,,Consumer Staples Distribution & Retail,301010
+Discount supermarket,Retail,,Consumer Staples Distribution & Retail,301010
+Drug store,Retail,,Consumer Staples Distribution & Retail,301010
+Farm shop,Retail,,Consumer Staples Distribution & Retail,301010
+Food and drink,Retail,,Consumer Staples Distribution & Retail,301010
+Food store,Retail,,Consumer Staples Distribution & Retail,301010
+Fresh food market,Retail,,Consumer Staples Distribution & Retail,301010
+Frozen food store,Retail,,Consumer Staples Distribution & Retail,301010
+Fruits wholesaler,Retail,Retail,Consumer Staples Distribution & Retail,301010
+Gourmet grocery store,Retail,,Consumer Staples Distribution & Retail,301010
+Grocery store,Retail,,Consumer Staples Distribution & Retail,301010
+Health food shop,Retail,,Consumer Staples Distribution & Retail,301010
+Health food store,Retail,,Consumer Staples Distribution & Retail,301010
+Herb shop,Retail,,Consumer Staples Distribution & Retail,301010
+Household goods wholesaler,Retail,Retail,Consumer Staples Distribution & Retail,301010
+Hypermarket,Retail,,Consumer Staples Distribution & Retail,301010
+indian grocery store,Retail,,Consumer Staples Distribution & Retail,301010
+Industrial supermarket,Retail,,Consumer Staples Distribution & Retail,301010
+japanese delicatessen,Retail,,Consumer Staples Distribution & Retail,301010
+japanese grocery store,Retail,,Consumer Staples Distribution & Retail,301010
+Liquor store,Retail,,Consumer Staples Distribution & Retail,301010
+Market,Retail,,Consumer Staples Distribution & Retail,301010
+Meat products store,Retail,,Consumer Staples Distribution & Retail,301010
+Meat wholesaler,Retail,Retail,Consumer Staples Distribution & Retail,301010
+"Meat wholesaler, Butchers",Retail,,Consumer Staples Distribution & Retail,301010
+Mexican grocery store,Retail,,Consumer Staples Distribution & Retail,301010
+Mineral water wholesaler,Retail,Retail,Consumer Staples Distribution & Retail,301010
+Natural goods store,Retail,,Consumer Staples Distribution & Retail,301010
+organic shop,Retail,,Consumer Staples Distribution & Retail,301010
+Produce market,Retail,,Consumer Staples Distribution & Retail,301010
+Seafood market,Retail,,Consumer Staples Distribution & Retail,301010
+Soft drinks shop,Retail,,Consumer Staples Distribution & Retail,301010
+Supermarket,Retail,,Consumer Staples Distribution & Retail,301010
+train ticket agency,Retail,,Consumer Staples Distribution & Retail,301010
+Vegetable wholesale market,Retail,Retail,Consumer Staples Distribution & Retail,301010
+vending machine,Retail,,Consumer Staples Distribution & Retail,301010
+Wholesale drugstore,Retail,,Consumer Staples Distribution & Retail,301010
+wholesale food store,Retail,,Consumer Staples Distribution & Retail,301010
+Wholesale grocer,Retail,,Consumer Staples Distribution & Retail,301010
+Wholesale market,Retail,Retail,Consumer Staples Distribution & Retail,301010
+Wholesaler,Retail,Retail,Consumer Staples Distribution & Retail,301010
+Wine store,Retail,,Consumer Staples Distribution & Retail,301010
+Packaging supply store,Retail,,Containers & Packaging,151030
+rice dealer,Retail,,Distributors,255010
+Bicycle Shop,Retail,,Diversified Consumer Services,253020
+Car repair and maintenance service,Retail,Retail,Diversified Consumer Services,253020
+Car wash,Retail,,Diversified Consumer Services,253020
+Clock repair service,Retail,Retail,Diversified Consumer Services,253020
+Mobile phone repair shop,Retail,,Diversified Consumer Services,253020
+Watch repair service,Retail,Retail,Diversified Consumer Services,253020
+Electric generator shop,Retail,Retail,Electrical Equipment,201040
+Electrical products wholesaler,Retail,Retail,Electrical Equipment,201040
+Electrical supply shop,Retail,,Electrical Equipment,201040
+Electrical supply store,Retail,Retail,Electrical Equipment,201040
+Computer wholesaler,Retail,Retail,"Electronic Equipment, Instruments & Components",452030
+Electrical and electronics stores,Retail,,"Electronic Equipment, Instruments & Components",452030
+Electronics,Retail,,"Electronic Equipment, Instruments & Components",452030
+Electronics accessories wholesaler,Retail,Retail,"Electronic Equipment, Instruments & Components",452030
+Electronics store,Retail,,"Electronic Equipment, Instruments & Components",452030
+Electronics wholesaler,Retail,Retail,"Electronic Equipment, Instruments & Components",452030
+Entertainment,Retail,Other (5km buffer area of influence),Entertainment,502020
+Event ticket seller,Retail,,Entertainment,502020
+IMAX theater,Retail,Other (5km buffer area of influence),Entertainment,502020
+Bakery,Retail,Retail,Food Products,302020
+"Butchers, Off Licence",Retail,,Food Products,302020
+"Food manufacturing supply, Chicken restaurant",Retail,,Food Products,302020
+"Manufacturer, Confectionery store",Retail,Retail,Food Products,302020
+Dental supply store,Retail,,Health Care Equipment & Supplies,351010
+Hearing aid store,Retail,,Health Care Equipment & Supplies,351010
+homeopathic pharmacy,Retail,,Health Care Equipment & Supplies,351010
+Optical wholesaler,Retail,Retail,Health Care Equipment & Supplies,351010
+Pharmaceutical products wholesaler,Retail,Retail,Health Care Equipment & Supplies,351010
+Surgical products wholesaler,Retail,Retail,Health Care Equipment & Supplies,351010
+Surgical supply store,Retail,,Health Care Equipment & Supplies,351010
+Optician,Retail,,Health Care Providers & Services,351020
+veterinary pharmacy,Retail,,Health Care Providers & Services,351020
+Adventure sports center,Retail,Other (5km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+American restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Amusement center,Retail,Other (20km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+Amusement park,Retail,Other (20km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+Aquarium,Retail,Other (20km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+attraction,Retail,,"Hotels, Restaurants & Leisure",253010
+Authentic Japanese restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Bar,Retail,,"Hotels, Restaurants & Leisure",253010
+Barbecue restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Beer hall,Retail,,"Hotels, Restaurants & Leisure",253010
+Breakfast restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Brewpub,Retail,,"Hotels, Restaurants & Leisure",253010
+Buffet restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+"Cafe, Coffee shop",Retail,,"Hotels, Restaurants & Leisure",253010
+cafeteria,Retail,,"Hotels, Restaurants & Leisure",253010
+cantonese restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Caterer,Retail,,"Hotels, Restaurants & Leisure",253010
+Champon noodle restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Chicken restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+chicken shop,Retail,,"Hotels, Restaurants & Leisure",253010
+Chicken wings restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Chinese restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+"Coffee roasters, Coffee shop",Retail,,"Hotels, Restaurants & Leisure",253010
+Coffee shop,Retail,,"Hotels, Restaurants & Leisure",253010
+Conveyor belt sushi restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+country club,Retail,,"Hotels, Restaurants & Leisure",253010
+day spa,Retail,,"Hotels, Restaurants & Leisure",253010
+Deli,Retail,,"Hotels, Restaurants & Leisure",253010
+Delivery Restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Dessert restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+dim sum restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Diner,Retail,,"Hotels, Restaurants & Leisure",253010
+Donut shop,Retail,,"Hotels, Restaurants & Leisure",253010
+dumpling restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Family restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Fast food restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Festival,Retail,Other (20km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+Filipino restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Food court,Retail,,"Hotels, Restaurants & Leisure",253010
+food delivery,Retail,,"Hotels, Restaurants & Leisure",253010
+Food service,Retail,,"Hotels, Restaurants & Leisure",253010
+French restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Fusion restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+gambling house,Retail,,"Hotels, Restaurants & Leisure",253010
+Gastropub,Retail,,"Hotels, Restaurants & Leisure",253010
+Golf driving range,Retail,Other (20km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+grill store,Retail,,"Hotels, Restaurants & Leisure",253010
+Gyudon restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Hair salon,Retail,,"Hotels, Restaurants & Leisure",253010
+Hamburger restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+hawker stall,Retail,,"Hotels, Restaurants & Leisure",253010
+Health food restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Hong Kong style fast food restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Hot pot restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Ice cream shop,Retail,,"Hotels, Restaurants & Leisure",253010
+Indian restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+indonesian restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Indoor golf course,Retail,Other (20km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+Italian restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Japanese restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+juice shop,Retail,,"Hotels, Restaurants & Leisure",253010
+Korean restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Lounge,Retail,,"Hotels, Restaurants & Leisure",253010
+malaysian restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+massage spa,Retail,,"Hotels, Restaurants & Leisure",253010
+meal delivery,Retail,,"Hotels, Restaurants & Leisure",253010
+Mexican restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Mobile caterer,Retail,,"Hotels, Restaurants & Leisure",253010
+Night club,Retail,Other (5km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+noodle shop,Retail,,"Hotels, Restaurants & Leisure",253010
+North Indian restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+pastry shop,Retail,,"Hotels, Restaurants & Leisure",253010
+Pizza delivery,Retail,,"Hotels, Restaurants & Leisure",253010
+Pizza restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Pizza Takeout,Retail,,"Hotels, Restaurants & Leisure",253010
+Raft trip outfitter,Retail,Other (5km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+Ramen restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Restaurant supply store,Retail,,"Hotels, Restaurants & Leisure",253010
+Salad shop,Retail,,"Hotels, Restaurants & Leisure",253010
+Sandwich shop,Retail,,"Hotels, Restaurants & Leisure",253010
+Screen golf driving range,Retail,Other (20km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+Seafood restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+self service restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Shabu-shabu restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+shanghainese restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Shared-use commercial kitchen,Retail,,"Hotels, Restaurants & Leisure",253010
+sichuan restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Sports bar,Retail,,"Hotels, Restaurants & Leisure",253010
+Steak house,Retail,,"Hotels, Restaurants & Leisure",253010
+Sukiyaki and Shabu Shabu restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Sushi restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Takeout Restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Tea Shop,Retail,,"Hotels, Restaurants & Leisure",253010
+Tex-Mex restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Thai restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Theme park,Retail,Other (20km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+thermal baths,Retail,,"Hotels, Restaurants & Leisure",253010
+Tourist attraction,Retail,Other (5km buffer area of influence),"Hotels, Restaurants & Leisure",253010
+tours,Retail,,"Hotels, Restaurants & Leisure",253010
+Traditional American restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Turkish restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+vegan restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Video arcade,Retail,,"Hotels, Restaurants & Leisure",253010
+Vietnamese restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Wedding venue,Retail,,"Hotels, Restaurants & Leisure",253010
+Yemeni restaurant,Retail,,"Hotels, Restaurants & Leisure",253010
+Air conditioning store,Retail,,Household Durables,252010
+Appliance store,Retail,,Household Durables,252010
+Appliances,Retail,,Household Durables,252010
+Carpet store,Retail,,Household Durables,252010
+Flooring store,Retail,,Household Durables,252010
+Furniture,Retail,,Household Durables,252010
+Furniture store,Retail,,Household Durables,252010
+Furniture wholesaler,Retail,Retail,Household Durables,252010
+home appliances,Retail,,Household Durables,252010
+Home goods store,Retail,,Household Durables,252010
+home improvement shop,Retail,,Household Durables,252010
+Kitchen Furniture Shop,Retail,,Household Durables,252010
+Lawn mower store,Retail,,Household Durables,252010
+Mattress store,Retail,,Household Durables,252010
+Mobile home dealer,Retail,,Household Durables,252010
+Office furniture store,Retail,,Household Durables,252010
+Outdoor furniture store,Retail,,Household Durables,252010
+Refrigerator store,Retail,,Household Durables,252010
+Swimming pool repair service,Retail,Retail,Household Durables,252010
+Swimming pool supply store,Retail,,Household Durables,252010
+Wallpaper store,Retail,,Household Durables,252010
+Wholesaler household appliances,Retail,Retail,Household Durables,252010
+chinaware store,Retail,,Household Products,303010
+door shop,Retail,,Household Products,303010
+Electrical appliance wholesaler,Retail,Retail,Household Products,303010
+Glassware wholesaler,Retail,Retail,Household Products,303010
+kitchen furniture store,Retail,,Household Products,303010
+Linens store,Retail,,Household Products,303010
+plywood supplier,Retail,,Household Products,303010
+pneumatic tools supplier,Retail,,Household Products,303010
+Computer repair service,Retail,,IT Services,451020
+Internet shop,Retail,,IT Services,451020
+Camping store,Retail,,Leisure Products,252020
+Exercise equipment store,Retail,,Leisure Products,252020
+Fitness equipment wholesaler,Retail,Retail,Leisure Products,252020
+Golf shop,Retail,,Leisure Products,252020
+Musical instrument store,Retail,,Leisure Products,252020
+Running store,Retail,,Leisure Products,252020
+Skateboard shop,Retail,Retail,Leisure Products,252020
+ski rental service,Retail,,Leisure Products,252020
+Diesel engine dealer,Retail,,Machinery,201060
+Industrial spares and products wholesaler,Retail,Retail,Machinery,201060
+Millwork shop,Retail,Retail,Machinery,201060
+Tool wholesaler,Retail,Retail,Machinery,201060
+Marine supply store,Retail,,Marine Transportation,203030
+Bookbinder,Retail,,Media,502010
+cinema,Retail,,Media,502010
+game store,Retail,,Media,502010
+live music venue,Retail,,Media,502010
+Movie theater,Retail,Other (5km buffer area of influence),Media,502010
+music,Retail,,Media,502010
+Print shop,Retail,Retail,Media,502010
+Coin dealer,Retail,,Metals & Mining,151040
+Gold dealer,Retail,,Metals & Mining,151040
+Scrap metal dealer,Retail,Retail,Metals & Mining,151040
+Alternative fuel station,Retail,Retail,"Oil, Gas & Consumable Fuels",101020
+Compressed natural gas station,Retail,Retail,"Oil, Gas & Consumable Fuels",101020
+Gas shop,Retail,Retail,"Oil, Gas & Consumable Fuels",101020
+Gas station,Retail,,"Oil, Gas & Consumable Fuels",101020
+petrol station,Retail,Retail,"Oil, Gas & Consumable Fuels",101020
+Lumber store,Retail,,Paper & Forest Products,151050
+Stationery store,Retail,,Paper & Forest Products,151050
+Woodworking supply store,Retail,,Paper & Forest Products,151050
+Barber supply store,Retail,,Personal Care Products,303020
+Beauty salon,Retail,,Personal Care Products,303020
+Beauty supply store,Retail,,Personal Care Products,303020
+Cosmetics shop,Retail,,Personal Care Products,303020
+Cosmetics store,Retail,,Personal Care Products,303020
+Cosmetics wholesaler,Retail,Retail,Personal Care Products,303020
+Health and beauty shop,Retail,,Personal Care Products,303020
+Hygiene articles wholesaler,Retail,Retail,Personal Care Products,303020
+Perfume store,Retail,,Personal Care Products,303020
+photo lab,Retail,,Personal Care Products,303020
+Vitamin & supplements store,Retail,,Personal Care Products,303020
+chemist,Retail,,Pharmaceuticals,352020
+Chinese medicine store,Retail,,Pharmaceuticals,352020
+Herbal medicine store,Retail,,Pharmaceuticals,352020
+Medical supply store,Retail,,Pharmaceuticals,352020
+Pharmacy,Retail,,Pharmaceuticals,352020
+Florist,Retail,,Professional Services,202020
+Computer software store,Retail,,Software,451030
+aircraft supply shop,Retail,,Specialty Retail,255040
+Aircraft supply store,Retail,,Specialty Retail,255040
+apparel company,Retail,,Specialty Retail,255040
+Art gallery,Retail,,Specialty Retail,255040
+audio visual equipment repair service,Retail,,Specialty Retail,255040
+Baby store,Retail,,Specialty Retail,255040
+Baking supply store,Retail,,Specialty Retail,255040
+Bar restaurant furniture store,Retail,,Specialty Retail,255040
+Bead store,Retail,,Specialty Retail,255040
+bedding store,Retail,,Specialty Retail,255040
+belt shop,Retail,,Specialty Retail,255040
+bicycle rack,Retail,,Specialty Retail,255040
+Bicycle wholesaler,Retail,Retail,Specialty Retail,255040
+bicycles,Retail,,Specialty Retail,255040
+Book store,Retail,,Specialty Retail,255040
+Burglar alarm store,Retail,,Specialty Retail,255040
+Cabinet store,Retail,,Specialty Retail,255040
+Camera store,Retail,,Specialty Retail,255040
+Cannabis store,Retail,,Specialty Retail,255040
+car battery store,Retail,,Specialty Retail,255040
+car detailing service,Retail,,Specialty Retail,255040
+cell phone accessory store,Retail,,Specialty Retail,255040
+Cell phone store,Retail,,Specialty Retail,255040
+children's store,Retail,,Specialty Retail,255040
+clothes market,Retail,,Specialty Retail,255040
+clothing,Retail,,Specialty Retail,255040
+clothing wholesaler,Retail,,Specialty Retail,255040
+Collectibles store,Retail,,Specialty Retail,255040
+condiments supplier,Retail,,Specialty Retail,255040
+consignment shop,Retail,,Specialty Retail,255040
+copy shop,Retail,,Specialty Retail,255040
+Copying supply store,Retail,,Specialty Retail,255040
+diamond dealer,Retail,,Specialty Retail,255040
+Do-it-yourself shop,Retail,,Specialty Retail,255040
+doll store,Retail,,Specialty Retail,255040
+ds automobiles dealer,Retail,,Specialty Retail,255040
+Educational supply store,Retail,,Specialty Retail,255040
+electric motor vehicle dealer,Retail,,Specialty Retail,255040
+electric motorcycle dealer,Retail,,Specialty Retail,255040
+electronics hire shop,Retail,,Specialty Retail,255040
+electronics vending machine,Retail,,Specialty Retail,255040
+figurine shop,Retail,,Specialty Retail,255040
+Fishing store,Retail,,Specialty Retail,255040
+Flag store,Retail,,Specialty Retail,255040
+formal wear store,Retail,,Specialty Retail,255040
+furnace store,Retail,,Specialty Retail,255040
+Garden center,Retail,,Specialty Retail,255040
+Gift basket store,Retail,,Specialty Retail,255040
+Gift shop,Retail,,Specialty Retail,255040
+greeting card shop,Retail,,Specialty Retail,255040
+Handicraft,Retail,,Specialty Retail,255040
+Hobby store,Retail,,Specialty Retail,255040
+Home theater store,Retail,,Specialty Retail,255040
+iron and steel store,Retail,,Specialty Retail,255040
+jaguar dealer,Retail,,Specialty Retail,255040
+kia dealer,Retail,,Specialty Retail,255040
+Landscaping supply store,Retail,,Specialty Retail,255040
+laundromat,Retail,,Specialty Retail,255040
+laundry,Retail,,Specialty Retail,255040
+laundry service,Retail,,Specialty Retail,255040
+Lottery retailer,Retail,,Specialty Retail,255040
+Lottery shop,Retail,,Specialty Retail,255040
+Luggage store,Retail,,Specialty Retail,255040
+mg dealer,Retail,,Specialty Retail,255040
+Mobile Phone Shop,Retail,,Specialty Retail,255040
+motorcycle repair shop,Retail,,Specialty Retail,255040
+novelty store,Retail,,Specialty Retail,255040
+Outdoor clothing and equipment shop,Retail,,Specialty Retail,255040
+Outdoor sports store,Retail,,Specialty Retail,255040
+pet care,Retail,,Specialty Retail,255040
+Pet store,Retail,,Specialty Retail,255040
+Pet supply store,Retail,,Specialty Retail,255040
+pottery store,Retail,,Specialty Retail,255040
+poultry store,Retail,,Specialty Retail,255040
+protective clothing supplier,Retail,,Specialty Retail,255040
+radiator shop,Retail,,Specialty Retail,255040
+reptile store,Retail,,Specialty Retail,255040
+rv supply store,Retail,,Specialty Retail,255040
+Screen printing supply store,Retail,,Specialty Retail,255040
+seal shop,Retail,,Specialty Retail,255040
+seat dealer,Retail,,Specialty Retail,255040
+second hand store,Retail,,Specialty Retail,255040
+shoe shop,Retail,,Specialty Retail,255040
+Showroom,Retail,,Specialty Retail,255040
+Ski shop,Retail,,Specialty Retail,255040
+smart car dealer,Retail,,Specialty Retail,255040
+smoke shop,Retail,,Specialty Retail,255040
+Souvenir store,Retail,,Specialty Retail,255040
+Sports memorabilia store,Retail,,Specialty Retail,255040
+sports nutrition store,Retail,,Specialty Retail,255040
+sunglasses store,Retail,,Specialty Retail,255040
+t-shirt store,Retail,,Specialty Retail,255040
+textile merchant,Retail,,Specialty Retail,255040
+thrift store,Retail,,Specialty Retail,255040
+tile store,Retail,,Specialty Retail,255040
+Tool store,Retail,,Specialty Retail,255040
+Toy store,Retail,,Specialty Retail,255040
+utility trailer dealer,Retail,,Specialty Retail,255040
+vacuum cleaner repair shop,Retail,,Specialty Retail,255040
+vacuum cleaner store,Retail,,Specialty Retail,255040
+vehicle repair shop,Retail,,Specialty Retail,255040
+video conferencing equipment supplier,Retail,,Specialty Retail,255040
+Video game store,Retail,,Specialty Retail,255040
+washer & dryer store,Retail,,Specialty Retail,255040
+waxing hair removal service,Retail,,Specialty Retail,255040
+wheel alignment service,Retail,,Specialty Retail,255040
+window tinting service,Retail,,Specialty Retail,255040
+Wood stove shop,Retail,,Specialty Retail,255040
+yarn store,Retail,,Specialty Retail,255040
+Battery store,Retail,,"Technology Hardware, Storage & Peripherals",452020
+Battery wholesaler,Retail,Retail,"Technology Hardware, Storage & Peripherals",452020
+Computer accessories store,Retail,,"Technology Hardware, Storage & Peripherals",452020
+Computer store,Retail,,"Technology Hardware, Storage & Peripherals",452020
+Hardware store,Retail,,"Technology Hardware, Storage & Peripherals",452020
+Printing equipment and supplies,Retail,,"Technology Hardware, Storage & Peripherals",452020
+Baby clothing store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Bag shop,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Boot store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Boutique,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Children's clothing store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Clothing Shop,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Designer clothing store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Dress store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Duty free store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Fabric store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Fabric wholesaler,Retail,Retail,"Textiles, Apparel & Luxury Goods",252030
+Fashion accessories store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Footwear wholesaler,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Haute couture fashion house,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Jeweler,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Jewellery Store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Jewelry store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Leather goods store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Lingerie store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Lingerie wholesaler,Retail,Retail,"Textiles, Apparel & Luxury Goods",252030
+Men's clothing store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Orthopedic shoe store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Plus size clothing store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Shoe store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Underwear store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Uniform store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Used clothing store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Watch store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Western apparel store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Wholesale jeweler,Retail,Retail,"Textiles, Apparel & Luxury Goods",252030
+Women's clothing store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Work clothes store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+Youth clothing store,Retail,,"Textiles, Apparel & Luxury Goods",252030
+cigar shop,Retail,,Tobacco,302030
+Tobacco shop,Retail,,Tobacco,302030
+Pawn shop,Retail,,Trading Companies & Distributors,201070
+Wine wholesaler and importer,Retail,Retail,Trading Companies & Distributors,201070
+Bay,Transportation and Logistics Facility,,?,
+Airport,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Container service,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Container terminal,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+domestic airport,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Fixed-base operator,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Freight forwarding service,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Freight Forwarding Service,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Helicopter charter,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+International airport,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Logistics,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Logistics service,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Mailing service,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Moving and storage service,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Moving company,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Package locker,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Shipping and mailing,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Shipping and mailing service,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Shipping company,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Transportation service,Transportation and Logistics Facility,,Air Freight & Logistics,203010
+Car rental agency,Transportation and Logistics Facility,,Automobiles,251020
+Garbage collection service,Transportation and Logistics Facility,,Commercial Services & Supplies,202010
+post office/courier,Transportation and Logistics Facility,,Commercial Services & Supplies,202010
+rental car return location,Transportation and Logistics Facility,,Commercial Services & Supplies,202010
+toll road rest stop,Transportation and Logistics Facility,,Commercial Services & Supplies,202010
+towing equipment provider,Transportation and Logistics Facility,,Commercial Services & Supplies,202010
+Towing service,Transportation and Logistics Facility,,Commercial Services & Supplies,202010
+trailer rental service,Transportation and Logistics Facility,,Commercial Services & Supplies,202010
+truck rental agency,Transportation and Logistics Facility,,Commercial Services & Supplies,202010
+vehicle shipping agent,Transportation and Logistics Facility,,Commercial Services & Supplies,202010
+Waste transfer station,Transportation and Logistics Facility,,Commercial Services & Supplies,202010
+Aggregate supplier,Transportation and Logistics Facility,Transportation and Logistics Facility,Construction Materials,151020
+Crushed stone supplier,Transportation and Logistics Facility,Transportation and Logistics Facility,Construction Materials,151020
+Beer distributor,Transportation and Logistics Facility,Transportation and Logistics Facility,Consumer Staples Distribution & Retail,301010
+Beverage distributor,Transportation and Logistics Facility,Transportation and Logistics Facility,Consumer Staples Distribution & Retail,301010
+Milk delivery service,Transportation and Logistics Facility,Transportation and Logistics Facility,Consumer Staples Distribution & Retail,301010
+Courier service,Transportation and Logistics Facility,,Distributors,255010
+Delivery Company,Transportation and Logistics Facility,,Distributors,255010
+Delivery service,Transportation and Logistics Facility,,Distributors,255010
+Distributors,Transportation and Logistics Facility,Transportation and Logistics Facility,Distributors,255010
+Grocery delivery service,Transportation and Logistics Facility,,Distributors,255010
+Grain elevator,Transportation and Logistics Facility,Transportation and Logistics Facility,Food Products,302020
+Bus charter,Transportation and Logistics Facility,,Ground Transportation,203040
+Bus company,Transportation and Logistics Facility,,Ground Transportation,203040
+Bus station,Transportation and Logistics Facility,,Ground Transportation,203040
+Bus stop,Transportation and Logistics Facility,,Ground Transportation,203040
+Mover,Transportation and Logistics Facility,,Ground Transportation,203040
+Public Transport Station,Transportation and Logistics Facility,,Ground Transportation,203040
+Public transportation system,Transportation and Logistics Facility,,Ground Transportation,203040
+Railway services,Transportation and Logistics Facility,,Ground Transportation,203040
+Refrigerated transport service,Transportation and Logistics Facility,,Ground Transportation,203040
+Taxi service,Transportation and Logistics Facility,,Ground Transportation,203040
+Train depot,Transportation and Logistics Facility,,Ground Transportation,203040
+Train station,Transportation and Logistics Facility,,Ground Transportation,203040
+Train yard,Transportation and Logistics Facility,,Ground Transportation,203040
+Truck stop,Transportation and Logistics Facility,,Ground Transportation,203040
+Cruise line company,Transportation and Logistics Facility,,"Hotels, Restaurants & Leisure",253010
+Cruise terminal,Transportation and Logistics Facility,,"Hotels, Restaurants & Leisure",253010
+Travel lounge,Transportation and Logistics Facility,,"Hotels, Restaurants & Leisure",253010
+dock builder,Transportation and Logistics Facility,,Marine Transportation,203030
+harbor,Transportation and Logistics Facility,,Marine Transportation,203030
+Marina,Transportation and Logistics Facility,,Marine Transportation,203030
+seaport,Transportation and Logistics Facility,,Marine Transportation,203030
+Sand & gravel supplier,Transportation and Logistics Facility,Transportation and Logistics Facility,Metals & Mining,151040
+Sand and Gravel Supplier,Transportation and Logistics Facility,Transportation and Logistics Facility,Metals & Mining,151040
+Steel distributor,Transportation and Logistics Facility,Transportation and Logistics Facility,Metals & Mining,151040
+Coal Terminal,Transportation and Logistics Facility,,"Oil, Gas & Consumable Fuels",101020
+coal_terminal,Transportation and Logistics Facility,,"Oil, Gas & Consumable Fuels",101020
+Paper distributor,Transportation and Logistics Facility,Transportation and Logistics Facility,Paper & Forest Products,151050
+Air taxi,Transportation and Logistics Facility,,Passenger Airlines,203020
+Airline,Transportation and Logistics Facility,,Passenger Airlines,203020
+Airplane,Transportation and Logistics Facility,,Passenger Airlines,203020
+Aviation,Transportation and Logistics Facility,,Passenger Airlines,203020
+Aviation industry,Transportation and Logistics Facility,,Passenger Airlines,203020
+Equipment importer,Transportation and Logistics Facility,Transportation and Logistics Facility,Trading Companies & Distributors,201070
+Exporter,Transportation and Logistics Facility,Transportation and Logistics Facility,Trading Companies & Distributors,201070
+Food and beverage exporter,Transportation and Logistics Facility,Transportation and Logistics Facility,Trading Companies & Distributors,201070
+Garment exporter,Transportation and Logistics Facility,Transportation and Logistics Facility,Trading Companies & Distributors,201070
+Import export company,Transportation and Logistics Facility,Transportation and Logistics Facility,Trading Companies & Distributors,201070
+Importer,Transportation and Logistics Facility,,Trading Companies & Distributors,201070
+Perfume exporter,Transportation and Logistics Facility,Transportation and Logistics Facility,Trading Companies & Distributors,201070
+Spice exporter,Transportation and Logistics Facility,Transportation and Logistics Facility,Trading Companies & Distributors,201070
+Textile exporter,Transportation and Logistics Facility,,Trading Companies & Distributors,201070
+Vehicle exporter,Transportation and Logistics Facility,Transportation and Logistics Facility,Trading Companies & Distributors,201070
+bridge,Transportation and Logistics Facility,,Transportation Infrastructure,203050
+Bus depot,Transportation and Logistics Facility,,Transportation Infrastructure,203050
+Ferry terminal,Transportation and Logistics Facility,Transportation and Logistics Facility,Transportation Infrastructure,203050
+metropolitan train company,Transportation and Logistics Facility,,Transportation Infrastructure,203050
+Parking,Transportation and Logistics Facility,,Transportation Infrastructure,203050
+parking garage,Transportation and Logistics Facility,,Transportation Infrastructure,203050
+Port,Transportation and Logistics Facility,,Transportation Infrastructure,203050
+Port authority,Transportation and Logistics Facility,,Transportation Infrastructure,203050
+Port operating company,Transportation and Logistics Facility,,Transportation Infrastructure,203050
+public parking space,Transportation and Logistics Facility,,Transportation Infrastructure,203050
+rest stop,Transportation and Logistics Facility,,Transportation Infrastructure,203050
+Transit depot,Transportation and Logistics Facility,,Transportation Infrastructure,203050
+Transport hub,Transportation and Logistics Facility,,Transportation Infrastructure,203050
+Transportation infrastructure,Transportation and Logistics Facility,,Transportation Infrastructure,203050
+Warehouse club,Warehouse,,Broadline Retail,255030
+Warehouse store,Warehouse,,Broadline Retail,255030
+bottle & can redemption center,Warehouse,,Commercial Services & Supplies,202010
+Cold storage facility,Warehouse,,Consumer Staples Distribution & Retail,301010
+fruit and vegetable wholesaler,Warehouse,,Consumer Staples Distribution & Retail,301010
+lighting products wholesaler,Warehouse,,Consumer Staples Distribution & Retail,301010
+seafood wholesaler,Warehouse,,Consumer Staples Distribution & Retail,301010
+Storage facility,Warehouse,,Consumer Staples Distribution & Retail,301010
+Warehouse,Warehouse,,Consumer Staples Distribution & Retail,301010
+wine storage facility,Warehouse,,Consumer Staples Distribution & Retail,301010
+fertiliser supplier,Warehouse,,Distributors,255010
+medicine exporter,Warehouse,,Distributors,255010
+molding supplier,Warehouse,,Distributors,255010
+"Cold storage facility, Meat processor",Warehouse,,Food Products,302020
+Woods,Warehouse,Other (20km buffer area of influence),Paper & Forest Products,151050
+Records storage facility,Warehouse,,Real Estate Management & Development,602010
+Self-storage facility,Warehouse,,Real Estate Management & Development,602010
+Storage,Warehouse,,Real Estate Management & Development,602010
+car parts wholesaler,Warehouse,,Specialty Retail,255040
+clothes and fabric wholesaler,Warehouse,,Specialty Retail,255040
+Customs warehouse,Warehouse,,Trading Companies & Distributors,201070
+Reservoir,Warehouse,Other (20km buffer area of influence),Water Utilities,551040
+Water Reservoir,Warehouse,Other (20km buffer area of influence),Water Utilities,551040
+unknown,,Other (20km buffer area of influence),,
