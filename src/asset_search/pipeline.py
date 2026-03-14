@@ -97,6 +97,11 @@ def _save_qa(run_dir: Path, qa_report: QAReport) -> None:
 # ---------------------------------------------------------------------------
 # Pipeline
 # ---------------------------------------------------------------------------
+# TODO: Add --start-from <stage> to resume from any stage, loading prior
+# results from Postgres (discovered_urls, scraped_pages, extraction_results,
+# discovered_assets). Also leverages Crawl4AI server-side cache for
+# re-scrapes at 0 credits. Needs: load profile/context_doc from DB or
+# prior run_dir, and wire up stage-skip logic.
 
 async def run(
     isin: str | None,

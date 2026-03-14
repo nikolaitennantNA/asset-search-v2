@@ -133,8 +133,8 @@ class Config:
     scraper_client_timeout_s: float = 120.0
     scraper_strategy: str = "http"
     scraper_default_timeout_ms: int = 30_000
-    scraper_default_proxy: bool = False
-    scraper_default_proxy_mode: str = ""
+    scraper_default_proxy: bool = True
+    scraper_default_proxy_mode: str = "auto"
     scraper_remove_overlays: bool = True
 
     # ── doc-extractor (config.toml [extractor]) ───────────────────────────
