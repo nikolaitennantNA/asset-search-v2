@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 import pytest
 
-from asset_search.config import (
+from asset_discovery.config import (
     _to_pydantic_ai_model,
     _resolve_str,
     _resolve_int,
@@ -99,7 +99,7 @@ def test_resolve_bool_toml_layer():
 
 
 def test_scraper_config_builder():
-    from asset_search.config import Config
+    from asset_discovery.config import Config
     cfg = Config()
     sc = cfg.scraper_config()
     assert sc.base_url == cfg.scraper_base_url
@@ -108,7 +108,7 @@ def test_scraper_config_builder():
 
 
 def test_extractor_config_builder():
-    from asset_search.config import Config
+    from asset_discovery.config import Config
     cfg = Config()
     ec = cfg.extractor_config()
     assert ec.max_batch_tokens == cfg.extractor_max_batch_tokens

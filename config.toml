@@ -1,4 +1,4 @@
-# asset-search-v2 master config
+# asset-discovery master config
 #
 # Secrets (API keys, DB URLs) go in .env — never here.
 # Only override values you want to change — everything has sensible defaults.

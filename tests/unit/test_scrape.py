@@ -4,8 +4,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from asset_search.stages.scrape import _config_from_url, run_scrape
-from asset_search.cost import CostTracker
+from asset_discovery.stages.scrape import _config_from_url, run_scrape
+from asset_discovery.cost import CostTracker
 from web_scraper import ScrapedPage, ScrapeConfig, Usage
 
 
@@ -88,17 +88,17 @@ def _make_failed_page(url):
 
 
 @pytest.mark.asyncio
-@patch("asset_search.stages.scrape.get_connection")
-@patch("asset_search.stages.scrape.scrape", new_callable=AsyncMock)
-@patch("asset_search.stages.scrape.get_cached_page")
-@patch("asset_search.stages.scrape.save_scraped_page")
-@patch("asset_search.stages.scrape.show_stage")
+@patch("asset_discovery.stages.scrape.get_connection")
+@patch("asset_discovery.stages.scrape.scrape", new_callable=AsyncMock)
+@patch("asset_discovery.stages.scrape.get_cached_page")
+@patch("asset_discovery.stages.scrape.save_scraped_page")
+@patch("asset_discovery.stages.scrape.show_stage")
 async def test_run_scrape_cache_hit(mock_show, mock_save, mock_get_cached, mock_scrape, mock_get_conn):
     mock_get_conn.return_value = MagicMock()
     mock_get_cached.return_value = {"url": "https://a.com", "markdown": "# Cached", "page_id": "p1"}
     urls = [{"url": "https://a.com", "category": "facility_page"}]
 
-    from asset_search.config import Config
+    from asset_discovery.config import Config
     pages = await run_scrape("issuer-1", urls, Config())
 
     assert len(pages) == 1
@@ -107,17 +107,17 @@ async def test_run_scrape_cache_hit(mock_show, mock_save, mock_get_cached, mock_
 
 
 @pytest.mark.asyncio
-@patch("asset_search.stages.scrape.get_connection")
-@patch("asset_search.stages.scrape.scrape", new_callable=AsyncMock)
-@patch("asset_search.stages.scrape.get_cached_page", return_value=None)
-@patch("asset_search.stages.scrape.save_scraped_page", return_value=("page-id", "content-hash"))
-@patch("asset_search.stages.scrape.show_stage")
+@patch("asset_discovery.stages.scrape.get_connection")
+@patch("asset_discovery.stages.scrape.scrape", new_callable=AsyncMock)
+@patch("asset_discovery.stages.scrape.get_cached_page", return_value=None)
+@patch("asset_discovery.stages.scrape.save_scraped_page", return_value=("page-id", "content-hash"))
+@patch("asset_discovery.stages.scrape.show_stage")
 async def test_run_scrape_cache_miss(mock_show, mock_save, mock_get_cached, mock_scrape, mock_get_conn):
     mock_get_conn.return_value = MagicMock()
     mock_scrape.return_value = [_make_page("https://a.com")]
     urls = [{"url": "https://a.com", "category": "facility_page"}]
 
-    from asset_search.config import Config
+    from asset_discovery.config import Config
     pages = await run_scrape("issuer-1", urls, Config())
 
     assert len(pages) == 1
@@ -126,11 +126,11 @@ async def test_run_scrape_cache_miss(mock_show, mock_save, mock_get_cached, mock
 
 
 @pytest.mark.asyncio
-@patch("asset_search.stages.scrape.get_connection")
-@patch("asset_search.stages.scrape.scrape", new_callable=AsyncMock)
-@patch("asset_search.stages.scrape.get_cached_page", return_value=None)
-@patch("asset_search.stages.scrape.save_scraped_page", return_value=("p1", "ch1"))
-@patch("asset_search.stages.scrape.show_stage")
+@patch("asset_discovery.stages.scrape.get_connection")
+@patch("asset_discovery.stages.scrape.scrape", new_callable=AsyncMock)
+@patch("asset_discovery.stages.scrape.get_cached_page", return_value=None)
+@patch("asset_discovery.stages.scrape.save_scraped_page", return_value=("p1", "ch1"))
+@patch("asset_discovery.stages.scrape.show_stage")
 async def test_run_scrape_cost_tracking(mock_show, mock_save, mock_get_cached, mock_scrape, mock_get_conn):
     mock_get_conn.return_value = MagicMock()
 
@@ -148,23 +148,23 @@ async def test_run_scrape_cost_tracking(mock_show, mock_save, mock_get_cached, m
         {"url": "https://b.com", "category": "facility_page"},
     ]
     costs = CostTracker()
-    from asset_search.config import Config
+    from asset_discovery.config import Config
     await run_scrape("issuer-1", urls, Config(), costs=costs)
     assert costs.crawl4ai_pages == 2
 
 
 @pytest.mark.asyncio
-@patch("asset_search.stages.scrape.get_connection")
-@patch("asset_search.stages.scrape.scrape", new_callable=AsyncMock)
-@patch("asset_search.stages.scrape.get_cached_page", return_value=None)
-@patch("asset_search.stages.scrape.save_scraped_page")
-@patch("asset_search.stages.scrape.show_stage")
+@patch("asset_discovery.stages.scrape.get_connection")
+@patch("asset_discovery.stages.scrape.scrape", new_callable=AsyncMock)
+@patch("asset_discovery.stages.scrape.get_cached_page", return_value=None)
+@patch("asset_discovery.stages.scrape.save_scraped_page")
+@patch("asset_discovery.stages.scrape.show_stage")
 async def test_run_scrape_failed_page_not_saved(mock_show, mock_save, mock_get_cached, mock_scrape, mock_get_conn):
     mock_get_conn.return_value = MagicMock()
     mock_scrape.return_value = [_make_failed_page("https://a.com")]
     urls = [{"url": "https://a.com", "category": "facility_page"}]
 
-    from asset_search.config import Config
+    from asset_discovery.config import Config
     pages = await run_scrape("issuer-1", urls, Config())
 
     assert len(pages) == 0  # failed pages not added
@@ -172,11 +172,11 @@ async def test_run_scrape_failed_page_not_saved(mock_show, mock_save, mock_get_c
 
 
 @pytest.mark.asyncio
-@patch("asset_search.stages.scrape.get_connection")
-@patch("asset_search.stages.scrape.scrape", new_callable=AsyncMock)
-@patch("asset_search.stages.scrape.get_cached_page")
-@patch("asset_search.stages.scrape.save_scraped_page", return_value=("p1", "ch1"))
-@patch("asset_search.stages.scrape.show_stage")
+@patch("asset_discovery.stages.scrape.get_connection")
+@patch("asset_discovery.stages.scrape.scrape", new_callable=AsyncMock)
+@patch("asset_discovery.stages.scrape.get_cached_page")
+@patch("asset_discovery.stages.scrape.save_scraped_page", return_value=("p1", "ch1"))
+@patch("asset_discovery.stages.scrape.show_stage")
 async def test_run_scrape_mixed(mock_show, mock_save, mock_get_cached, mock_scrape, mock_get_conn):
     """Mix of 2 cached + 2 uncached URLs: all 4 in results, scraper called with only 2, 2 saves."""
     mock_get_conn.return_value = MagicMock()
@@ -201,7 +201,7 @@ async def test_run_scrape_mixed(mock_show, mock_save, mock_get_cached, mock_scra
         {"url": "https://fresh-b.com", "category": "facility_page"},
     ]
 
-    from asset_search.config import Config
+    from asset_discovery.config import Config
     pages = await run_scrape("issuer-1", urls, Config())
 
     assert len(pages) == 4

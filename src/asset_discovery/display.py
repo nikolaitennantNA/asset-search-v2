@@ -1,7 +1,7 @@
 """Display layer -- Rich terminal output for the pipeline.
 
 Provides styled panels, stage headers, progress bars, and summary tables.
-Ported and simplified from asset-search v1 display.py.
+Ported and simplified from asset-discovery v1 display.py.
 """
 
 from __future__ import annotations

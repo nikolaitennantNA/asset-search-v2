@@ -311,7 +311,7 @@ async def probe_urls(urls: list[str]) -> list[dict[str, Any]]:
     async with httpx.AsyncClient(
         timeout=10.0,
         follow_redirects=True,
-        headers={"User-Agent": "Mozilla/5.0 (compatible; asset-search/2.0)"},
+        headers={"User-Agent": "Mozilla/5.0 (compatible; asset-discovery/2.0)"},
     ) as client:
         tasks = [_probe_one(client, url) for url in urls]
         return list(await asyncio.gather(*tasks))

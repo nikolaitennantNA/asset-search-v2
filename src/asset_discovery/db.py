@@ -1,4 +1,4 @@
-"""Psycopg helpers for the 4 asset-search cache tables in corp-graph Postgres."""
+"""Psycopg helpers for the 4 asset-discovery cache tables in corp-graph Postgres."""
 
 from __future__ import annotations
 

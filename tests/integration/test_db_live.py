@@ -1,6 +1,6 @@
 """Integration tests for db.py — real Postgres round-trips.
 
-Requires: local Postgres with asset_search DB and tables initialized.
+Requires: local Postgres with asset_discovery DB and tables initialized.
 Run: pytest -m integration tests/integration/test_db_live.py
 """
 
@@ -8,7 +8,7 @@ import time
 
 import pytest
 
-from asset_search.db import (
+from asset_discovery.db import (
     url_hash,
     save_discovered_urls,
     get_discovered_urls,

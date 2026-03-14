@@ -1,6 +1,6 @@
 """URL validation, sanitization, and normalization utilities.
 
-Ported from asset-search v1 url_utils.py.
+Ported from asset-discovery v1 url_utils.py.
 """
 
 from __future__ import annotations

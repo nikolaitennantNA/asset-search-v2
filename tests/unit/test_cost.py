@@ -4,7 +4,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from asset_search.cost import _strip_model_prefix, CostTracker
+from asset_discovery.cost import _strip_model_prefix, CostTracker
 
 
 # ── _strip_model_prefix ────────────────────────────────────────────────────

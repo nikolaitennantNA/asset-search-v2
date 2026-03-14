@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch, call
 
 import pytest
 
-from asset_search.db import (
+from asset_discovery.db import (
     url_hash,
     extraction_id,
     save_discovered_urls,

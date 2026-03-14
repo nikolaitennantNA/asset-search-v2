@@ -1,4 +1,4 @@
-"""CLI entry point: python -m asset_search run <ISIN>"""
+"""CLI entry point: python -m asset_discovery run <ISIN>"""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from .pipeline import run
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Asset Search v2")
+    parser = argparse.ArgumentParser(description="Asset Discovery")
     subparsers = parser.add_subparsers(dest="command")
 
     run_parser = subparsers.add_parser("run", help="Run pipeline for a company")

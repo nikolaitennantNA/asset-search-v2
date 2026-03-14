@@ -15,13 +15,13 @@ All commands require `uv run` — there is no system-level `python` on this mach
 uv sync
 
 # Run pipeline for a company (requires corp-graph Postgres)
-uv run python -m asset_search run AU000000BLD2
+uv run python -m asset_discovery run AU000000BLD2
 
 # Run from JSON profile (no corp-graph needed)
-uv run python -m asset_search run --from-file boral.json
+uv run python -m asset_discovery run --from-file boral.json
 
 # Partial run (stop after a specific stage)
-uv run python -m asset_search run --from-file boral.json --stop-after discover
+uv run python -m asset_discovery run --from-file boral.json --stop-after discover
 
 # Initialize Postgres cache tables
 psql $CORPGRAPH_DB_URL -f scripts/init_cache_db.sql
@@ -91,22 +91,22 @@ Four sibling repos are linked as editable deps via `[tool.uv.sources]` in pyproj
 
 | File | Role |
 |---|---|
-| `src/asset_search/__main__.py` | CLI entry point |
-| `src/asset_search/pipeline.py` | 6-stage orchestrator |
-| `src/asset_search/config.py` | Master config with triple-layer resolution |
-| `src/asset_search/models.py` | Pydantic models (`Asset`, `DiscoveredUrl`, `QAReport`, `CoverageFlag`) |
-| `src/asset_search/cost.py` | LLM + API cost tracking with per-model pricing |
-| `src/asset_search/db.py` | Postgres helpers (cache reads/writes, hash functions) |
-| `src/asset_search/gics.py` | GICS classification (exact + semantic fallback) |
-| `src/asset_search/helpers.py` | URL normalization, domain extraction, tracking param stripping |
-| `src/asset_search/display.py` | Rich terminal display (stage progress, asset tables, cost summary) |
-| `src/asset_search/stages/prompts.py` | System prompts for discover and QA agents |
-| `src/asset_search/stages/tools.py` | Agent tools (sitemap, crawl, map, probe, save/get URLs) |
-| `src/asset_search/stages/discover.py` | Stage 2: pydantic-ai URL discovery agent |
-| `src/asset_search/stages/scrape.py` | Stage 3: Crawl4AI Cloud API via web-scraper |
-| `src/asset_search/stages/extract.py` | Stage 4: instructor structured extraction |
-| `src/asset_search/stages/merge.py` | Stage 5: LLM dedup + GICS classification |
-| `src/asset_search/stages/qa.py` | Stage 6: pydantic-ai QA + gap-fill agent |
+| `src/asset_discovery/__main__.py` | CLI entry point |
+| `src/asset_discovery/pipeline.py` | 6-stage orchestrator |
+| `src/asset_discovery/config.py` | Master config with triple-layer resolution |
+| `src/asset_discovery/models.py` | Pydantic models (`Asset`, `DiscoveredUrl`, `QAReport`, `CoverageFlag`) |
+| `src/asset_discovery/cost.py` | LLM + API cost tracking with per-model pricing |
+| `src/asset_discovery/db.py` | Postgres helpers (cache reads/writes, hash functions) |
+| `src/asset_discovery/gics.py` | GICS classification (exact + semantic fallback) |
+| `src/asset_discovery/helpers.py` | URL normalization, domain extraction, tracking param stripping |
+| `src/asset_discovery/display.py` | Rich terminal display (stage progress, asset tables, cost summary) |
+| `src/asset_discovery/stages/prompts.py` | System prompts for discover and QA agents |
+| `src/asset_discovery/stages/tools.py` | Agent tools (sitemap, crawl, map, probe, save/get URLs) |
+| `src/asset_discovery/stages/discover.py` | Stage 2: pydantic-ai URL discovery agent |
+| `src/asset_discovery/stages/scrape.py` | Stage 3: Crawl4AI Cloud API via web-scraper |
+| `src/asset_discovery/stages/extract.py` | Stage 4: instructor structured extraction |
+| `src/asset_discovery/stages/merge.py` | Stage 5: LLM dedup + GICS classification |
+| `src/asset_discovery/stages/qa.py` | Stage 6: pydantic-ai QA + gap-fill agent |
 
 ## Conventions
 

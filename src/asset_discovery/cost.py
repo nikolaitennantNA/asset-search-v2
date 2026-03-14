@@ -3,7 +3,7 @@
 Tracks tokens per model and per stage, plus non-LLM API costs (Crawl4AI,
 Exa, embeddings, Cohere rerank). Produces a summary at pipeline end.
 
-Ported from asset-search v1 with updated pricing for 2026 models.
+Ported from asset-discovery v1 with updated pricing for 2026 models.
 """
 
 from __future__ import annotations

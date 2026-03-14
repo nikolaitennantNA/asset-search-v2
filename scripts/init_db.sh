@@ -1,5 +1,5 @@
 #!/bin/bash
-# Create a minimal Postgres database for asset-search-v2.
+# Create a minimal Postgres database for asset-discovery.
 # Doesn't need the full corp-graph — just the 4 cache tables + pgvector.
 #
 # Prerequisites:

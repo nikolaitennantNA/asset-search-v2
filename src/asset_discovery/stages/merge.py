@@ -78,7 +78,7 @@ async def run_merge(
                 # Falls back to LLM-assigned naturesense and company-level industry code.
                 _apply_gics(asset, gics, industry_code)
 
-                asset.attribution_source = "asset_search"
+                asset.attribution_source = "asset_discovery"
                 asset.date_researched = date.today().isoformat()
                 final_assets.append(asset)
 

@@ -3,7 +3,7 @@
 import pytest
 from pydantic import ValidationError
 
-from asset_search.models import Asset, QAReport, CoverageFlag
+from asset_discovery.models import Asset, QAReport, CoverageFlag
 
 
 def test_asset_required_fields():
@@ -52,7 +52,7 @@ def test_coverage_flag():
     assert f.severity == "high"
 
 
-from asset_search.models import DiscoveredUrl
+from asset_discovery.models import DiscoveredUrl
 
 
 def test_discovered_url_minimal():

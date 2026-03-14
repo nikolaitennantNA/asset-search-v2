@@ -145,7 +145,7 @@ wheels = [
 ]
 
 [[package]]
-name = "asset-search-v2"
+name = "asset-discovery"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

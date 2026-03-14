@@ -6,7 +6,7 @@ import psycopg
 import pytest
 from psycopg.rows import dict_row
 
-from asset_search.config import Config
+from asset_discovery.config import Config
 
 
 @pytest.fixture

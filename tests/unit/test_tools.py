@@ -2,7 +2,7 @@
 
 from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
-from asset_search.stages import tools
+from asset_discovery.stages import tools
 
 
 @pytest.fixture(autouse=True)
@@ -14,9 +14,9 @@ def _init_tools():
 
 
 @pytest.mark.asyncio
-@patch("asset_search.stages.tools._get_conn")
-@patch("asset_search.stages.tools.get_discovered_urls", return_value=[])
-@patch("asset_search.stages.tools.save_discovered_urls", return_value=1)
+@patch("asset_discovery.stages.tools._get_conn")
+@patch("asset_discovery.stages.tools.get_discovered_urls", return_value=[])
+@patch("asset_discovery.stages.tools.save_discovered_urls", return_value=1)
 async def test_save_urls_passes_structured_fields(mock_save, mock_get, mock_conn):
     mock_conn.return_value = MagicMock()
     count = await tools.save_urls(urls=[{
@@ -35,7 +35,7 @@ async def test_save_urls_passes_structured_fields(mock_save, mock_get, mock_conn
 
 
 @pytest.mark.asyncio
-@patch("asset_search.stages.tools.httpx.AsyncClient")
+@patch("asset_discovery.stages.tools.httpx.AsyncClient")
 async def test_crawl_page_default_uses_http(_mock_client_cls):
     mock_client = AsyncMock()
     _mock_client_cls.return_value.__aenter__ = AsyncMock(return_value=mock_client)
@@ -55,7 +55,7 @@ async def test_crawl_page_default_uses_http(_mock_client_cls):
 
 
 @pytest.mark.asyncio
-@patch("asset_search.stages.tools.httpx.AsyncClient")
+@patch("asset_discovery.stages.tools.httpx.AsyncClient")
 async def test_crawl_page_browser_uses_browser_strategy(_mock_client_cls):
     mock_client = AsyncMock()
     _mock_client_cls.return_value.__aenter__ = AsyncMock(return_value=mock_client)
@@ -75,7 +75,7 @@ async def test_crawl_page_browser_uses_browser_strategy(_mock_client_cls):
 
 
 @pytest.mark.asyncio
-@patch("asset_search.stages.tools.httpx.AsyncClient")
+@patch("asset_discovery.stages.tools.httpx.AsyncClient")
 async def test_probe_urls_returns_metadata(_mock_client_cls):
     mock_client = AsyncMock()
     _mock_client_cls.return_value.__aenter__ = AsyncMock(return_value=mock_client)
@@ -115,7 +115,7 @@ async def test_probe_urls_returns_metadata(_mock_client_cls):
 
 
 @pytest.mark.asyncio
-@patch("asset_search.stages.tools.httpx.AsyncClient")
+@patch("asset_discovery.stages.tools.httpx.AsyncClient")
 async def test_probe_urls_handles_errors(_mock_client_cls):
     mock_client = AsyncMock()
     _mock_client_cls.return_value.__aenter__ = AsyncMock(return_value=mock_client)

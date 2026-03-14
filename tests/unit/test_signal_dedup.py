@@ -5,8 +5,8 @@ coordinates (from signal injection double-counting) while preserving distinct
 assets and those without coordinates.
 """
 
-from asset_search.models import Asset
-from asset_search.stages.extract import _dedup_by_coords
+from asset_discovery.models import Asset
+from asset_discovery.stages.extract import _dedup_by_coords
 
 
 def _make_asset(name: str, lat: float | None = None, lng: float | None = None) -> Asset:
