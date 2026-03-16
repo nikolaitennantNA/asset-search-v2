@@ -35,7 +35,7 @@ async def fetch_sitemap(domain: str) -> list[dict[str, str]]:
 
     1. Check robots.txt for sitemap locations
     2. Try common XML sitemap paths via plain HTTP
-    3. If WAF-blocked, fall back to crawl_page via Crawl4AI
+    3. If WAF-blocked, fall back to crawl_page via Spider
     4. Probe HTML sitemaps at /sitemap and /sitemap.html
     Handles sitemap indexes recursively.
 
@@ -96,7 +96,7 @@ async def fetch_sitemap(domain: str) -> list[dict[str, str]]:
             except Exception:
                 continue
 
-    # Crawl4AI fallback if WAF-blocked and no URLs found via plain HTTP
+    # Spider fallback if WAF-blocked and no URLs found via plain HTTP
     if waf_blocked and not urls:
         result = await crawl_page(f"https://{domain}/sitemap.xml", proxy="auto")
         if result.get("markdown"):
@@ -129,9 +129,9 @@ async def crawl_page(
 ) -> dict[str, Any]:
     """Fetch a single page via Spider Cloud. Lightweight exploration tool.
 
-    Uses smart mode with the same config as the batch scraper: images filtered,
-    markdown cleaned of map tiles and boilerplate. Coordinates and addresses are
-    automatically extracted from the HTML and injected at the top of the markdown.
+    Uses the same scrape() pipeline as batch scraping: dual-format (markdown + raw),
+    images filtered, markdown cleaned, coordinates/addresses extracted from HTML
+    and injected at the top of the markdown.
 
     Args:
         url: The full URL to fetch and render.
@@ -141,77 +141,40 @@ async def crawl_page(
     Returns dict with keys: markdown, links_internal, links_external, metadata, error.
     """
     assert _config is not None
-    import html2text
-    from web_scraper.config import ScraperConfig
-    from web_scraper.markdown import clean_markdown
-    from web_scraper.signals import extract_signals, inject_signals
+    from web_scraper import scrape, ScrapeConfig, Usage
 
-    params: dict[str, Any] = {
-        "url": url,
-        "return_format": "raw",
-        "metadata": True,
-        "return_page_links": True,
-        "return_json_data": True,
-        "request": "smart",
-        "filter_images": True,
-        "filter_svg": True,
-    }
+    configs = None
     if proxy:
-        if proxy == "auto":
-            params["proxy_enabled"] = True
-        else:
-            params["proxy"] = proxy
-            params["proxy_enabled"] = True
+        per_url = ScrapeConfig(
+            proxy=proxy if proxy != "auto" else None,
+            proxy_enabled=True,
+        )
+        configs = {url: per_url}
 
-    scraper_cfg = ScraperConfig.load()
+    usage = Usage()
     try:
-        async with httpx.AsyncClient(timeout=30.0) as client:
-            resp = await client.post(
-                f"{scraper_cfg.base_url}/scrape",
-                headers={
-                    "Authorization": f"Bearer {_config.spider_api_key}",
-                    "Content-Type": "application/json",
-                },
-                json=params,
-            )
-            resp.raise_for_status()
-
-        data = resp.json()
-        page = data[0] if isinstance(data, list) else data
-
-        if page.get("status") != 200 or page.get("error"):
-            return {"markdown": "", "error": page.get("error") or f"Status {page.get('status')}"}
-
-        if _costs:
-            cost = page.get("costs", {}).get("total_cost", 0)
-            _costs.track_spider(1, cost_usd=cost)
-
-        raw_html = page.get("content", "")
-
-        # Convert HTML to markdown
-        h2t = html2text.HTML2Text()
-        h2t.ignore_links = False
-        h2t.ignore_images = True
-        h2t.body_width = 0
-        markdown = h2t.handle(raw_html)
-        markdown = clean_markdown(markdown)
-
-        signals = extract_signals(raw_html) if raw_html else {}
-        if signals:
-            markdown = inject_signals(markdown, signals)
-
-        links = page.get("links", {})
-        links_internal = links.get("internal", []) if isinstance(links, dict) else []
-        links_external = links.get("external", []) if isinstance(links, dict) else []
-
-        return {
-            "markdown": markdown,
-            "links_internal": links_internal,
-            "links_external": links_external,
-            "metadata": page.get("metadata", {}),
-        }
+        pages = await scrape(
+            [url], _config.spider_api_key,
+            configs=configs,
+            usage=usage,
+        )
     except Exception as e:
         return {"markdown": "", "error": str(e)}
+
+    if _costs and usage.pages_scraped:
+        _costs.track_spider(usage.pages_scraped, cost_usd=usage.total_cost)
+
+    if not pages or not pages[0].success:
+        error = "Failed to scrape" if not pages else f"Status {pages[0].status_code}"
+        return {"markdown": "", "error": error}
+
+    page = pages[0]
+    return {
+        "markdown": page.markdown,
+        "links_internal": page.links_internal,
+        "links_external": page.links_external,
+        "metadata": page.metadata,
+    }
 
 
 async def map_domain(domain: str, search: str | None = None) -> list[dict[str, str]]:

@@ -122,7 +122,7 @@ Returns markdown with coordinates/addresses pre-extracted from the HTML.
 Returns metadata for each URL: status code, content_type, content_length, title, server,
 and a waf_blocked flag. Useful for quickly filtering a large URL list -- you can see
 which pages are 404s, which are PDFs, which are WAF-blocked, and which have meaningful
-titles. Does not consume Crawl4AI credits.
+titles. Does not consume Spider credits.
 
 ## Working style
 - Save URLs to the database as you find them -- don't accumulate huge lists in memory.
