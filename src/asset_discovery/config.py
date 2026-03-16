@@ -112,6 +112,7 @@ class Config:
     profile_model: str = ""
     discover_model: str = ""
     extract_model: str = ""
+    count_model: str = ""   # cheap model for asset counting pre-pass
     merge_model: str = ""
     qa_model: str = ""
 
@@ -200,6 +201,7 @@ class Config:
         self.profile_model = _resolve_str("PROFILE_MODEL", models, "profile", "bedrock/us.anthropic.claude-haiku-4-5-20251001-v1:0")
         self.discover_model = _resolve_str("DISCOVER_MODEL", models, "discover", bedrock_default)
         self.extract_model = _resolve_str("EXTRACT_MODEL", models, "extract", bedrock_default)
+        self.count_model = _resolve_str("COUNT_MODEL", models, "count", "bedrock/us.anthropic.claude-haiku-4-5-20251001-v1:0")
         self.merge_model = _resolve_str("MERGE_MODEL", models, "merge", "openai/gpt-5-mini")
         self.qa_model = _resolve_str("QA_MODEL", models, "qa", bedrock_default)
 

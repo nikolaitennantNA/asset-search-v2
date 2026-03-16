@@ -81,7 +81,7 @@ class Asset(BaseModel):
         default="",
         description="Classify into one of: " + ", ".join(NATURESENSE_TYPES),
     )
-    supplementary_details: dict = Field(
+    supplementary_details: dict[str, str] = Field(
         default_factory=dict,
         description="Dict of additional context with descriptive keys "
         "(e.g. fuel_type, year_built, technology, additional_capacity).",
