@@ -270,7 +270,8 @@ class DiscoverDisplay:
     """
 
     _LABEL_W = 9   # action label column width
-    _IND = "   "    # base indent
+    _IND = "   "    # base indent (3 spaces)
+    _PAD = 3        # left padding for Padding objects
 
     def __init__(self, company_name: str = ""):
         self._current_domain: str | None = None
@@ -282,6 +283,8 @@ class DiscoverDisplay:
         # Buffered detail line — printed with ├─ when next arrives,
         # or └─ when domain/section ends.
         self._pending: tuple[str, str] | None = None  # (msg, style)
+        # Buffer web searches that arrive before the plan text
+        self._pre_plan_searches: list[str] = []
 
     def show_header(self) -> None:
         """Print panel header with stage number and company name."""
@@ -301,9 +304,10 @@ class DiscoverDisplay:
             return
         msg, style = self._pending
         connector = "└─" if is_last else "├─"
-        t = Text(f"{self._IND}{connector} ")
+        t = Text(f"{connector} ")
         t.append(msg, style=style)
-        console.print(t)
+        from rich.padding import Padding
+        console.print(Padding(t, (0, 0, 0, self._PAD)))
         self._pending = None
 
     def _queue(self, msg: str, style: str = "dim") -> None:
@@ -324,11 +328,42 @@ class DiscoverDisplay:
         first = domain not in self._seen_domains
         self._seen_domains.add(domain)
         console.print()
-        t = Text(self._IND)
+        t = Text()
         t.append(domain, style="bold" if first else "dim")
-        console.print(t)
+        from rich.padding import Padding
+        console.print(Padding(t, (0, 0, 0, self._PAD)))
 
     # ── public event handlers ────────────────────────────────────
+
+    def _show_plan(self, text: str) -> None:
+        """Show the plan, then flush any buffered pre-plan web searches."""
+        self._plan_shown = True
+        for prefix in ("Approach:", "Plan:", "Strategy:"):
+            if text.startswith(prefix):
+                text = text[len(prefix) :].strip()
+                break
+        self._end_section()
+        console.print()
+        t = Text()
+        t.append("Plan: ", style="bold dim")
+        t.append(text, style="italic dim")
+        from rich.padding import Padding
+        console.print(Padding(t, (0, 0, 0, self._PAD)))
+        # Now flush any web searches that arrived before the plan
+        for q in self._pre_plan_searches:
+            self._show_web_search(q)
+        self._pre_plan_searches.clear()
+
+    def _show_web_search(self, query: str) -> None:
+        """Actually print a web search line."""
+        self._end_section()
+        if len(query) > 80:
+            query = query[:77] + "..."
+        console.print()
+        t = Text()
+        t.append(f'web_search "{query}"', style="cyan")
+        from rich.padding import Padding
+        console.print(Padding(t, (0, 0, 0, self._PAD)))
 
     def on_agent_text(self, text: str) -> None:
         """Handle text from the agent. First text becomes the plan line."""
@@ -336,40 +371,33 @@ class DiscoverDisplay:
         if not text:
             return
         if not self._plan_shown:
-            self._plan_shown = True
-            for prefix in ("Approach:", "Plan:", "Strategy:"):
-                if text.startswith(prefix):
-                    text = text[len(prefix) :].strip()
-                    break
-            if len(text) > 200:
-                text = text[:197] + "..."
-            self._end_section()
-            console.print()
-            t = Text(self._IND)
-            t.append("Plan: ", style="bold dim")
-            t.append(text, style="italic dim")
-            console.print(t)
+            self._show_plan(text)
         else:
             self._end_section()
-            if len(text) > 120:
-                text = text[:117] + "..."
             console.print()
-            t = Text(self._IND)
+            t = Text()
             t.append(text, style="italic dim")
-            console.print(t)
+            from rich.padding import Padding
+            console.print(Padding(t, (0, 0, 0, self._PAD)))
 
     def on_web_search(self, query: str) -> None:
-        """Display a web search call as a section separator."""
-        self._end_section()
-        if len(query) > 80:
-            query = query[:77] + "..."
-        console.print()
-        t = Text(self._IND)
-        t.append(f'web_search "{query}"', style="cyan")
-        console.print(t)
+        """Display a web search call. Buffers if plan hasn't been shown yet."""
+        if not self._plan_shown:
+            self._pre_plan_searches.append(query)
+            return
+        self._show_web_search(query)
+
+    def _flush_pre_plan(self) -> None:
+        """If plan never arrived, flush buffered web searches before tool events."""
+        if not self._plan_shown and self._pre_plan_searches:
+            self._plan_shown = True  # skip plan display
+            for q in self._pre_plan_searches:
+                self._show_web_search(q)
+            self._pre_plan_searches.clear()
 
     def on_event(self, event: str, data: dict) -> None:
         """Handle a tool result event from tools.py."""
+        self._flush_pre_plan()
         domain = data.get("domain", "")
         if domain and domain != self._current_domain:
             self._start_domain(domain)
@@ -402,7 +430,7 @@ class DiscoverDisplay:
         elif event == "save_result":
             count = data.get("count", 0)
             self._total_saved += count
-            self._queue(f"{'save':<{self._LABEL_W}}{count} urls")
+            self._queue(f"{'save':<{self._LABEL_W}}{count} urls", style="green")
 
         elif event == "map_result":
             count = data.get("count", 0)
@@ -416,9 +444,10 @@ class DiscoverDisplay:
             count = data.get("count", 0)
             self._end_section()
             console.print()
-            t = Text(self._IND)
+            t = Text()
             t.append(f"pruned {count} urls", style="yellow")
-            console.print(t)
+            from rich.padding import Padding
+            console.print(Padding(t, (0, 0, 0, self._PAD)))
 
     def show_footer(self, url_count: int | None = None) -> None:
         """Print panel footer with total URLs and elapsed time."""

@@ -457,13 +457,30 @@ async def save_sitemap_urls(
     if not results:
         return 0
 
-    # If we got a sitemap index, skip — agent should pick a child first
-    if results and results[0].get("type") == "index":
-        return 0
+    # If we got a sitemap index and no child specified, save ALL children's URLs
+    if results[0].get("type") == "index":
+        if sitemap:
+            # Agent asked for a specific child but got an index — shouldn't happen
+            return 0
+        # Recursively fetch each child sitemap and collect URLs
+        all_urls: list[str] = []
+        for idx_entry in results:
+            child_url = idx_entry.get("url", "")
+            if not child_url:
+                continue
+            child_results = await fetch_sitemap(domain, child_url)
+            for entry in child_results:
+                if entry.get("type") != "index":
+                    url = entry.get("url", "")
+                    if url:
+                        all_urls.append(url)
+        results_flat = [{"url": u} for u in all_urls]
+    else:
+        results_flat = results
 
     # Filter
     filtered: list[str] = []
-    for entry in results:
+    for entry in results_flat:
         url = entry.get("url", "")
         if not url:
             continue
