@@ -9,7 +9,7 @@ from web_scraper import scrape_stream, ScrapeConfig, Usage as ScraperUsage
 from ..config import Config
 from ..cost import CostTracker
 from ..db import get_connection, get_cached_page, save_scraped_page, url_hash
-from ..display import show_detail, show_stage
+from ..display import show_detail, show_spinner, show_stage
 
 
 def _config_from_url(url_row: dict[str, Any]) -> ScrapeConfig | None:
@@ -67,6 +67,7 @@ async def run_scrape(
             rag_usage = RAGUsage()
 
         if to_scrape:
+            scraped_count = 0
             async for page in scrape_stream(
                 urls=[u["url"] for u in to_scrape],
                 api_key=config.spider_api_key,
@@ -74,6 +75,7 @@ async def run_scrape(
                 scraper_config=config.scraper_config(),
                 usage=scraper_usage,
             ):
+                scraped_count += 1
                 if page.success and page.markdown:
                     pid, chash = save_scraped_page(
                         conn, issuer_id, page.url, page.markdown, page.raw_html,
@@ -85,6 +87,7 @@ async def run_scrape(
                         "signals": page.signals, "content_hash": chash,
                     }
                     all_pages.append(page_dict)
+                    show_detail(f"Scraped {scraped_count}/{len(to_scrape)}: {page.url[:60]}")
 
                     if rag_store and rag_usage is not None:
                         rag_doc = {
@@ -93,6 +96,9 @@ async def run_scrape(
                             "metadata": {"url": page.url},
                         }
                         await rag_store.ingest([rag_doc], namespace=issuer_id, usage=rag_usage)
+                else:
+                    show_detail(f"Failed {scraped_count}/{len(to_scrape)}: {page.url[:60]}")
+            show_detail(f"Scraping complete: {len(all_pages) - len(cached_pages)} new pages")
 
         if costs and rag_usage and rag_usage.embedding_tokens:
             costs.track_embedding(rag_usage.embedding_tokens)

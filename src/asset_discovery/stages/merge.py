@@ -12,7 +12,7 @@ import litellm
 from ..config import Config
 from ..cost import CostTracker
 from ..db import get_connection, get_discovered_assets, save_discovered_assets
-from ..display import show_stage
+from ..display import show_detail, show_spinner, show_stage
 from ..models import Asset
 
 MERGE_PROMPT = """\
@@ -60,14 +60,20 @@ async def run_merge(
         batch_size = 50
         final_assets: list[Asset] = []
 
+        num_batches = (len(extracted_assets) + batch_size - 1) // batch_size
         for i in range(0, len(extracted_assets), batch_size):
+            batch_num = i // batch_size + 1
             batch = extracted_assets[i : i + batch_size]
-            merged = await _merge_batch(batch, existing, final_assets, config.merge_model, costs)
+            with show_spinner(f"Merging batch {batch_num}/{num_batches} ({len(batch)} assets)..."):
+                merged = await _merge_batch(batch, existing, final_assets, config.merge_model, costs)
+            show_detail(f"Batch {batch_num}: {len(batch)} → {len(merged)} after dedup")
             final_assets.extend(merged)
 
         # Final cross-batch dedup pass
         if len(final_assets) > 1:
-            final_assets = await _final_dedup(final_assets, config.merge_model, costs)
+            with show_spinner(f"Final dedup across {len(final_assets)} assets..."):
+                final_assets = await _final_dedup(final_assets, config.merge_model, costs)
+            show_detail(f"Final: {len(final_assets)} unique assets")
 
         # Assign asset IDs and pipeline metadata after all dedup is done
         today = date.today().isoformat()

@@ -13,7 +13,7 @@ from doc_extractor import (
 from ..config import Config
 from ..cost import CostTracker
 from ..db import get_connection, get_extraction_result, save_extraction_result, url_hash
-from ..display import show_stage
+from ..display import show_detail, show_spinner, show_stage
 from ..models import Asset, ExtractedAsset, gics_reference_block, naturesense_reference_block
 
 log = logging.getLogger(__name__)
@@ -201,53 +201,67 @@ async def run_extract(
         normal_docs: list[Document] = []
         exhaustive_docs: list[tuple[Document, int]] = []
 
-        for doc in documents:
-            count_usage = ExtractorUsage()
+        import asyncio
+
+        async def _count_one(doc: Document) -> tuple[Document, int]:
+            usage = ExtractorUsage()
             count = await estimate_count(
                 doc, count_prompt, config.count_model,
-                config=extractor_cfg, usage=count_usage,
+                config=extractor_cfg, usage=usage,
             )
             if costs:
                 costs.track_llm(
                     config.count_model,
-                    count_usage.input_tokens, count_usage.output_tokens, "count",
+                    usage.input_tokens, usage.output_tokens, "count",
                 )
+            return doc, count
+
+        with show_spinner(f"Counting assets across {len(documents)} pages..."):
+            count_results = await asyncio.gather(*[_count_one(doc) for doc in documents])
+
+        for doc, count in count_results:
             if count > EXHAUSTIVE_THRESHOLD:
-                log.info(
-                    "Page %s: ~%d assets (above threshold %d), using exhaustive extraction",
-                    doc.metadata.get("url", "?")[:80], count, EXHAUSTIVE_THRESHOLD,
-                )
+                url_short = doc.metadata.get("url", "?")[:60]
+                show_detail(f"  ~{count} assets in {url_short} (exhaustive)")
                 exhaustive_docs.append((doc, count))
             else:
                 normal_docs.append(doc)
 
+        total_estimated = sum(c for _, c in exhaustive_docs)
+        show_detail(f"Routing: {len(normal_docs)} pages normal, {len(exhaustive_docs)} pages exhaustive")
+
         # Normal extraction for standard pages
         extracted: list[ExtractedAsset] = []
         if normal_docs:
-            extractor_usage = ExtractorUsage()
-            extracted = await extract(
-                documents=normal_docs, schema=ExtractedAsset, prompt=prompt,
-                model=config.extract_model, max_concurrency=config.extractor_default_concurrency,
-                config=extractor_cfg, usage=extractor_usage,
-            )
+            with show_spinner(f"Extracting from {len(normal_docs)} pages..."):
+                extractor_usage = ExtractorUsage()
+                extracted = await extract(
+                    documents=normal_docs, schema=ExtractedAsset, prompt=prompt,
+                    model=config.extract_model, max_concurrency=config.extractor_default_concurrency,
+                    config=extractor_cfg, usage=extractor_usage,
+                )
             if costs:
                 costs.track_llm(
                     config.extract_model,
                     extractor_usage.input_tokens, extractor_usage.output_tokens, "extract",
                 )
+            show_detail(f"Extracted {len(extracted)} assets from {len(normal_docs)} pages")
 
         # Exhaustive extraction for high-count pages
-        for doc, estimated_count in exhaustive_docs:
-            exhaust_usage = ExtractorUsage()
-            exhaustive_assets = await extract_exhaustive(
-                doc, ExtractedAsset, prompt, config.extract_model, estimated_count,
-                config=extractor_cfg, usage=exhaust_usage,
-            )
+        for i, (doc, estimated_count) in enumerate(exhaustive_docs):
+            url_short = doc.metadata.get("url", "?")[:60]
+            with show_spinner(f"Exhaustive extraction ({i+1}/{len(exhaustive_docs)}): {url_short}"):
+                exhaust_usage = ExtractorUsage()
+                exhaustive_assets = await extract_exhaustive(
+                    doc, ExtractedAsset, prompt, config.extract_model, estimated_count,
+                    config=extractor_cfg, usage=exhaust_usage,
+                )
             if costs:
                 costs.track_llm(
                     config.extract_model,
                     exhaust_usage.input_tokens, exhaust_usage.output_tokens, "extract",
                 )
+            show_detail(f"  {len(exhaustive_assets)} assets from {url_short}")
             extracted.extend(exhaustive_assets)
 
         # Convert ExtractedAsset -> Asset (adds pipeline fields)
