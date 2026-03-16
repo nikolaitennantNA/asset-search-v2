@@ -366,19 +366,24 @@ class DiscoverDisplay:
         console.print(Padding(t, (0, 0, 0, self._PAD)))
 
     def on_agent_text(self, text: str) -> None:
-        """Handle text from the agent. First text becomes the plan line."""
+        """Handle text from the agent. First text becomes the plan line.
+        Short text stays in the tree. Long text (final summary) breaks out."""
         text = text.strip()
         if not text:
             return
         if not self._plan_shown:
             self._show_plan(text)
-        else:
+        elif len(text) > 200:
+            # Long text = final summary. Break out of the tree.
             self._end_section()
             console.print()
             t = Text()
             t.append(text, style="italic dim")
             from rich.padding import Padding
             console.print(Padding(t, (0, 0, 0, self._PAD)))
+        else:
+            # Short note stays inside the current domain's tree
+            self._queue(text, style="italic dim")
 
     def on_web_search(self, query: str) -> None:
         """Display a web search call. Buffers if plan hasn't been shown yet."""
@@ -425,7 +430,22 @@ class DiscoverDisplay:
         elif event == "probe_result":
             total = data.get("total", 0)
             exist = data.get("exist", 0)
-            self._queue(f"{'probe':<{self._LABEL_W}}{total} paths → {exist} exist")
+            paths = data.get("paths", [])
+            if paths:
+                # Show short path names — truncate long slugs
+                short = []
+                for p in paths[:6]:
+                    p = p.rstrip("/")
+                    name = p.rsplit("/", 1)[-1] if "/" in p else p
+                    if len(name) > 20:
+                        name = name[:17] + "..."
+                    short.append(name)
+                shown = ", ".join(short)
+                if len(paths) > 6:
+                    shown += f" +{len(paths) - 6}"
+                self._queue(f"{'probe':<{self._LABEL_W}}{exist}/{total} exist ({shown})")
+            else:
+                self._queue(f"{'probe':<{self._LABEL_W}}{total} paths → {exist} exist")
 
         elif event == "save_result":
             count = data.get("count", 0)
@@ -439,6 +459,16 @@ class DiscoverDisplay:
         elif event == "spider_result":
             count = data.get("count", 0)
             self._queue(f"{'spider':<{self._LABEL_W}}{count} links")
+
+        elif event == "bulk_save_empty":
+            total = data.get("total_sitemap", 0)
+            inc = data.get("include")
+            exc = data.get("exclude")
+            filt = f"include={inc}" if inc else f"exclude={exc}" if exc else "no filter"
+            self._queue(
+                f"{'save':<{self._LABEL_W}}0 urls (bulk: {total} sitemap, {filt})",
+                style="yellow",
+            )
 
         elif event == "remove_result":
             count = data.get("count", 0)

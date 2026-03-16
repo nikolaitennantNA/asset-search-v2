@@ -20,6 +20,7 @@ _config: Config | None = None
 _issuer_id: str = ""
 _costs: CostTracker | None = None
 _on_event: Callable[[str, dict], None] | None = None
+_sitemap_cache: dict[str, list[dict[str, str]]] = {}  # cache fetch_sitemap results
 
 
 def _emit(event: str, **data: Any) -> None:
@@ -39,11 +40,12 @@ def init_tools(
     costs: CostTracker | None = None,
     on_event: Callable[[str, dict], None] | None = None,
 ) -> None:
-    global _config, _issuer_id, _costs, _on_event
+    global _config, _issuer_id, _costs, _on_event, _sitemap_cache
     _config = config
     _issuer_id = issuer_id
     _costs = costs
     _on_event = on_event
+    _sitemap_cache = {}
 
 
 def _get_conn():
@@ -202,11 +204,12 @@ async def fetch_sitemap(domain: str, sitemap: str | None = None) -> list[dict[st
     elif urls:
         _emit("sitemap_urls", domain=_norm_domain(domain), count=len(urls))
 
-    # Return index entries if found (agent decides which to follow)
-    # Otherwise return the actual URLs
-    if indexes:
-        return indexes
-    return urls
+    # Cache results for save_sitemap_urls
+    cache_key = f"{domain}:{sitemap or ''}"
+    result = indexes if indexes else urls
+    _sitemap_cache[cache_key] = result
+
+    return result
 
 
 async def crawl_page(
@@ -452,23 +455,25 @@ async def save_sitemap_urls(
 
     Returns count of URLs saved.
     """
-    # Fetch the sitemap
-    results = await fetch_sitemap(domain, sitemap)
+    # Use cached sitemap results if available, otherwise fetch
+    cache_key = f"{domain}:{sitemap or ''}"
+    results = _sitemap_cache.get(cache_key)
+    if results is None:
+        results = await fetch_sitemap(domain, sitemap)
     if not results:
         return 0
 
-    # If we got a sitemap index and no child specified, save ALL children's URLs
+    # If we got a sitemap index, fetch each child and collect URLs
     if results[0].get("type") == "index":
-        if sitemap:
-            # Agent asked for a specific child but got an index — shouldn't happen
-            return 0
-        # Recursively fetch each child sitemap and collect URLs
         all_urls: list[str] = []
         for idx_entry in results:
             child_url = idx_entry.get("url", "")
             if not child_url:
                 continue
-            child_results = await fetch_sitemap(domain, child_url)
+            child_key = f"{domain}:{child_url}"
+            child_results = _sitemap_cache.get(child_key)
+            if child_results is None:
+                child_results = await fetch_sitemap(domain, child_url)
             for entry in child_results:
                 if entry.get("type") != "index":
                     url = entry.get("url", "")
@@ -494,6 +499,9 @@ async def save_sitemap_urls(
             filtered.append(url)
 
     if not filtered:
+        _emit("bulk_save_empty", domain=_norm_domain(domain),
+              total_sitemap=len(results_flat),
+              include=include, exclude=exclude)
         return 0
 
     # Build URL dicts and delegate to save_urls
@@ -631,9 +639,11 @@ async def probe_urls(urls: list[str]) -> list[dict[str, Any]]:
     ) as client:
         tasks = [_probe_one(client, url) for url in urls]
         results = list(await asyncio.gather(*tasks))
-    exist = sum(1 for r in results if 200 <= r.get("status", 0) < 400)
+    found = [r for r in results if 200 <= r.get("status", 0) < 400]
+    found_paths = [urlparse(r["url"]).path for r in found]
     domain = _norm_domain(urlparse(urls[0]).netloc) if urls else ""
-    _emit("probe_result", domain=domain, total=len(urls), exist=exist)
+    _emit("probe_result", domain=domain, total=len(urls), exist=len(found),
+          paths=found_paths)
     return results
 
 

@@ -6,16 +6,17 @@
 set -euo pipefail
 
 ISSUER_ID="${1:?Usage: clear_cache.sh <issuer_id>}"
-DB_URL="${CORPGRAPH_DB_URL:?Set CORPGRAPH_DB_URL}"
+CONTAINER="${CORPGRAPH_CONTAINER:-corpgraph-pg}"
+DB_USER="${CORPGRAPH_USER:-corpgraph}"
+DB_NAME="${CORPGRAPH_DB:-corpgraph}"
 
 echo "Clearing cache for issuer: $ISSUER_ID"
 
-psql "$DB_URL" -c "
+docker exec "$CONTAINER" psql -U "$DB_USER" -d "$DB_NAME" -c "
   DELETE FROM extraction_results WHERE issuer_id = '$ISSUER_ID';
   DELETE FROM scraped_pages      WHERE issuer_id = '$ISSUER_ID';
   DELETE FROM discovered_urls    WHERE issuer_id = '$ISSUER_ID';
   DELETE FROM discovered_assets  WHERE issuer_id = '$ISSUER_ID';
-  DELETE FROM qa_results         WHERE issuer_id = '$ISSUER_ID';
 "
 
 echo "Done."

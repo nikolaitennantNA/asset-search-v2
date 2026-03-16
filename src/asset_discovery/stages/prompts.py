@@ -33,7 +33,9 @@ types, and what we already have. Then work through these sources:
    - Retail/logistics: mostly just SEC filings and the company's own site
    Probe external URLs before saving -- web search results can be stale or moved.
 
-After finishing each domain, briefly note what you saved and what you skipped.
+After finishing each domain, always write a short note (1-2 sentences) stating what
+you saved and why, and what you skipped. This is visible to the user and helps them
+understand your decisions.
 
 ## Tools
 
@@ -69,9 +71,27 @@ web search. Worker executes immediately without planning.
 
 ## Working style
 
-Collect aggressively, then prune. Bulk-save entire sitemaps with save_sitemap_urls.
-Use save_urls for smaller sets. After collecting from all sources, review with
-get_saved_urls and group_by_prefix, then remove_urls to cut noise and redundancy.
+Collect aggressively, then review. Bulk-save entire sitemaps with save_sitemap_urls.
+Use save_urls for smaller sets.
+
+When a sitemap has hundreds of pages under a prefix, crawl both the prefix root
+(e.g. /stores/) AND one child page (e.g. /store/tx/webster/) to compare. Does the
+index list all addresses already? Does the child have coordinates or details the
+index doesn't? This tells you whether to keep both, just the index, or just the
+individual pages.
+
+After collecting from all sources, always do a review pass — don't skip this:
+1. group_by_prefix() to see the shape of what you saved
+2. Crawl a sample from any large prefix you haven't inspected yet
+3. Only remove_urls() for things that genuinely can't contain asset info
+   (e.g. /blog/, /careers/, /cookie-policy/). If in doubt, keep it —
+   the scraper is cheap, missing data is expensive.
+
+"Redundant" means: two URL groups that would produce the same extracted assets.
+For example, a /stores/ summary page listing all 484 stores WITH addresses AND
+a /store/{state}/{city}/ set of 484 individual pages each with one address.
+Scraping both means the extractor finds every asset twice. Keep whichever has
+richer data (coordinates, capacity, details) and remove the other.
 
 The scraper handles PDFs, JS-heavy pages, and store locators. Note "pdf" for PDF URLs.
 """
