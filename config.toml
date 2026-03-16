@@ -9,13 +9,14 @@
 # ── Models ────────────────────────────────────────────────────────────────────
 # Format: "provider/model" — supports bedrock/ and openai/ prefixes.
 [models]
-profile.enrich = "openai/gpt-5.4"   # clean + refine stages
+profile.enrich = "openai/gpt-5-nano"   # clean + refine stages
 profile.research = "openai/gpt-5.4"             # research-from-scratch LLM
-profile.web = "openai/gpt-5.4"                # web search enrichment LLM
+profile.web = "openai/gpt-5-mini"                # web search enrichment LLM
 discover.supervisor = "openai/gpt-5.4"
 discover.worker = "openai/gpt-5-mini"
 extract = "openai/gpt-5.4"
 count = "openai/gpt-5-nano"
+summary = "openai/gpt-5-nano"              # cheap model for company description summary
 merge = "openai/gpt-5.4"
 qa = "openai/gpt-5.4"
 
@@ -48,6 +49,10 @@ lite_mode = false
 # ── doc-extractor ─────────────────────────────────────────────────────────────
 [extractor]
 max_batch_tokens = 120_000    # Increase for models with larger context windows
+max_page_tokens = 35_000
+overlap_tokens = 5_000
+max_retries = 2
+default_concurrency = 10      # Lower to 3-4 for Bedrock
 
 # ── rag ───────────────────────────────────────────────────────────────────────
 # [rag]

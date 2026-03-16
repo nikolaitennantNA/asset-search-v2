@@ -39,8 +39,7 @@ slight address variations, or different levels of detail.
 
 For each group of duplicates, COMBINE all information into one record — merge \
 the richest name, most complete address, all available coordinates, capacity data, \
-and supplementary details from every duplicate. Preserve the asset_id from the \
-version that has one (or the first one if multiple do).
+and supplementary details from every duplicate.
 Return JSON array of the deduplicated assets (Asset fields only, no matched_asset_id).
 """
 
@@ -60,26 +59,22 @@ async def run_merge(
 
         batch_size = 50
         final_assets: list[Asset] = []
-        seen_ids: set[str] = set()
 
         for i in range(0, len(extracted_assets), batch_size):
             batch = extracted_assets[i : i + batch_size]
             merged = await _merge_batch(batch, existing, final_assets, config.merge_model, costs)
+            final_assets.extend(merged)
 
-            for asset in merged:
-                if not asset.asset_id:
-                    asset.asset_id = str(uuid.uuid4())
-                if asset.asset_id in seen_ids:
-                    continue
-                seen_ids.add(asset.asset_id)
-
-                asset.attribution_source = "asset_discovery"
-                asset.date_researched = date.today().isoformat()
-                final_assets.append(asset)
-
-        # Final cross-batch dedup pass (spec §8: catch remaining duplicates)
+        # Final cross-batch dedup pass
         if len(final_assets) > 1:
             final_assets = await _final_dedup(final_assets, config.merge_model, costs)
+
+        # Assign asset IDs and pipeline metadata after all dedup is done
+        today = date.today().isoformat()
+        for asset in final_assets:
+            asset.asset_id = str(uuid.uuid4())
+            asset.attribution_source = "asset_discovery"
+            asset.date_researched = today
 
         save_discovered_assets(conn, issuer_id, [a.model_dump() for a in final_assets])
     finally:
@@ -132,14 +127,13 @@ async def _merge_batch(
     try:
         result = json.loads(response.choices[0].message.content)
         assets_data = result if isinstance(result, list) else result.get("assets", [])
-        merged: list[Asset] = []
-        for item in assets_data:
-            matched_id = item.pop("matched_asset_id", None)
-            asset = Asset(**{k: v for k, v in item.items() if k in Asset.model_fields})
-            if matched_id:
-                asset.asset_id = matched_id
-            merged.append(asset)
-        return merged
+        return [
+            Asset(**{
+                k: v for k, v in item.items()
+                if k in Asset.model_fields and k != "matched_asset_id"
+            })
+            for item in assets_data
+        ]
     except Exception:
         return batch
 
