@@ -55,6 +55,20 @@ def get_cached_page(conn: psycopg.Connection, url: str) -> dict[str, Any] | None
         return cur.fetchone()
 
 
+def delete_discovered_urls(conn: psycopg.Connection, issuer_id: str, urls: list[str]) -> int:
+    """Delete discovered URLs by raw URL. Returns count deleted."""
+    if not urls:
+        return 0
+    hashes = [url_hash(u) for u in urls]
+    with conn.cursor() as cur:
+        cur.execute(
+            "DELETE FROM discovered_urls WHERE issuer_id = %s AND url_hash = ANY(%s)",
+            (issuer_id, hashes),
+        )
+    conn.commit()
+    return cur.rowcount
+
+
 def save_scraped_page(
     conn: psycopg.Connection, issuer_id: str, url: str,
     markdown: str, raw_html: str, signals: dict | None, tokens: int | None,

@@ -9,14 +9,15 @@
 # ── Models ────────────────────────────────────────────────────────────────────
 # Format: "provider/model" — supports bedrock/ and openai/ prefixes.
 [models]
-profile.enrich = "bedrock/us.anthropic.claude-haiku-4-5-20251001-v1:0"   # clean + refine stages
-profile.research = "bedrock/us.anthropic.claude-opus-4-6-v1"             # research-from-scratch LLM
-profile.web = "bedrock/us.anthropic.claude-sonnet-4-6"                # web search enrichment LLM
-discover = "openai/gpt-5-nano"           # Sonnet for speed; Opus supervisor planned
+profile.enrich = "openai/gpt-5.4"   # clean + refine stages
+profile.research = "openai/gpt-5.4"             # research-from-scratch LLM
+profile.web = "openai/gpt-5.4"                # web search enrichment LLM
+discover.supervisor = "openai/gpt-5.4"
+discover.worker = "openai/gpt-5-mini"
 extract = "openai/gpt-5.4"
-count = "bedrock/us.anthropic.claude-haiku-4-5-20251001-v1:0"
-merge = "bedrock/us.anthropic.claude-sonnet-4-6"
-qa = "bedrock/us.anthropic.claude-opus-4-6-v1"
+count = "openai/gpt-5-nano"
+merge = "openai/gpt-5.4"
+qa = "openai/gpt-5.4"
 
 # ── corp-profile ──────────────────────────────────────────────────────────────
 # Pipeline modes (pick one):
@@ -29,9 +30,9 @@ qa = "bedrock/us.anthropic.claude-opus-4-6-v1"
 [profile]
 enrich = false                # Ignored when web=true (web replaces enrich)
 web = true                    # Web search enrichment via Exa
-web_provider = "exa"          # "exa" (explicit), "openai" (built-in), "auto" (exa for bedrock)
+web_provider = "openai"          # "exa" (explicit), "openai" (built-in), "auto" (exa for bedrock)
 research = false              # Set true to build profile from scratch (ignores enrich/web)
-research_provider = "exa"     # "exa", "openai", or "auto"
+research_provider = "openai"     # "exa", "openai", or "auto"
 
 # ── web-scraper ───────────────────────────────────────────────────────────────
 [scraper]
@@ -67,3 +68,6 @@ max_discover_tool_calls = 200
 max_discover_minutes = 15
 max_qa_iterations = 2
 max_urls_per_run = 5000
+max_discover_rounds = 2
+max_discover_workers = 6
+max_concurrent_api_calls = 10

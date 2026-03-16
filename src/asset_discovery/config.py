@@ -112,7 +112,9 @@ class Config:
     profile_enrich_model: str = ""
     profile_research_model: str = ""
     profile_web_model: str = ""
-    discover_model: str = ""
+    discover_model: str = ""              # backward compat fallback
+    discover_supervisor_model: str = ""
+    discover_worker_model: str = ""
     extract_model: str = ""
     count_model: str = ""
     merge_model: str = ""
@@ -172,6 +174,9 @@ class Config:
     max_discover_minutes: int = 15
     max_qa_iterations: int = 2
     max_urls_per_run: int = 5000
+    max_discover_rounds: int = 2
+    max_discover_workers: int = 6
+    max_concurrent_api_calls: int = 10
 
     def __post_init__(self):
         toml = _load_toml()
@@ -201,7 +206,19 @@ class Config:
         self.profile_enrich_model = _resolve_str("PROFILE_ENRICH_MODEL", profile_models, "enrich", haiku)
         self.profile_research_model = _resolve_str("PROFILE_RESEARCH_MODEL", profile_models, "research", sonnet)
         self.profile_web_model = _resolve_str("PROFILE_WEB_MODEL", profile_models, "web", "openai/gpt-5-mini")
-        self.discover_model = _resolve_str("DISCOVER_MODEL", models, "discover", bedrock_default)
+        # Discover: supports discover.supervisor / discover.worker dict or flat string
+        discover_cfg = models.get("discover", {})
+        if isinstance(discover_cfg, dict):
+            self.discover_supervisor_model = _resolve_str(
+                "DISCOVER_SUPERVISOR_MODEL", discover_cfg, "supervisor", bedrock_default)
+            self.discover_worker_model = _resolve_str(
+                "DISCOVER_WORKER_MODEL", discover_cfg, "worker", sonnet)
+            self.discover_model = self.discover_supervisor_model  # backward compat
+        else:
+            fallback = _resolve_str("DISCOVER_MODEL", models, "discover", bedrock_default)
+            self.discover_supervisor_model = os.environ.get("DISCOVER_SUPERVISOR_MODEL") or fallback
+            self.discover_worker_model = os.environ.get("DISCOVER_WORKER_MODEL") or fallback
+            self.discover_model = fallback
         self.extract_model = _resolve_str("EXTRACT_MODEL", models, "extract", bedrock_default)
         self.count_model = _resolve_str("COUNT_MODEL", models, "count", haiku)
         self.merge_model = _resolve_str("MERGE_MODEL", models, "merge", "openai/gpt-5-mini")
@@ -259,6 +276,9 @@ class Config:
         self.max_discover_minutes = _resolve_int("MAX_DISCOVER_MINUTES", pipeline, "max_discover_minutes", 15)
         self.max_qa_iterations = _resolve_int("MAX_QA_ITERATIONS", pipeline, "max_qa_iterations", 2)
         self.max_urls_per_run = _resolve_int("MAX_URLS_PER_RUN", pipeline, "max_urls_per_run", 5000)
+        self.max_discover_rounds = _resolve_int("MAX_DISCOVER_ROUNDS", pipeline, "max_discover_rounds", 2)
+        self.max_discover_workers = _resolve_int("MAX_DISCOVER_WORKERS", pipeline, "max_discover_workers", 6)
+        self.max_concurrent_api_calls = _resolve_int("MAX_CONCURRENT_API_CALLS", pipeline, "max_concurrent_api_calls", 10)
 
     # ── Sub-module config builders ────────────────────────────────────────
 
