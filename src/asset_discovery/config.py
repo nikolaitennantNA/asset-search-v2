@@ -125,6 +125,17 @@ class Config:
     profile_web_model: str = ""
     profile_web_provider: str = "auto"
 
+    # ── web-scraper (config.toml [scraper]) ───────────────────────────────
+    # Overrides passed to ScraperConfig.load(). Empty/zero = use scraper defaults.
+    scraper_request_mode: str = ""
+    scraper_proxy_enabled: bool = False
+    scraper_default_proxy: str = ""
+    scraper_readability: bool = False
+    scraper_filter_output_main_only: bool = True
+    scraper_lite_mode: bool = False
+    scraper_max_credits_per_page: float = 0
+    scraper_max_credits_allowed: float = 0
+
     # ── doc-extractor (config.toml [extractor]) ───────────────────────────
     # Keys mirror ExtractorConfig: max_batch_tokens, max_page_tokens,
     # overlap_tokens, max_retries, default_concurrency
@@ -166,6 +177,7 @@ class Config:
         toml = _load_toml()
         models = toml.get("models", {})
         profile = toml.get("profile", {})
+        scraper = toml.get("scraper", {})
         extractor = toml.get("extractor", {})
         rag = toml.get("rag", {})
         aws = toml.get("aws", {})
@@ -200,6 +212,16 @@ class Config:
         self.profile_web_provider = _resolve_str("PROFILE_WEB_PROVIDER", profile, "web_provider", "auto")
 
         # ── web-scraper (keys mirror ScraperConfig) ──────────────────────
+        # ── web-scraper (overrides passed to ScraperConfig.load()) ────────
+        self.scraper_request_mode = _resolve_str("SCRAPER_REQUEST_MODE", scraper, "request_mode", "")
+        self.scraper_proxy_enabled = _resolve_bool("SCRAPER_PROXY_ENABLED", scraper, "proxy_enabled", False)
+        self.scraper_default_proxy = _resolve_str("SCRAPER_DEFAULT_PROXY", scraper, "default_proxy", "")
+        self.scraper_readability = _resolve_bool("SCRAPER_READABILITY", scraper, "readability", False)
+        self.scraper_filter_output_main_only = _resolve_bool("SCRAPER_FILTER_OUTPUT_MAIN_ONLY", scraper, "filter_output_main_only", True)
+        self.scraper_lite_mode = _resolve_bool("SCRAPER_LITE_MODE", scraper, "lite_mode", False)
+        self.scraper_max_credits_per_page = _resolve_float("SCRAPER_MAX_CREDITS_PER_PAGE", scraper, "max_credits_per_page", 0)
+        self.scraper_max_credits_allowed = _resolve_float("SCRAPER_MAX_CREDITS_ALLOWED", scraper, "max_credits_allowed", 0)
+
         # ── doc-extractor (keys mirror ExtractorConfig) ──────────────────
         self.extractor_max_batch_tokens = _resolve_int("EXTRACTOR_MAX_BATCH_TOKENS", extractor, "max_batch_tokens", 120_000)
         self.extractor_max_page_tokens = _resolve_int("EXTRACTOR_MAX_PAGE_TOKENS", extractor, "max_page_tokens", 60_000)
@@ -238,9 +260,30 @@ class Config:
     # ── Sub-module config builders ────────────────────────────────────────
 
     def scraper_config(self):
-        """Build a web-scraper ScraperConfig from this master config."""
+        """Build a web-scraper ScraperConfig from this master config.
+
+        Only passes fields that are explicitly set (non-empty/non-zero).
+        Everything else falls through to ScraperConfig.load() defaults.
+        """
         from web_scraper import ScraperConfig
-        return ScraperConfig.load()
+        overrides: dict = {}
+        if self.scraper_request_mode:
+            overrides["request_mode"] = self.scraper_request_mode
+        if self.scraper_proxy_enabled:
+            overrides["proxy_enabled"] = True
+        if self.scraper_default_proxy:
+            overrides["default_proxy"] = self.scraper_default_proxy
+        if self.scraper_readability:
+            overrides["readability"] = True
+        if not self.scraper_filter_output_main_only:
+            overrides["filter_output_main_only"] = False
+        if self.scraper_lite_mode:
+            overrides["lite_mode"] = True
+        if self.scraper_max_credits_per_page:
+            overrides["max_credits_per_page"] = self.scraper_max_credits_per_page
+        if self.scraper_max_credits_allowed:
+            overrides["max_credits_allowed"] = self.scraper_max_credits_allowed
+        return ScraperConfig.load(**overrides)
 
     def extractor_config(self):
         """Build a doc-extractor ExtractorConfig from this master config."""
