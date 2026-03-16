@@ -3,14 +3,16 @@
 from __future__ import annotations
 
 import asyncio
+import time
 from typing import Any
 
+from rich.text import Text
 from web_scraper import scrape_stream, ScrapeConfig, Usage as ScraperUsage
 
 from ..config import Config
 from ..cost import CostTracker
 from ..db import get_connection, get_cached_page, save_scraped_page, url_hash
-from ..display import show_detail, show_spinner, show_stage, show_warning
+from ..display import console, show_detail, show_warning, stage_progress
 
 
 def _config_from_url(url_row: dict[str, Any]) -> ScrapeConfig | None:
@@ -33,7 +35,10 @@ async def run_scrape(
 
     Uses scrape_stream() for per-page processing as pages arrive from Spider.
     """
-    show_stage(3, "Scraping pages")
+    from rich.panel import Panel
+    from rich.padding import Padding
+
+    start = time.monotonic()
 
     conn = get_connection(config)
     try:
@@ -42,7 +47,6 @@ async def run_scrape(
 
         if no_cache:
             to_scrape = list(discovered_urls)
-            show_detail(f"Cache disabled — scraping all {len(to_scrape)} pages")
         else:
             for url_row in discovered_urls:
                 cached = get_cached_page(conn, url_row["url"])
@@ -51,16 +55,21 @@ async def run_scrape(
                 else:
                     to_scrape.append(url_row)
 
+        # Panel header
+        header = Text()
+        header.append("[3/6]", style="bold cyan")
+        header.append(" Scraping pages", style="bold")
+        header.append("  ·  ", style="dim")
+        header.append(f"{len(discovered_urls)} urls")
+        if cached_pages:
+            header.append(f" ({len(cached_pages)} cached)", style="dim")
+        console.print(Panel(header, border_style="dim", padding=(0, 1)))
+
         configs: dict[str, ScrapeConfig] = {}
         for url_row in to_scrape:
             cfg = _config_from_url(url_row)
             if cfg is not None:
                 configs[url_row["url"]] = cfg
-
-        if cached_pages:
-            show_detail(f"{len(cached_pages)} of {len(discovered_urls)} pages loaded from cache")
-        if to_scrape:
-            show_detail(f"{len(to_scrape)} pages to scrape")
 
         all_pages: list[dict[str, Any]] = list(cached_pages)
         scraper_usage = ScraperUsage()
@@ -71,9 +80,11 @@ async def run_scrape(
             from rag import Usage as RAGUsage
             rag_usage = RAGUsage()
 
+        succeeded = 0
+        failed = 0
+
         if to_scrape:
-            # Dedup URLs (same URL can appear in discovered_urls from
-            # multiple save_urls calls with different notes/category)
+            # Dedup URLs
             seen_urls: set[str] = set()
             deduped: list[dict[str, Any]] = []
             for u in to_scrape:
@@ -81,11 +92,10 @@ async def run_scrape(
                     seen_urls.add(u["url"])
                     deduped.append(u)
             if len(deduped) < len(to_scrape):
-                show_detail(f"Deduplicated {len(to_scrape)} → {len(deduped)} unique URLs")
                 to_scrape = deduped
 
-            scraped_count = 0
-            stall_timeout = 90  # seconds with no page = give up on remaining
+            total = len(to_scrape)
+            stall_timeout = 90
             stream = scrape_stream(
                 urls=[u["url"] for u in to_scrape],
                 api_key=config.spider_api_key,
@@ -93,48 +103,52 @@ async def run_scrape(
                 scraper_config=config.scraper_config(),
                 usage=scraper_usage,
             )
-            try:
-                while True:
-                    try:
-                        page = await asyncio.wait_for(
-                            stream.__anext__(), timeout=stall_timeout,
-                        )
-                    except StopAsyncIteration:
-                        break
-                    except (TimeoutError, asyncio.TimeoutError):
-                        remaining = len(to_scrape) - scraped_count
-                        show_warning(
-                            f"Scrape stalled for {stall_timeout}s — "
-                            f"skipping {remaining} remaining pages"
-                        )
-                        break
 
-                    scraped_count += 1
-                    if page.success and page.markdown:
-                        pid, chash = save_scraped_page(
-                            conn, issuer_id, page.url, page.markdown, page.raw_html,
-                            page.signals, None, stale_days=config.page_stale_days,
-                        )
-                        page_dict = {
-                            "page_id": pid, "url": page.url,
-                            "markdown": page.markdown, "raw_html": page.raw_html,
-                            "signals": page.signals, "content_hash": chash,
-                        }
-                        all_pages.append(page_dict)
-                        show_detail(f"Scraped {scraped_count}/{len(to_scrape)}: {page.url[:60]}")
+            with stage_progress(total, "Scraping", "pages") as (progress, task):
+                try:
+                    while True:
+                        try:
+                            page = await asyncio.wait_for(
+                                stream.__anext__(), timeout=stall_timeout,
+                            )
+                        except StopAsyncIteration:
+                            break
+                        except (TimeoutError, asyncio.TimeoutError):
+                            remaining = total - (succeeded + failed)
+                            failed += remaining
+                            show_warning(
+                                f"Stalled for {stall_timeout}s — "
+                                f"skipping {remaining} remaining pages"
+                            )
+                            break
 
-                        if rag_store and rag_usage is not None:
-                            rag_doc = {
-                                "id": pid,
-                                "content": page.markdown,
-                                "metadata": {"url": page.url},
-                            }
-                            await rag_store.ingest([rag_doc], namespace=issuer_id, usage=rag_usage)
-                    else:
-                        show_detail(f"Failed {scraped_count}/{len(to_scrape)}: {page.url[:60]}")
-            except Exception as e:
-                show_warning(f"Scrape stream error: {e} — continuing with {scraped_count} pages")
-            show_detail(f"Scraping complete: {len(all_pages) - len(cached_pages)} new pages")
+                        if page.success and page.markdown:
+                            succeeded += 1
+                            pid, chash = save_scraped_page(
+                                conn, issuer_id, page.url, page.markdown,
+                                page.raw_html, page.signals, None,
+                                stale_days=config.page_stale_days,
+                            )
+                            all_pages.append({
+                                "page_id": pid, "url": page.url,
+                                "markdown": page.markdown,
+                                "raw_html": page.raw_html,
+                                "signals": page.signals,
+                                "content_hash": chash,
+                            })
+
+                            if rag_store and rag_usage is not None:
+                                await rag_store.ingest(
+                                    [{"id": pid, "content": page.markdown,
+                                      "metadata": {"url": page.url}}],
+                                    namespace=issuer_id, usage=rag_usage,
+                                )
+                        else:
+                            failed += 1
+
+                        progress.advance(task)
+                except Exception as e:
+                    show_warning(f"Stream error: {e}")
 
         if costs and rag_usage and rag_usage.embedding_tokens:
             costs.track_embedding(rag_usage.embedding_tokens)
@@ -144,5 +158,28 @@ async def run_scrape(
 
     finally:
         conn.close()
+
+    # Panel footer
+    elapsed = time.monotonic() - start
+    mins, secs = divmod(int(elapsed), 60)
+    time_str = f"{mins}m {secs:02d}s" if mins else f"{secs}s"
+    total_new = succeeded
+    total_all = len(all_pages)
+    pct = (succeeded / (succeeded + failed) * 100) if (succeeded + failed) else 100
+
+    footer = Text()
+    footer.append("Done", style="bold")
+    footer.append("  ·  ", style="dim")
+    if cached_pages:
+        footer.append(f"{len(cached_pages)} cached + {total_new} scraped")
+    else:
+        footer.append(f"{total_new} scraped")
+    footer.append(f" ({pct:.0f}%)", style="green" if pct >= 95 else "yellow")
+    if failed:
+        footer.append(f"  ·  {failed} failed", style="red")
+    footer.append("  ·  ", style="dim")
+    footer.append(time_str)
+    console.print(Panel(footer, border_style="dim", padding=(0, 1)))
+    console.print()
 
     return all_pages
