@@ -126,9 +126,9 @@ class Config:
     profile_web_provider: str = "auto"
 
     # ── web-scraper (config.toml [scraper]) ───────────────────────────────
-    # Overrides passed to ScraperConfig.load(). Empty/zero = use scraper defaults.
-    scraper_request_mode: str = ""
-    scraper_proxy_enabled: bool = False
+    # Mirrors ScraperConfig defaults. Passed as overrides to ScraperConfig.load().
+    scraper_request_mode: str = "smart"
+    scraper_proxy_enabled: bool = True
     scraper_default_proxy: str = ""
     scraper_readability: bool = False
     scraper_filter_output_main_only: bool = True
@@ -266,19 +266,15 @@ class Config:
         Everything else falls through to ScraperConfig.load() defaults.
         """
         from web_scraper import ScraperConfig
-        overrides: dict = {}
-        if self.scraper_request_mode:
-            overrides["request_mode"] = self.scraper_request_mode
-        if self.scraper_proxy_enabled:
-            overrides["proxy_enabled"] = True
+        overrides: dict = {
+            "request_mode": self.scraper_request_mode,
+            "proxy_enabled": self.scraper_proxy_enabled,
+            "readability": self.scraper_readability,
+            "filter_output_main_only": self.scraper_filter_output_main_only,
+            "lite_mode": self.scraper_lite_mode,
+        }
         if self.scraper_default_proxy:
             overrides["default_proxy"] = self.scraper_default_proxy
-        if self.scraper_readability:
-            overrides["readability"] = True
-        if not self.scraper_filter_output_main_only:
-            overrides["filter_output_main_only"] = False
-        if self.scraper_lite_mode:
-            overrides["lite_mode"] = True
         if self.scraper_max_credits_per_page:
             overrides["max_credits_per_page"] = self.scraper_max_credits_per_page
         if self.scraper_max_credits_allowed:

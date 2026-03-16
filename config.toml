@@ -37,14 +37,13 @@ web_model = "openai/gpt-5-mini"
 web_provider = "auto"
 
 # ── web-scraper ───────────────────────────────────────────────────────────────
-# Overrides for ScraperConfig. Uncomment to change from scraper defaults.
 [scraper]
-# request_mode = "smart"            # smart | http | chrome
-# proxy_enabled = false
-# default_proxy = ""                # residential | mobile | isp
-# readability = false
-# filter_output_main_only = true
-# lite_mode = false
+request_mode = "smart"              # smart | http | chrome
+proxy_enabled = true
+# default_proxy = ""                # residential | mobile | isp (empty = Spider default)
+readability = false
+filter_output_main_only = true
+lite_mode = false
 # max_credits_per_page = 0          # 0 = no limit
 # max_credits_allowed = 0           # 0 = no limit
 
