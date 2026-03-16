@@ -16,25 +16,27 @@
 # Any litellm-supported model string.
 [models]
 profile.enrich = "bedrock/us.anthropic.claude-haiku-4-5-20251001-v1:0"
-profile.research = "bedrock/us.anthropic.claude-sonnet-4-6-v1"
-profile.web = "openai/gpt-5-mini"
+profile.research = "bedrock/us.anthropic.claude-opus-4-6-v1"
+profile.web = "bedrock/us.anthropic.claude-sonnet-4-6-v1"
 discover = "bedrock/us.anthropic.claude-opus-4-6-v1"
 extract = "bedrock/us.anthropic.claude-opus-4-6-v1"
 count = "bedrock/us.anthropic.claude-haiku-4-5-20251001-v1:0"
-merge = "openai/gpt-5-mini"
+merge = "bedrock/us.anthropic.claude-sonnet-4-6-v1"
 qa = "bedrock/us.anthropic.claude-opus-4-6-v1"
 
 # ── corp-profile ──────────────────────────────────────────────────────────────
 [profile]
 enrich = true
+
 research = false
-web = true
 research_provider = "exa"
+
+web = true
 web_provider = "auto"
 
 # ── web-scraper ───────────────────────────────────────────────────────────────
 [scraper]
-request_mode = "smart"              # smart | http | chrome
+request_mode = "smart" # smart | http | chrome
 proxy_enabled = true
 # default_proxy = ""                # residential | mobile | isp (empty = Spider default)
 readability = false

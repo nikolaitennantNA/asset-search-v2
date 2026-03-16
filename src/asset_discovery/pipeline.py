@@ -138,6 +138,14 @@ async def run(
         from corp_profile.profile import build_profile
         profile = build_profile(isin)
 
+    # Optionally research the profile from scratch via LLM + web search
+    if config.profile_research:
+        from corp_profile.research import research_profile
+        research_cfg = config.profile_research_config()
+        profile, _research_changes = research_profile(
+            identifier=isin, seed=profile, config=research_cfg,
+        )
+
     # Optionally enrich the DB profile with LLM
     if config.profile_enrich or config.profile_web:
         from corp_profile.enrich import enrich_profile
