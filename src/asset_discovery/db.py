@@ -39,19 +39,18 @@ def save_discovered_urls(conn: psycopg.Connection, issuer_id: str, urls: list[di
             cur.execute(
                 """INSERT INTO discovered_urls
                    (url_hash, url, issuer_id, category, notes,
-                    strategy, proxy_mode, wait_for, js_code, scan_full_page, screenshot)
-                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    proxy_mode, wait_for, js_code, scan_full_page, screenshot)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                    ON CONFLICT (url_hash) DO UPDATE SET
                      category = EXCLUDED.category,
                      notes = EXCLUDED.notes,
-                     strategy = EXCLUDED.strategy,
                      proxy_mode = EXCLUDED.proxy_mode,
                      wait_for = EXCLUDED.wait_for,
                      js_code = EXCLUDED.js_code,
                      scan_full_page = EXCLUDED.scan_full_page,
                      screenshot = EXCLUDED.screenshot""",
                 (url_hash(u["url"]), u["url"], issuer_id, u["category"], u.get("notes"),
-                 u.get("strategy"), u.get("proxy_mode"), u.get("wait_for"), u.get("js_code"),
+                 u.get("proxy_mode"), u.get("wait_for"), u.get("js_code"),
                  u.get("scan_full_page", False), u.get("screenshot", False)),
             )
     conn.commit()
