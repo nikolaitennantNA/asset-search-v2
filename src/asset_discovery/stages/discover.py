@@ -185,6 +185,7 @@ async def _run_worker(
         _to_pydantic_ai_model(config.discover_worker_model),
         system_prompt=system_prompt,
         tools=worker_tools,
+        retries=2,
     )
 
     start = time.monotonic()
@@ -242,24 +243,15 @@ async def run_discover(
     overall_timeout = config.max_discover_minutes * 60
     remaining_tool_budget = config.max_discover_tool_calls
 
-    # ── Phase 1: Supervisor plans ──────────────────────────────────────────
+    # ── Phase 1: Supervisor plans (no tools — fast structured output) ─────
     show_detail("Supervisor planning...")
     supervisor_system = f"{context_doc}\n\n---\n\n{DISCOVER_SUPERVISOR_PROMPT}"
-
-    supervisor_tools = [
-        tools.fetch_sitemap,
-        tools.crawl_page,
-        tools.map_domain,
-        tools.probe_urls,
-        tools.save_urls,
-        tools.get_saved_urls,
-    ] + search_tools + builtin_tools
 
     supervisor = Agent(
         _to_pydantic_ai_model(config.discover_supervisor_model),
         system_prompt=supervisor_system,
-        tools=supervisor_tools,
         output_type=DiscoverPlan,
+        retries=2,
     )
 
     plan: DiscoverPlan | None = None
@@ -268,15 +260,13 @@ async def run_discover(
             result = await asyncio.wait_for(
                 supervisor.run(
                     "Plan the URL discovery for this company. Break into parallel tasks for worker agents.",
-                    usage_limits=UsageLimits(tool_calls_limit=_SUPERVISOR_MAX_TOOL_CALLS),
                 ),
-                timeout=min(120, overall_timeout),
+                timeout=min(90, overall_timeout),
             )
             plan = result.output
             if costs:
                 costs.track_pydantic_ai(result.usage(), config.discover_supervisor_model, "discover_supervisor")
-            remaining_tool_budget -= min(_SUPERVISOR_MAX_TOOL_CALLS, remaining_tool_budget)
-        except (asyncio.TimeoutError, UsageLimitExceeded, Exception) as e:
+        except (asyncio.TimeoutError, Exception) as e:
             show_warning(f"Supervisor planning failed: {e}")
 
     if not plan or not plan.tasks:
