@@ -75,6 +75,9 @@ def save_scraped_page(
     stale_days: int = 30,
 ) -> tuple[str, str]:
     """Save a scraped page. Returns (page_id, content_hash)."""
+    # Strip null bytes — Postgres text fields can't contain them
+    markdown = markdown.replace("\x00", "") if markdown else ""
+    raw_html = raw_html.replace("\x00", "") if raw_html else ""
     pid = url_hash(url)
     content_hash = hashlib.sha256(markdown.encode()).hexdigest()
     stale_after = datetime.now(timezone.utc) + timedelta(days=stale_days)
