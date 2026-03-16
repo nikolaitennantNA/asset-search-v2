@@ -35,6 +35,11 @@ def main():
         action="store_true",
         help="Show tool calls, search queries, and LLM interactions",
     )
+    run_parser.add_argument(
+        "--no-cache",
+        action="store_true",
+        help="Skip all DB caches (scrape, extraction) — re-run everything fresh",
+    )
 
     args = parser.parse_args()
 
@@ -52,6 +57,7 @@ def main():
             start_from=args.start_from,
             profile_file=args.from_file,
             verbose=args.verbose,
+            no_cache=args.no_cache,
         ))
         print(f"\nDone. {result['asset_count']} assets in {result['elapsed']:.1f}s")
     else:

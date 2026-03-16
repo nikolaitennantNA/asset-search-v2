@@ -26,7 +26,7 @@ def _config_from_url(url_row: dict[str, Any]) -> ScrapeConfig | None:
 
 async def run_scrape(
     issuer_id: str, discovered_urls: list[dict[str, Any]], config: Config,
-    rag_store=None, costs: CostTracker | None = None,
+    rag_store=None, costs: CostTracker | None = None, no_cache: bool = False,
 ) -> list[dict[str, Any]]:
     """Scrape URLs, skip cached fresh pages. Returns list of page dicts.
 
@@ -39,12 +39,16 @@ async def run_scrape(
         to_scrape: list[dict[str, Any]] = []
         cached_pages: list[dict[str, Any]] = []
 
-        for url_row in discovered_urls:
-            cached = get_cached_page(conn, url_row["url"])
-            if cached:
-                cached_pages.append(cached)
-            else:
-                to_scrape.append(url_row)
+        if no_cache:
+            to_scrape = list(discovered_urls)
+            show_detail(f"Cache disabled — scraping all {len(to_scrape)} pages")
+        else:
+            for url_row in discovered_urls:
+                cached = get_cached_page(conn, url_row["url"])
+                if cached:
+                    cached_pages.append(cached)
+                else:
+                    to_scrape.append(url_row)
 
         configs: dict[str, ScrapeConfig] = {}
         for url_row in to_scrape:

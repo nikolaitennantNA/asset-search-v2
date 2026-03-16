@@ -113,6 +113,7 @@ async def run(
     start_from: str | None = None,
     profile_file: str | None = None,
     verbose: bool = False,
+    no_cache: bool = False,
 ) -> dict[str, Any]:
     """Run the full 6-stage pipeline for a company.
 
@@ -212,7 +213,7 @@ async def run(
     # --- Stage 3: Scrape ---
     from .stages.scrape import run_scrape
 
-    pages = await run_scrape(issuer_id, discovered_urls, config, rag_store, costs)
+    pages = await run_scrape(issuer_id, discovered_urls, config, rag_store, costs, no_cache=no_cache)
     stages_run.append("scrape")
     _save_pages(run_dir, pages)
 
@@ -225,7 +226,7 @@ async def run(
     existing_summary = _build_existing_summary(profile)
     assets = await run_extract(
         issuer_id, profile.legal_name, pages, config, existing_summary, costs,
-        profile=profile, skip_cache=(start_from == "extract"),
+        profile=profile, skip_cache=no_cache or (start_from == "extract"),
     )
     stages_run.append("extract")
     _save_extractions(run_dir, assets)
