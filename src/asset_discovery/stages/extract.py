@@ -73,7 +73,26 @@ async def _generate_schema(html: str, model: str, costs: CostTracker | None) -> 
     """Use LLM to generate CSS selector schema from a sample page's HTML."""
     import litellm
 
-    truncated = html[:8000]
+    # Find the main content area — skip navigation/header boilerplate
+    soup = BeautifulSoup(html, "html.parser")
+
+    # Try common content containers in order of specificity
+    content = (
+        soup.find(class_="entry-content")
+        or soup.find("main")
+        or soup.find("article")
+        or soup.find(id="content")
+        or soup.find(id="main-content")
+        or soup.find("body")
+    )
+    if content:
+        for tag in content.find_all(["script", "style", "noscript"]):
+            tag.decompose()
+        truncated = str(content)[:10000]
+    else:
+        # No standard content container found — take the last 10K of HTML
+        # (main content is usually at the end, after navigation/header)
+        truncated = html[-10000:]
     try:
         response = await litellm.acompletion(
             model=model,
@@ -236,26 +255,29 @@ async def _try_deterministic_extraction(
             remaining.extend(group)
             continue
 
-        # Validate on second sample
-        validation = _apply_schema(pages_with_html[1]["raw_html"], schema)
-        if not validation.get("asset_name") and not validation.get("address"):
+        # Validate: apply schema to two samples
+        val1 = _apply_schema(sample["raw_html"], schema)
+        val2 = _apply_schema(pages_with_html[1]["raw_html"], schema)
+        if not (val1.get("asset_name") or val1.get("address")) or \
+           not (val2.get("asset_name") or val2.get("address")):
             log.info("Schema validation failed for %s — falling back to LLM", prefix)
             remaining.extend(group)
             continue
 
-        # Also LLM-extract the first sample to get template fields
-        # (asset_type_raw, naturesense_asset_type, industry_code)
+        # LLM-extract the first sample to:
+        # 1. Get template fields (asset_type_raw, naturesense_asset_type, industry_code)
+        # 2. Compare with deterministic result to check for missing data
         sample_doc = Document(
             content=sample["markdown"],
             metadata={"url": sample["url"]},
         )
+        template = {"entity_name": company_name}
         try:
             sample_assets = await extract(
                 documents=[sample_doc], schema=ExtractedAsset,
                 prompt=f"Extract the physical asset from this page for {company_name}.",
                 model=model, max_concurrency=1,
             )
-            template = {}
             if sample_assets:
                 sa = sample_assets[0]
                 template = {
@@ -264,8 +286,14 @@ async def _try_deterministic_extraction(
                     "naturesense_asset_type": sa.naturesense_asset_type,
                     "industry_code": sa.industry_code,
                 }
-        except Exception:
-            template = {"entity_name": company_name}
+                # Check: did LLM find coords but schema didn't?
+                det_asset = _fields_to_asset(val1, company_name, template)
+                if sa.latitude and (not det_asset or det_asset.latitude is None):
+                    log.info("Schema misses coordinates for %s — falling back to LLM", prefix)
+                    remaining.extend(group)
+                    continue
+        except Exception as e:
+            log.warning("LLM sample extraction failed for %s: %s", prefix, e)
 
         # Apply schema to all pages in the group
         extracted_count = 0
