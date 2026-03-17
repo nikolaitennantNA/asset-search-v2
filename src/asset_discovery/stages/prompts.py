@@ -80,6 +80,12 @@ index list all addresses already? Does the child have coordinates or details the
 index doesn't? This tells you whether to keep both, just the index, or just the
 individual pages.
 
+When sampling, check if the page has structured data (JSON-LD, schema.org markup,
+or coordinates/addresses injected at the top of the markdown). If the structured
+data already contains the key asset fields (name, address, coordinates), note
+"deterministic" in the save notes — this tells the extractor it can skip the LLM
+and convert directly from structured data, which is much faster.
+
 After collecting from all sources, always do a review pass — don't skip this:
 1. group_by_prefix() to see the shape of what you saved
 2. Crawl a sample from any large prefix you haven't inspected yet
