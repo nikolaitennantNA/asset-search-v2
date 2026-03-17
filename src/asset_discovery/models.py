@@ -144,7 +144,9 @@ class ExtractedAsset(BaseModel):
     )
     industry_code: str = Field(
         default="",
-        description="6-digit GICS industry code for this asset. "
+        description="6-digit GICS industry code for this asset based on what the asset IS, "
+        "not the company that owns it. e.g. a grocery store = 301010, a warehouse/DC = 255010, "
+        "an office/HQ = 602010. "
         "See the GICS reference in the prompt for valid codes and descriptions.",
     )
     supplementary_details: dict[str, Any] = Field(
