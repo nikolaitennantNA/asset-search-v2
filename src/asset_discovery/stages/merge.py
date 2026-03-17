@@ -168,12 +168,8 @@ async def run_merge(
         asset.date_researched = today
 
     # Footer
+    from ..display import show_done
     elapsed = time.monotonic() - start
-    mins, secs = divmod(int(elapsed), 60)
-    time_str = f"{mins}m {secs:02d}s" if mins else f"{secs}s"
-    footer = Text()
-    footer.append(f"  Done  ·  {len(all_assets)} unique assets  ·  {time_str}", style="bold green")
-    console.print(footer)
-    console.print()
+    show_done([f"{len(all_assets)} unique assets"], elapsed=elapsed)
 
     return all_assets

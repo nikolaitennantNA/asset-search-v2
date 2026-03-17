@@ -234,12 +234,14 @@ async def run(
                 web=config.profile_web,
                 enrich_config=config.profile_enrich_config() if needs_llm else None,
                 web_config=config.profile_web_config() if config.profile_web else None,
+                skip_cache=no_cache,
             )
     else:
         show_detail("Skipped enrichment (loaded from DB)")
         profile, context_doc = corp_profile.run(
             identifier=isin,
             from_file=profile_file,
+            skip_cache=no_cache,
         )
 
     profile_elapsed = time.monotonic() - profile_start

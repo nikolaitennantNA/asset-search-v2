@@ -62,6 +62,26 @@ def show_warning(msg: str) -> None:
     console.print(f"        [yellow]{msg}[/yellow]")
 
 
+def show_done(parts: list[str], elapsed: float | None = None) -> None:
+    """Print a consistent Done line: rule + green text + spacing.
+
+    Usage: show_done(["495 scraped", "98%", "2 failed"], elapsed=114.0)
+    """
+    if elapsed is not None:
+        mins, secs = divmod(int(elapsed), 60)
+        parts.append(f"{mins}m {secs:02d}s" if mins else f"{secs}s")
+    console.print(Text("  " + "─" * 45, style="dim"))
+    t = Text("  Done", style="bold green")
+    for part in parts:
+        t.append("  ·  ", style="dim")
+        if "failed" in part.lower():
+            t.append(part, style="bold red")
+        else:
+            t.append(part, style="bold")
+    console.print(t)
+    console.print()
+
+
 def show_error(msg: str) -> None:
     """Print a red error."""
     console.print(f"        [red]ERROR: {msg}[/red]")
@@ -486,10 +506,4 @@ class DiscoverDisplay:
         self._end_section()
         elapsed = time.monotonic() - self._start
         count = url_count if url_count is not None else self._total_saved
-        mins, secs = divmod(int(elapsed), 60)
-        time_str = f"{mins}m {secs:02d}s" if mins else f"{secs}s"
-        console.print()
-        t = Text()
-        t.append(f"  Done  ·  {count} urls saved  ·  {time_str}", style="bold green")
-        console.print(t)
-        console.print()  # space before next stage
+        show_done([f"{count} urls saved"], elapsed=elapsed)

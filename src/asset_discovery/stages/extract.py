@@ -680,7 +680,7 @@ async def run_extract(
             url = doc.metadata.get("url", "")
             page = page_by_url.get(url)
             if count >= RAG_ONLY_THRESHOLD:
-                show_detail(f"  ~{count} assets in {url[:60]} → RAG query")
+                show_detail(f"  ~{count} assets in {url[:50]}... → RAG")
                 if page:
                     rag_only_pages.append(page)
             elif page:
@@ -896,7 +896,7 @@ async def run_extract(
 
         # Build URL lookup from doc indices — each batch's documents are
         # numbered 0..N in the prompt via doc_index headers
-        doc_urls = [p.get("url", "") for p in llm_pages if p.get("markdown")]
+        doc_urls = [d.metadata.get("url", "") for d in llm_docs]
         new_assets = []
         for e in llm_result:
             dump = e.model_dump()
@@ -909,7 +909,7 @@ async def run_extract(
 
         # Save extraction results
         all_dumped = [a.model_dump() for a in new_assets]
-        for page in llm_pages:
+        for page in non_prefix_pages:
             pid = page.get("page_id") or url_hash(page["url"])
             save_extraction_result(
                 conn, pid, issuer_id, page.get("content_hash", ""),
@@ -924,12 +924,8 @@ async def run_extract(
     all_assets = _dedup_by_coords(all_assets)
 
     # Footer
+    from ..display import show_done
     elapsed = _time.monotonic() - start
-    mins, secs = divmod(int(elapsed), 60)
-    time_str = f"{mins}m {secs:02d}s" if mins else f"{secs}s"
-    footer = Text()
-    footer.append(f"  Done  ·  {len(all_assets)} assets  ·  {time_str}", style="bold green")
-    console.print(footer)
-    console.print()
+    show_done([f"{len(all_assets)} assets"], elapsed=elapsed)
 
     return all_assets

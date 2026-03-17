@@ -199,27 +199,16 @@ async def run_scrape(
                 show_warning(f"RAG ingestion failed: {e}")
 
     # Footer
-    console.print()
+    from ..display import show_done
     elapsed = time.monotonic() - start
-    mins, secs = divmod(int(elapsed), 60)
-    time_str = f"{mins}m {secs:02d}s" if mins else f"{secs}s"
-    total_new = succeeded
-    total_all = len(all_pages)
     pct = (succeeded / (succeeded + failed) * 100) if (succeeded + failed) else 100
-
-    footer = Text("  Done", style="bold green")
-    footer.append("  ·  ", style="dim")
+    parts = []
     if cached_pages:
-        footer.append(f"{len(cached_pages)} cached + {total_new} scraped", style="bold")
+        parts.append(f"{len(cached_pages)} cached + {succeeded} scraped ({pct:.0f}%)")
     else:
-        footer.append(f"{total_new} scraped", style="bold")
-    footer.append(f" ({pct:.0f}%)", style="bold green" if pct >= 95 else "bold yellow")
+        parts.append(f"{succeeded} scraped ({pct:.0f}%)")
     if failed:
-        footer.append("  ·  ", style="dim")
-        footer.append(f"{failed} failed", style="bold red")
-    footer.append("  ·  ", style="dim")
-    footer.append(time_str, style="bold")
-    console.print(footer)
-    console.print()
+        parts.append(f"{failed} failed")
+    show_done(parts, elapsed=elapsed)
 
     return all_pages
