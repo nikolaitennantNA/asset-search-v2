@@ -649,15 +649,16 @@ async def run_extract(
 
         # --- Step 2: Route pages ---
         RAG_ONLY_THRESHOLD = 120
-        rag_only_count = 0
+        rag_only_pages: list[dict] = []
         extract_pages: list[dict] = []
 
         for doc, count in count_results:
             url = doc.metadata.get("url", "")
             page = page_by_url.get(url)
             if count >= RAG_ONLY_THRESHOLD:
-                show_detail(f"  ~{count} assets in {url[:60]} → RAG-only")
-                rag_only_count += 1
+                show_detail(f"  ~{count} assets in {url[:60]} → RAG query")
+                if page:
+                    rag_only_pages.append(page)
             elif page:
                 extract_pages.append(page)
 
@@ -679,10 +680,10 @@ async def run_extract(
         show_detail(
             f"Routing: {len(det_assets)} deterministic, "
             f"{len(llm_docs)} LLM, "
-            f"{rag_only_count} RAG-only"
+            f"{len(rag_only_pages)} RAG-query"
         )
 
-        # --- Step 4: Deterministic enrichment + LLM extraction in parallel ---
+        # --- Step 4: All three paths in parallel ---
         async def _run_deterministic():
             if not det_assets:
                 return []
@@ -710,9 +711,47 @@ async def run_extract(
             show_detail(f"LLM extracted {len(result)} assets from {len(llm_docs)} pages")
             return result
 
-        det_result, llm_result = await asyncio.gather(
-            _run_deterministic(), _run_llm(),
+        async def _run_rag_extraction():
+            """Query RAG for assets in high-count pages (already ingested during scrape)."""
+            if not rag_only_pages:
+                return []
+            try:
+                from rag import RAGStore
+                rag = RAGStore(config.rag_config(), config.corpgraph_db_url)
+                rag_extracted: list[ExtractedAsset] = []
+                for page in rag_only_pages:
+                    url_short = page["url"][:60]
+                    query = (
+                        f"List all physical assets, facilities, stores, offices, "
+                        f"warehouses, and distribution centers for {company_name} "
+                        f"mentioned in {page['url']}"
+                    )
+                    results = await rag.query(
+                        query, namespace=issuer_id, top_k=20,
+                    )
+                    if results:
+                        # Extract from RAG results using LLM
+                        rag_doc = Document(
+                            content="\n\n".join(r.content for r in results),
+                            metadata={"url": page["url"]},
+                        )
+                        page_assets = await extract(
+                            documents=[rag_doc], schema=ExtractedAsset, prompt=prompt,
+                            model=config.extract_model, max_concurrency=1,
+                            config=extractor_cfg,
+                        )
+                        rag_extracted.extend(page_assets)
+                        show_detail(f"  RAG: {len(page_assets)} assets from {url_short}")
+                return rag_extracted
+            except Exception as e:
+                log.warning("RAG extraction failed: %s", e)
+                return []
+
+        det_result, llm_result, rag_result = await asyncio.gather(
+            _run_deterministic(), _run_llm(), _run_rag_extraction(),
         )
+        # Merge RAG results into LLM results
+        llm_result.extend(rag_result)
 
         all_assets.extend(det_result)
         new_assets = [Asset(**e.model_dump()) for e in llm_result]
