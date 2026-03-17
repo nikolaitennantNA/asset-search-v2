@@ -211,6 +211,116 @@ def _fields_to_asset(fields: dict, company_name: str, template: dict) -> Asset |
 
 _DETERMINISTIC_MIN_GROUP = 10
 
+_ENRICH_PROMPT = """\
+You have a list of {count} physical assets extracted deterministically from {company}'s
+website. The core fields (name, address, coordinates) are correct but some classification
+fields may be missing or generic.
+
+Review and fill in these fields for ALL assets. Return a JSON array with one object per
+asset, each containing ONLY these fields:
+- index (0-based position in the input list)
+- asset_type_raw (e.g. "grocery store", "concrete plant", "distribution center")
+- naturesense_asset_type (from the reference below)
+- industry_code (6-digit GICS code from the reference below)
+- entity_stake_pct (default 100 unless you know otherwise)
+- status ("Operating" unless the name suggests closed/planned)
+
+Be consistent — if these are all the same type, give them all the same classification.
+Only vary if you have a clear reason (e.g. different names suggest different asset types).
+
+## NatureSense Asset Type Reference
+{naturesense_reference}
+
+## GICS Industry Code Reference
+{gics_reference}
+
+## Assets to enrich
+{assets_json}
+"""
+
+
+async def _enrich_deterministic_assets(
+    assets: list[Asset],
+    company_name: str,
+    model: str,
+    costs: CostTracker | None,
+) -> list[Asset]:
+    """One LLM call to fill in classification fields for all deterministic assets."""
+    if not assets:
+        return assets
+
+    import litellm
+
+    # Build compact JSON of assets for the LLM
+    compact = [
+        {"index": i, "name": a.asset_name, "address": a.address}
+        for i, a in enumerate(assets)
+    ]
+    # Only send first 100 + last 5 to avoid huge prompts (they're all the same type)
+    if len(compact) > 105:
+        sample = compact[:100] + compact[-5:]
+        sample_note = f" (showing 105 of {len(compact)}, apply same classification to all)"
+    else:
+        sample = compact
+        sample_note = ""
+
+    prompt = _ENRICH_PROMPT.format(
+        count=len(assets),
+        company=company_name,
+        assets_json=json.dumps(sample, indent=1) + sample_note,
+        naturesense_reference=naturesense_reference_block(),
+        gics_reference=gics_reference_block(),
+    )
+
+    try:
+        response = await litellm.acompletion(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            response_format={"type": "json_object"},
+            max_tokens=2000,
+        )
+        content = response.choices[0].message.content.strip()
+        result = json.loads(content)
+
+        if costs:
+            costs.track_llm(
+                model,
+                response.usage.prompt_tokens,
+                response.usage.completion_tokens,
+                "enrich",
+            )
+
+        # Parse enrichments — could be a list or {"assets": [...]}
+        enrichments = result if isinstance(result, list) else result.get("assets", [])
+
+        # Build lookup by index
+        enrich_map: dict[int, dict] = {}
+        for e in enrichments:
+            if isinstance(e, dict) and "index" in e:
+                enrich_map[int(e["index"])] = e
+
+        # Apply to all assets. If we sampled, use the first enrichment as template
+        template_enrich = enrichments[0] if enrichments else {}
+        for i, asset in enumerate(assets):
+            e = enrich_map.get(i, template_enrich)
+            if e.get("asset_type_raw"):
+                asset.asset_type_raw = e["asset_type_raw"]
+            if e.get("naturesense_asset_type"):
+                asset.naturesense_asset_type = e["naturesense_asset_type"]
+            if e.get("industry_code"):
+                asset.industry_code = str(e["industry_code"])
+            if e.get("entity_stake_pct") is not None:
+                asset.entity_stake_pct = float(e["entity_stake_pct"])
+            if e.get("status"):
+                asset.status = e["status"]
+
+        show_detail(f"  Enriched {len(assets)} deterministic assets")
+
+    except Exception as e:
+        log.warning("Enrichment failed: %s — using template fields", e)
+
+    return assets
+
 
 async def _try_deterministic_extraction(
     pages: list[dict[str, Any]],
@@ -495,6 +605,10 @@ async def run_extract(
         )
         if det_assets:
             show_detail(f"Deterministic extraction: {len(det_assets)} assets")
+            with show_spinner(f"Enriching {len(det_assets)} deterministic assets..."):
+                det_assets = await _enrich_deterministic_assets(
+                    det_assets, company_name, config.extract_model, costs,
+                )
             all_assets.extend(det_assets)
 
         if not to_extract:
