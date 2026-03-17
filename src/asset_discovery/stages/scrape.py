@@ -160,13 +160,6 @@ async def run_scrape(
                                 "signals": page.signals,
                                 "content_hash": chash,
                             })
-
-                            if rag_store and rag_usage is not None:
-                                await rag_store.ingest(
-                                    [{"id": pid, "content": page.markdown,
-                                      "metadata": {"url": page.url}}],
-                                    namespace=issuer_id, usage=rag_usage,
-                                )
                         else:
                             failed += 1
 
@@ -174,14 +167,34 @@ async def run_scrape(
                 except Exception as e:
                     show_warning(f"Stream error: {e}")
 
-        if costs and rag_usage and rag_usage.embedding_tokens:
-            costs.track_embedding(rag_usage.embedding_tokens)
-
         if costs and scraper_usage.pages_scraped:
             costs.track_spider(scraper_usage.pages_scraped, cost_usd=scraper_usage.total_cost)
 
     finally:
         conn.close()
+
+    # RAG ingestion — batch after scraping completes (faster than inline)
+    if rag_store:
+        logging.getLogger("chonkie").setLevel(logging.ERROR)
+        new_pages = [p for p in all_pages if p.get("markdown") and p not in cached_pages]
+        if new_pages:
+            show_detail(f"Ingesting {len(new_pages)} pages into RAG...")
+            rag_usage = None
+            if rag_store:
+                from rag import Usage as RAGUsage
+                rag_usage = RAGUsage()
+            docs = [
+                {"id": p.get("page_id", ""), "content": p["markdown"],
+                 "metadata": {"url": p["url"]}}
+                for p in new_pages
+            ]
+            try:
+                await rag_store.ingest(docs, namespace=issuer_id, usage=rag_usage)
+                if costs and rag_usage and rag_usage.embedding_tokens:
+                    costs.track_embedding(rag_usage.embedding_tokens)
+                show_detail(f"RAG ingestion complete")
+            except Exception as e:
+                show_warning(f"RAG ingestion failed: {e}")
 
     # Panel footer
     elapsed = time.monotonic() - start
