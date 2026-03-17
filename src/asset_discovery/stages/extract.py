@@ -136,7 +136,9 @@ def _apply_schema(html: str, schema: dict) -> dict[str, str]:
         else:
             el = soup.select_one(selector)
             if el:
-                text = el.get_text(strip=True)
+                text = el.get_text(separator=" ", strip=True)
+                # Clean up multiple spaces from <br> tags etc
+                text = " ".join(text.split())
                 if text:
                     result[field] = text
 
@@ -216,10 +218,14 @@ You have a list of {count} physical assets extracted deterministically from {com
 website. The core fields (name, address, coordinates) are correct but some classification
 fields may be missing or generic.
 
+## Company context
+{company_context}
+
 Review and fill in these fields for ALL assets. Return a JSON array with one object per
 asset, each containing ONLY these fields:
 - index (0-based position in the input list)
-- entity_isin (the ISIN of the entity that owns these assets, if you know it)
+- entity_isin (ISIN of the owning entity — use the company context above to determine
+  the correct ISIN. If the asset belongs to a subsidiary, use that subsidiary's ISIN.)
 - asset_type_raw (e.g. "grocery store", "concrete plant", "distribution center")
 - naturesense_asset_type (from the reference below)
 - industry_code (6-digit GICS code from the reference below)
@@ -245,6 +251,7 @@ Only vary if you have a clear reason (e.g. different names suggest different ass
 async def _enrich_deterministic_assets(
     assets: list[Asset],
     company_name: str,
+    company_context: str,
     model: str,
     costs: CostTracker | None,
 ) -> list[Asset]:
@@ -270,6 +277,7 @@ async def _enrich_deterministic_assets(
     prompt = _ENRICH_PROMPT.format(
         count=len(assets),
         company=company_name,
+        company_context=company_context,
         assets_json=json.dumps(sample, indent=1) + sample_note,
         naturesense_reference=naturesense_reference_block(),
         gics_reference=gics_reference_block(),
@@ -800,7 +808,8 @@ async def run_extract(
             if det_assets:
                 show_detail(f"Deterministic total: {len(det_assets)} assets")
                 det_assets = await _enrich_deterministic_assets(
-                    det_assets, company_name, config.extract_model, costs,
+                    det_assets, company_name, company_context,
+                    config.extract_model, costs,
                 )
 
             return det_assets, fallback_pages
