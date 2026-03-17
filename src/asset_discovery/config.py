@@ -155,7 +155,7 @@ class Config:
     rag_embedding_model: str = "text-embedding-3-small"
     rag_embedding_dim: int = 1536
     rag_chunk_tokens: int = 512
-    rag_overlap_tokens: int = 100
+    rag_overlap_tokens: int = 50
     rag_token_cap: int = 4096
     rag_embed_batch_size: int = 100
     rag_retrieval_top_k: int = 80

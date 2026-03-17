@@ -98,29 +98,35 @@ _TREX_FIELDS = [
 ]
 
 
-def _save_merged(run_dir: Path, assets: list[Asset], qa_report=None) -> None:
-    # JSON (full data)
+def _save_merged(run_dir: Path, assets: list[Asset]) -> None:
+    """Save intermediate JSON after merge (pre-QA checkpoint)."""
+    (run_dir / "final_assets.json").write_text(
+        json.dumps([a.model_dump() for a in assets], indent=2, default=str)
+    )
+
+
+def _save_final(run_dir: Path, assets: list[Asset], qa_report=None) -> None:
+    """Save final output: JSON + CSV (TREX format) + XLSX (Key + Assets sheets)."""
+    # JSON
     (run_dir / "final_assets.json").write_text(
         json.dumps([a.model_dump() for a in assets], indent=2, default=str)
     )
 
     # CSV in TREX ALD format
-    path = run_dir / "final_assets.csv"
-    with open(path, "w", newline="") as f:
+    with open(run_dir / "final_assets.csv", "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=_TREX_FIELDS, extrasaction="ignore")
         writer.writeheader()
         for a in assets:
             row = a.model_dump()
-            # Map asset_name → name (TREX convention)
             row["name"] = row.pop("asset_name", "")
-            if row.get("supplementary_details"):
-                row["supplementary_details"] = json.dumps(row["supplementary_details"])
+            for k, v in row.items():
+                if isinstance(v, (dict, list)):
+                    row[k] = json.dumps(v) if v else ""
             writer.writerow({k: row.get(k, "") for k in _TREX_FIELDS})
 
-    # XLSX with Key sheet + data sheet
+    # XLSX with Key + Assets sheets
     try:
         import openpyxl
-        from openpyxl.styles import PatternFill
 
         wb = openpyxl.Workbook()
 
@@ -138,19 +144,20 @@ def _save_merged(run_dir: Path, assets: list[Asset], qa_report=None) -> None:
             key_ws.append(["QA Summary"])
             key_ws.append([qa_report.summary])
 
-        # Data sheet
+        # Assets sheet
         data_ws = wb.create_sheet("Assets")
         data_ws.append(_TREX_FIELDS)
         for a in assets:
             row = a.model_dump()
             row["name"] = row.pop("asset_name", "")
-            if row.get("supplementary_details"):
-                row["supplementary_details"] = json.dumps(row["supplementary_details"])
+            for k, v in row.items():
+                if isinstance(v, (dict, list)):
+                    row[k] = json.dumps(v) if v else ""
             data_ws.append([row.get(k, "") for k in _TREX_FIELDS])
 
         wb.save(run_dir / "final_assets.xlsx")
     except ImportError:
-        pass  # openpyxl not installed, skip xlsx
+        pass
 
 
 def _save_qa(run_dir: Path, qa_report: QAReport) -> None:
@@ -205,33 +212,38 @@ async def run(
 
     # --- Stage 1: Profile (always runs — needed by all downstream stages) ---
     from .display import show_stage
+    profile_start = time.monotonic()
     show_stage(1, "Profiling")
 
     import corp_profile
+    from .display import show_detail, show_spinner
 
     if config.profile_research and _should_run("profile"):
-        profile, context_doc = corp_profile.research(
-            isin,
-            config=config.profile_research_config(),
-        )
+        with show_spinner("Building profile from scratch..."):
+            profile, context_doc = corp_profile.research(
+                isin,
+                config=config.profile_research_config(),
+            )
     elif _should_run("profile"):
         needs_llm = config.profile_enrich or config.profile_web
-        profile, context_doc = corp_profile.run(
-            identifier=isin,
-            from_file=profile_file,
-            enrich=config.profile_enrich,
-            web=config.profile_web,
-            enrich_config=config.profile_enrich_config() if needs_llm else None,
-            web_config=config.profile_web_config() if config.profile_web else None,
-        )
+        with show_spinner("Loading and enriching profile..."):
+            profile, context_doc = corp_profile.run(
+                identifier=isin,
+                from_file=profile_file,
+                enrich=config.profile_enrich,
+                web=config.profile_web,
+                enrich_config=config.profile_enrich_config() if needs_llm else None,
+                web_config=config.profile_web_config() if config.profile_web else None,
+            )
     else:
-        # Skipping profile LLM stages — load from DB without enrichment
-        from .display import show_detail
         show_detail("Skipped enrichment (loaded from DB)")
         profile, context_doc = corp_profile.run(
             identifier=isin,
             from_file=profile_file,
         )
+
+    profile_elapsed = time.monotonic() - profile_start
+    show_detail(f"Profile loaded in {profile_elapsed:.0f}s")
 
     # Use profile's issuer_id as the canonical identifier for all downstream stages
     issuer_id = profile.issuer_id or isin
@@ -354,8 +366,8 @@ async def run(
     finally:
         conn.close()
 
-    # Re-save final assets with QA flags + xlsx
-    _save_merged(run_dir, assets, qa_report=qa_report)
+    # Save final output with QA flags (JSON + CSV + XLSX)
+    _save_final(run_dir, assets, qa_report=qa_report)
 
     # --- Display results ---
     from .display import show_assets_table, show_cost_summary, show_coverage_flags, console

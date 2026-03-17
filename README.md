@@ -49,9 +49,18 @@ uv run python -m asset_discovery run --from-file boral.json
 
 # Stop after a specific stage
 uv run python -m asset_discovery run --from-file boral.json --stop-after discover
+
+# Resume from a specific stage (loads prior results from DB/cache)
+uv run python -m asset_discovery run AU000000BLD2 --start-from extract
+
+# Skip all DB caches — re-run everything fresh
+uv run python -m asset_discovery run --from-file boral.json --no-cache
+
+# Verbose mode (tool calls, search queries, LLM interactions)
+uv run python -m asset_discovery run --from-file boral.json --verbose
 ```
 
-Each run saves intermediate outputs to `output/<issuer_id>/<timestamp>/` — profile JSON, discovered URLs CSV, scraped page markdown/HTML, extracted assets, final merged assets, and the QA report.
+Each run saves outputs to `output/<company_slug>_<issuer_id>/<timestamp>/` — profile JSON, discovered URLs CSV, scraped page markdown/HTML, extracted assets, and final results as JSON, CSV (TREX ALD format), and XLSX (with QA summary sheet).
 
 ## Architecture
 
@@ -60,17 +69,18 @@ Each run saves intermediate outputs to `output/<issuer_id>/<timestamp>/` — pro
 | # | Stage | What it does |
 |---|---|---|
 | 1 | **Profile** | Load company context from corp-graph Postgres or JSON file. Optional LLM enrichment. |
-| 2 | **Discover** | pydantic-ai agent with tools (`fetch_sitemap`, `crawl_page`, `map_domain`, `mark_url_found`) + pluggable web search (Exa/Brave/Tavily/OpenAI). Finds and classifies asset-related URLs. |
-| 3 | **Scrape** | Crawl4AI Cloud API via `web-scraper` package. Caches pages in Postgres with staleness tracking. Parses scrape hints from discover agent notes (WAF detection, AJAX waits). |
-| 4 | **Extract** | instructor structured extraction via `doc-extractor` package. Batches pages by token budget, deduplicates by (name, entity). |
-| 5 | **Merge** | LLM dedup against existing ALD assets + cross-batch dedup. Naturesense classification maps raw types to 16 predefined categories. |
-| 6 | **QA** | pydantic-ai agent evaluates coverage, fills gaps via RAG queries and `scrape_and_extract` tool. Iterates up to `max_qa_iterations`. |
+| 2 | **Discover** | Supervisor-worker pattern: a pydantic-ai supervisor agent spawns focused worker agents (up to `max_discover_workers`) for parallel URL discovery. Tools include `fetch_sitemap`, `spider_links`, `crawl_page`, `map_domain`, `probe_urls`, `group_by_prefix`, `save_urls`, `save_sitemap_urls`, `remove_urls` + pluggable web search (Exa/Brave/Tavily/OpenAI). |
+| 3 | **Scrape** | Crawl4AI Cloud API via `web-scraper` package. Caches pages in Postgres with staleness tracking. Parses scrape hints from discover agent (WAF detection, AJAX waits, proxy mode). |
+| 4 | **Extract** | instructor structured extraction via `doc-extractor` package. Batches pages by token budget, deduplicates by coordinates. |
+| 5 | **Merge** | Concurrent batch LLM dedup (50 per batch) + cross-batch dedup + existing asset matching. NatureSense classification maps raw types to predefined categories. |
+| 6 | **Geocode** | Optional address → lat/lon via `geo-resolve`. Runs only for assets with valid addresses but missing coordinates. |
+| 7 | **QA** | pydantic-ai agent evaluates coverage, fills gaps via RAG queries and `scrape_and_extract` tool. Outputs `QAReport` with quality score, summary, and coverage flags (high-severity flags propagate to assets). |
 
 ### Key patterns
 
 - **Idempotent caching** — All stages check Postgres cache before doing work. Pages stale after `page_stale_days`. Extraction cache keyed on `(page_id, model, content_hash)`.
 - **Cost tracking** — `CostTracker` tracks per-model tokens, per-stage tokens, and non-LLM API costs (Crawl4AI, Exa, embeddings, Cohere rerank). Summary printed at end of each run.
-- **Agent tools** — Discover and QA agents compose domain-specific tools from `stages/tools.py` with pluggable web search tools.
+- **Supervisor-worker discovery** — Supervisor delegates subtasks (subsidiary exploration, regulatory DB searches) to worker agents that run in parallel, each with full tool access + web search.
 - **Postgres persistence** — 5 tables: `discovered_urls`, `scraped_pages`, `extraction_results`, `discovered_assets` (with PostGIS geometry), `qa_results`. Schema in `scripts/init_cache_db.sql`.
 
 ## Configuration
@@ -80,6 +90,7 @@ Triple-layer resolution: **env var > `config.toml` > hardcoded default**.
 - Secrets (API keys, DB URL) live in `.env` only
 - Models, caps, and sub-module settings live in `config.toml`
 - `Config` dataclass is constructed once and threaded through all stages
+- Discover stage uses separate models for supervisor and workers (`discover.supervisor`, `discover.worker` in config.toml)
 - Sub-module configs are built via `Config.scraper_config()`, `.extractor_config()`, `.rag_config()`, `.profile_enrich_config()`
 
 Model strings use [litellm](https://docs.litellm.ai/) format (e.g. `bedrock/us.anthropic.claude-opus-4-6-v1`). For pydantic-ai agents, these are wrapped as `litellm:<model>` via `_to_pydantic_ai_model()`.
@@ -88,7 +99,7 @@ See `config.toml` for the full list of tunables with comments.
 
 ## Sub-modules
 
-Four sibling repos are linked as editable deps via `[tool.uv.sources]` in `pyproject.toml`:
+Five sibling repos are linked as editable deps via `[tool.uv.sources]` in `pyproject.toml`:
 
 | Package | Path | Purpose |
 |---|---|---|
@@ -96,24 +107,38 @@ Four sibling repos are linked as editable deps via `[tool.uv.sources]` in `pypro
 | **web-scraper** | `../web-scraper` | Crawl4AI Cloud API wrapper with batching + proxy support |
 | **doc-extractor** | `../doc-extractor` | LLM structured extraction via instructor |
 | **rag** | `../rag` | pgvector ingest + Cohere rerank retrieval |
+| **geo-resolve** | `../geo-resolve` | Geocoding (address → lat/lon) |
+
+## Testing
+
+```bash
+# Unit tests (mock DB via mock_conn fixture)
+uv run pytest tests/unit/
+
+# Single test file
+uv run pytest tests/unit/test_config.py
+
+# Integration tests (needs live Postgres, per-test cleanup)
+uv run pytest tests/integration/ -m integration
+```
 
 ## Key files
 
 | File | Role |
 |---|---|
 | `src/asset_discovery/__main__.py` | CLI entry point |
-| `src/asset_discovery/pipeline.py` | 6-stage orchestrator |
+| `src/asset_discovery/pipeline.py` | Stage orchestrator |
 | `src/asset_discovery/config.py` | Master config with triple-layer resolution |
-| `src/asset_discovery/models.py` | Pydantic models (`Asset`, `QAReport`, `CoverageFlag`) |
+| `src/asset_discovery/models.py` | Pydantic models + GICS/NatureSense data loading |
 | `src/asset_discovery/cost.py` | LLM + API cost tracking |
 | `src/asset_discovery/db.py` | Postgres helper functions |
-| `src/asset_discovery/stages/discover.py` | Stage 2: URL discovery agent |
-| `src/asset_discovery/stages/scrape.py` | Stage 3: Web scraping |
-| `src/asset_discovery/stages/extract.py` | Stage 4: Structured extraction |
-| `src/asset_discovery/stages/merge.py` | Stage 5: Dedup + classification |
-| `src/asset_discovery/stages/qa.py` | Stage 6: QA + gap-fill agent |
-| `src/asset_discovery/stages/prompts.py` | System prompts for all LLM agents |
-| `src/asset_discovery/stages/tools.py` | Agent tools (sitemap, crawl, map, mark_url) |
+| `src/asset_discovery/stages/discover.py` | Supervisor-worker URL discovery |
+| `src/asset_discovery/stages/scrape.py` | Web scraping via Crawl4AI |
+| `src/asset_discovery/stages/extract.py` | Structured extraction |
+| `src/asset_discovery/stages/merge.py` | Concurrent batch dedup + classification |
+| `src/asset_discovery/stages/qa.py` | QA + gap-fill agent |
+| `src/asset_discovery/stages/tools.py` | Agent tools (sitemap, spider, crawl, save URLs, spawn_worker) |
+| `src/asset_discovery/stages/prompts.py` | System prompts for LLM agents |
 | `src/asset_discovery/display.py` | Rich terminal display |
 | `config.toml` | Runtime configuration |
 | `scripts/init_cache_db.sql` | Postgres schema |

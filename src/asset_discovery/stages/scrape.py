@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 import time
 from typing import Any
+
 
 from rich.text import Text
 from web_scraper import scrape_stream, ScrapeConfig, Usage as ScraperUsage
@@ -175,7 +177,6 @@ async def run_scrape(
 
     # RAG ingestion — batch after scraping completes (faster than inline)
     if rag_store:
-        logging.getLogger("chonkie").setLevel(logging.ERROR)
         new_pages = [p for p in all_pages if p.get("markdown") and p not in cached_pages]
         if new_pages:
             show_detail(f"Ingesting {len(new_pages)} pages into RAG...")
@@ -188,11 +189,12 @@ async def run_scrape(
                  "metadata": {"url": p["url"]}}
                 for p in new_pages
             ]
+            from ..display import show_spinner
             try:
-                await rag_store.ingest(docs, namespace=issuer_id, usage=rag_usage)
+                with show_spinner(f"Ingesting {len(new_pages)} pages into RAG..."):
+                    await rag_store.ingest(docs, namespace=issuer_id, usage=rag_usage)
                 if costs and rag_usage and rag_usage.embedding_tokens:
                     costs.track_embedding(rag_usage.embedding_tokens)
-                show_detail(f"RAG ingestion complete")
             except Exception as e:
                 show_warning(f"RAG ingestion failed: {e}")
 

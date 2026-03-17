@@ -114,10 +114,13 @@ given the company profile, and fill obvious gaps if possible.
 - Are there entire categories of assets missing? e.g. a company with known distribution
   centers but none found.
 
-## Gap-fill (only if clearly needed)
-1. **RAG query first** -- search already-scraped pages for missed info. Cheapest.
-2. **Web search + scrape** -- only if RAG doesn't fill an obvious gap.
-Max 2 iterations. Don't chase small discrepancies.
+## Tools
+- **rag_query(query)** -- all scraped pages are in RAG. Query it to verify things.
+- **rag_extract(query)** -- re-extract assets from RAG results if needed.
+- **scrape_and_extract(urls)** -- scrape and extract from new URLs.
+- **web_search** -- find new URLs.
+
+Max 2 iterations.
 
 ## Output
 - summary: 2-3 sentence analysis of coverage quality. What looks good, what's missing.

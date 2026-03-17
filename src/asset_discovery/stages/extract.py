@@ -219,11 +219,14 @@ fields may be missing or generic.
 Review and fill in these fields for ALL assets. Return a JSON array with one object per
 asset, each containing ONLY these fields:
 - index (0-based position in the input list)
+- entity_isin (the ISIN of the entity that owns these assets, if you know it)
 - asset_type_raw (e.g. "grocery store", "concrete plant", "distribution center")
 - naturesense_asset_type (from the reference below)
 - industry_code (6-digit GICS code from the reference below)
 - entity_stake_pct (default 100 unless you know otherwise)
 - status ("Open" unless the name suggests closed/planned)
+- geocodable (true if the asset has a real street address that could be geocoded,
+  false for vague/offshore/region-level locations)
 
 Be consistent — if these are all the same type, give them all the same classification.
 Only vary if you have a clear reason (e.g. different names suggest different asset types).
@@ -303,6 +306,8 @@ async def _enrich_deterministic_assets(
         template_enrich = enrichments[0] if enrichments else {}
         for i, asset in enumerate(assets):
             e = enrich_map.get(i, template_enrich)
+            if e.get("entity_isin"):
+                asset.entity_isin = e["entity_isin"]
             if e.get("asset_type_raw"):
                 asset.asset_type_raw = e["asset_type_raw"]
             if e.get("naturesense_asset_type"):
@@ -313,6 +318,8 @@ async def _enrich_deterministic_assets(
                 asset.entity_stake_pct = float(e["entity_stake_pct"])
             if e.get("status"):
                 asset.status = e["status"]
+            if "geocodable" in e:
+                asset.geocodable = bool(e["geocodable"])
 
         show_detail(f"  Enriched {len(assets)} deterministic assets")
 
@@ -679,37 +686,127 @@ async def run_extract(
             elif page:
                 extract_pages.append(page)
 
-        # --- Step 3: Split into deterministic vs LLM ---
-        # _try_deterministic_extraction handles schema generation, validation,
-        # and falls back to LLM automatically for groups where schema fails.
-        det_assets, llm_pages = await _try_deterministic_extraction(
-            extract_pages, company_name, config.extract_model, costs,
-        )
+        # --- Step 3+4: Split deterministic vs LLM and run ALL in parallel ---
+        # Group pages by prefix for potential deterministic extraction
+        prefix_groups: dict[str, list[dict]] = {}
+        non_prefix_pages: list[dict] = []
+        for page in extract_pages:
+            url = page.get("url", "")
+            path = urlparse(url).path or "/"
+            parts = [p for p in path.split("/") if p]
+            prefix = "/" + "/".join(parts[:2]) + "/" if len(parts) >= 2 else "/"
+            prefix_groups.setdefault(prefix, []).append(page)
 
+        # Identify which prefix groups are large enough for deterministic
+        det_candidates: list[tuple[str, list[dict]]] = []
+        for prefix, group in sorted(prefix_groups.items(), key=lambda x: -len(x[1])):
+            pages_with_html = [p for p in group if p.get("raw_html")]
+            if len(pages_with_html) >= _DETERMINISTIC_MIN_GROUP:
+                det_candidates.append((prefix, group))
+            else:
+                non_prefix_pages.extend(group)
+
+        # Build LLM docs from pages that won't be deterministic
         llm_docs = [
             Document(
                 content=p["markdown"],
                 metadata={"url": p["url"], "page_id": p.get("page_id") or url_hash(p["url"])},
             )
-            for p in llm_pages if p.get("markdown")
+            for p in non_prefix_pages if p.get("markdown")
         ]
 
         show_detail(
-            f"Routing: {len(det_assets)} deterministic, "
+            f"Routing: {len(det_candidates)} prefix groups for deterministic, "
             f"{len(llm_docs)} LLM, "
             f"{len(rag_only_pages)} RAG-query"
         )
 
-        # --- Step 4: All three paths in parallel ---
         async def _run_deterministic():
-            if not det_assets:
-                return []
-            show_detail(f"Deterministic: {len(det_assets)} assets from CSS schema")
-            return await _enrich_deterministic_assets(
-                det_assets, company_name, config.extract_model, costs,
-            )
+            """Run deterministic extraction on all candidate prefix groups."""
+            if not det_candidates:
+                return [], []
+            det_assets: list[Asset] = []
+            fallback_pages: list[dict] = []
+
+            # Generate schemas for all prefix groups concurrently
+            async def _process_prefix(prefix: str, group: list[dict]):
+                pages_with_html = [p for p in group if p.get("raw_html")]
+                sample = pages_with_html[0]
+                schema = await _generate_schema(sample["raw_html"], config.extract_model, costs)
+                if not schema:
+                    return [], group
+
+                # Validate on spread samples
+                n_validate = min(5, len(pages_with_html))
+                step = max(1, len(pages_with_html) // n_validate)
+                indices = sorted(set([0, len(pages_with_html)-1] +
+                    list(range(step, len(pages_with_html)-1, step))))[:n_validate]
+                for idx in indices:
+                    val = _apply_schema(pages_with_html[idx]["raw_html"], schema)
+                    if not (val.get("asset_name") or val.get("address")):
+                        return [], group
+
+                # Get template from LLM sample
+                sample_doc = Document(content=sample["markdown"], metadata={"url": sample["url"]})
+                template = {"entity_name": company_name}
+                try:
+                    sample_assets = await extract(
+                        documents=[sample_doc], schema=ExtractedAsset,
+                        prompt=f"Extract the physical asset from this page for {company_name}.",
+                        model=config.extract_model, max_concurrency=1,
+                    )
+                    if sample_assets:
+                        sa = sample_assets[0]
+                        template = {
+                            "entity_name": sa.entity_name,
+                            "asset_type_raw": sa.asset_type_raw,
+                            "naturesense_asset_type": sa.naturesense_asset_type,
+                            "industry_code": sa.industry_code,
+                        }
+                        val1 = _apply_schema(sample["raw_html"], schema)
+                        det_asset = _fields_to_asset(val1, company_name, template)
+                        if sa.latitude and (not det_asset or det_asset.latitude is None):
+                            return [], group
+                except Exception:
+                    pass
+
+                # Apply schema to all pages
+                group_assets = []
+                group_fallback = []
+                for page in group:
+                    html = page.get("raw_html", "")
+                    if not html:
+                        group_fallback.append(page)
+                        continue
+                    fields = _apply_schema(html, schema)
+                    asset = _fields_to_asset(fields, company_name, template)
+                    if asset:
+                        asset.source_url = page.get("url", "")
+                        group_assets.append(asset)
+                    else:
+                        group_fallback.append(page)
+
+                show_detail(f"  Deterministic: {len(group_assets)} assets from {len(group)} pages ({prefix})")
+                return group_assets, group_fallback
+
+            results = await asyncio.gather(*[
+                _process_prefix(prefix, group) for prefix, group in det_candidates
+            ])
+
+            for assets, fallback in results:
+                det_assets.extend(assets)
+                fallback_pages.extend(fallback)
+
+            if det_assets:
+                show_detail(f"Deterministic total: {len(det_assets)} assets")
+                det_assets = await _enrich_deterministic_assets(
+                    det_assets, company_name, config.extract_model, costs,
+                )
+
+            return det_assets, fallback_pages
 
         async def _run_llm():
+            """LLM extraction — may receive additional fallback pages from deterministic."""
             if not llm_docs:
                 return []
             extractor_usage = ExtractorUsage()
@@ -729,14 +826,14 @@ async def run_extract(
             return result
 
         async def _run_rag_extraction():
-            """Query RAG for assets in high-count pages (already ingested during scrape)."""
+            """Query RAG for assets in high-count pages — all pages concurrently."""
             if not rag_only_pages:
                 return []
             try:
                 from rag import RAGStore
                 rag = RAGStore(config.corpgraph_db_url, config=config.rag_config())
-                rag_extracted: list[ExtractedAsset] = []
-                for page in rag_only_pages:
+
+                async def _rag_one(page: dict) -> list[ExtractedAsset]:
                     url_short = page["url"][:60]
                     query = (
                         f"List all physical assets, facilities, stores, offices, "
@@ -746,31 +843,56 @@ async def run_extract(
                     results = await rag.query(
                         query, namespace=issuer_id, top_k=20,
                     )
-                    if results:
-                        # Extract from RAG results using LLM
-                        rag_doc = Document(
-                            content="\n\n".join(r.content for r in results),
-                            metadata={"url": page["url"]},
-                        )
-                        page_assets = await extract(
-                            documents=[rag_doc], schema=ExtractedAsset, prompt=prompt,
-                            model=config.extract_model, max_concurrency=1,
-                            config=extractor_cfg,
-                        )
-                        rag_extracted.extend(page_assets)
-                        show_detail(f"  RAG: {len(page_assets)} assets from {url_short}")
-                return rag_extracted
+                    if not results:
+                        return []
+                    rag_doc = Document(
+                        content="\n\n".join(r["content"] for r in results),
+                        metadata={"url": page["url"]},
+                    )
+                    page_assets = await extract(
+                        documents=[rag_doc], schema=ExtractedAsset, prompt=prompt,
+                        model=config.extract_model, max_concurrency=1,
+                        config=extractor_cfg,
+                    )
+                    show_detail(f"  RAG: {len(page_assets)} assets from {url_short}")
+                    return page_assets
+
+                results = await asyncio.gather(*[_rag_one(p) for p in rag_only_pages])
+                return [asset for page_assets in results for asset in page_assets]
             except Exception as e:
                 log.warning("RAG extraction failed: %s", e)
                 return []
 
+        show_detail("Running extraction paths in parallel...")
         det_result, llm_result, rag_result = await asyncio.gather(
             _run_deterministic(), _run_llm(), _run_rag_extraction(),
         )
-        # Merge RAG results into LLM results
-        llm_result.extend(rag_result)
 
-        all_assets.extend(det_result)
+        # Unpack deterministic result (assets + fallback pages)
+        det_assets_final, det_fallback = det_result
+        all_assets.extend(det_assets_final)
+
+        # If deterministic had fallback pages, LLM-extract those too
+        if det_fallback:
+            fallback_docs = [
+                Document(
+                    content=p["markdown"],
+                    metadata={"url": p["url"], "page_id": p.get("page_id") or url_hash(p["url"])},
+                )
+                for p in det_fallback if p.get("markdown")
+            ]
+            if fallback_docs:
+                show_detail(f"Extracting {len(fallback_docs)} deterministic fallback pages via LLM...")
+                fb_usage = ExtractorUsage()
+                fb_result = await extract(
+                    documents=fallback_docs, schema=ExtractedAsset, prompt=prompt,
+                    model=config.extract_model, max_concurrency=config.extractor_default_concurrency,
+                    config=extractor_cfg, usage=fb_usage,
+                )
+                llm_result.extend(fb_result)
+
+        # Merge RAG results
+        llm_result.extend(rag_result)
 
         # Build URL lookup from doc indices — each batch's documents are
         # numbered 0..N in the prompt via doc_index headers
