@@ -41,18 +41,8 @@ async def run_scrape(
     from rich.padding import Padding
     import logging
 
-    # Style web-scraper log messages with indentation
-    from rich.logging import RichHandler
-    scraper_log = logging.getLogger("web_scraper.scraper")
-    scraper_log.setLevel(logging.WARNING)
-    if not any(isinstance(h, RichHandler) for h in scraper_log.handlers):
-        handler = RichHandler(
-            console=console, show_path=False, show_time=False,
-            show_level=False, markup=True,
-        )
-        handler.setLevel(logging.WARNING)
-        scraper_log.addHandler(handler)
-        scraper_log.propagate = False
+    # Suppress web-scraper batch retry messages (they appear unindented)
+    logging.getLogger("web_scraper.scraper").setLevel(logging.ERROR)
 
     start = time.monotonic()
 
@@ -175,25 +165,22 @@ async def run_scrape(
     finally:
         conn.close()
 
-    # RAG ingestion — batch after scraping completes (faster than inline)
+    # RAG ingestion — batch after scraping completes
     if rag_store:
         new_pages = [p for p in all_pages if p.get("markdown") and p not in cached_pages]
         if new_pages:
-            show_detail(f"Ingesting {len(new_pages)} pages into RAG...")
-            rag_usage = None
-            if rag_store:
-                from rag import Usage as RAGUsage
-                rag_usage = RAGUsage()
+            from rag import Usage as RAGUsage
+            from ..display import show_spinner
+            rag_usage = RAGUsage()
             docs = [
                 {"id": p.get("page_id", ""), "content": p["markdown"],
                  "metadata": {"url": p["url"]}}
                 for p in new_pages
             ]
-            from ..display import show_spinner
             try:
-                with show_spinner(f"Ingesting {len(new_pages)} pages into RAG..."):
+                with show_spinner(f"  Ingesting {len(new_pages)} pages into RAG..."):
                     await rag_store.ingest(docs, namespace=issuer_id, usage=rag_usage)
-                if costs and rag_usage and rag_usage.embedding_tokens:
+                if costs and rag_usage.embedding_tokens:
                     costs.track_embedding(rag_usage.embedding_tokens)
             except Exception as e:
                 show_warning(f"RAG ingestion failed: {e}")
