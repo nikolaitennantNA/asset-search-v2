@@ -79,8 +79,9 @@ class ExtractedAsset(BaseModel):
     """Schema passed to the extraction LLM — only fields the model should fill."""
 
     asset_name: str = Field(
-        description="Facility or site proper name (e.g. 'Hornsea 2 Offshore Wind Farm'). "
-        "Do not include city, state, or country in the name.",
+        description="Facility or site proper name, including any identifier or number "
+        "(e.g. 'Hornsea 2 Offshore Wind Farm', 'Denver Store #102', 'Plant 3'). "
+        "Do not include city, state, or country unless it's part of the official name.",
     )
     entity_name: str = Field(
         description="Company or subsidiary that directly owns/operates this asset.",

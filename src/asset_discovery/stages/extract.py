@@ -54,13 +54,12 @@ warehouses, data centers, stores, properties, wind/solar farms, pipelines,
 terminals, refineries, and any other permanent physical infrastructure.
 
 Field guidance:
+- asset_name: include any official identifier or number (e.g. "Store #102",
+  "Plant 3", "Unit B"). These help with deduplication downstream.
 - entity_stake_pct: default to 100 unless the document says otherwise (joint
-  venture, partial ownership, minority stake). Assets on the company's own
-  website are 100% unless explicitly stated.
-- supplementary_details: capture useful non-standard info like store number,
-  phone, hours, year built, fuel type, technology, capacity details, format.
-  Use descriptive keys. Leave empty only if the page has nothing beyond the
-  core fields.
+  venture, partial ownership, minority stake).
+- supplementary_details: capture anything useful beyond the core fields.
+  Use descriptive keys.
 
 ## Company Context
 {company_context}
