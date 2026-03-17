@@ -119,6 +119,10 @@ given the company profile, and fill obvious gaps if possible.
 - **rag_extract(query)** -- re-extract assets from RAG results if needed.
 - **scrape_and_extract(urls)** -- scrape and extract from new URLs.
 - **web_search** -- find new URLs.
+- **remove_assets(indices)** -- remove junk entries by index (events, aggregates,
+  non-physical things that shouldn't be in the asset list).
+- **standardize_types(replacements)** -- clean up messy asset_type_raw values
+  e.g. {"principal executive offices / support office": "corporate office"}.
 
 Max 2 iterations.
 

@@ -150,6 +150,42 @@ async def run_qa(
 
     qa_tools.append(scrape_and_extract)
 
+    async def remove_assets(indices: list[int]) -> int:
+        """Remove assets by index from the current asset list.
+
+        Use to clean up junk that got through extraction — things like
+        "annual meeting venue", aggregate descriptions, or obviously
+        wrong entries. Returns count removed.
+        """
+        removed = 0
+        for idx in sorted(indices, reverse=True):
+            if 0 <= idx < len(assets):
+                assets.pop(idx)
+                removed += 1
+        if removed:
+            show_detail(f"  Removed {removed} junk assets")
+        return removed
+
+    qa_tools.append(remove_assets)
+
+    async def standardize_types(replacements: dict[str, str]) -> int:
+        """Standardize asset_type_raw values.
+
+        Pass a dict of {old_value: new_value} to clean up messy types.
+        e.g. {"principal executive offices / support office": "corporate office"}
+        Returns count updated.
+        """
+        updated = 0
+        for asset in assets:
+            if asset.asset_type_raw in replacements:
+                asset.asset_type_raw = replacements[asset.asset_type_raw]
+                updated += 1
+        if updated:
+            show_detail(f"  Standardized {updated} asset types")
+        return updated
+
+    qa_tools.append(standardize_types)
+
     model_str = _to_pydantic_ai_model(config.qa_model)
     if builtin_tools and model_str.startswith("openai:"):
         model_str = model_str.replace("openai:", "openai-responses:", 1)
@@ -167,8 +203,12 @@ async def run_qa(
         for _iteration in range(config.max_qa_iterations):
             result = await agent.run(
                 f"## Current assets ({len(assets)} total)\n{asset_summary}\n\n"
-                "Evaluate coverage. If gaps, use rag_query first, then scrape_and_extract. "
-                "Return QAReport."
+                "1. Clean up: remove any non-physical-asset entries (events, aggregates, "
+                "datasets) and standardize messy asset_type_raw values.\n"
+                "2. Evaluate coverage against the company profile.\n"
+                "3. Fill gaps if needed — rag_query to verify, rag_extract or "
+                "scrape_and_extract for new data.\n"
+                "Return QAReport with summary."
             )
             if costs:
                 costs.track_pydantic_ai(result.usage(), config.qa_model, "qa")
