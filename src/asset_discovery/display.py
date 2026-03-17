@@ -152,17 +152,19 @@ def show_assets_table(
         title=f"[bold]Found {len(assets)} Assets[/bold]",
         border_style="dim",
     )
-    table.add_column("Name", style="cyan", max_width=40)
-    table.add_column("Type", style="green")
-    table.add_column("Entity", style="white")
+    table.add_column("Asset Name", style="cyan", max_width=40)
+    table.add_column("Asset Type", style="green")
+    table.add_column("Entity Name", style="white")
     table.add_column("Address", style="white", max_width=30)
-    table.add_column("Coords", style="dim")
+    table.add_column("Lat, Lon", style="dim")
+    table.add_column("Status", style="dim")
 
     for asset in assets[:max_rows]:
         name = _asset_field(asset, "asset_name")
         atype = _asset_field(asset, "asset_type_raw", "asset_type")
         entity = _asset_field(asset, "entity_name")
         address = _asset_field(asset, "address")
+        status = _asset_field(asset, "status")
         coords = ""
         lat_str = _asset_field(asset, "latitude")
         lon_str = _asset_field(asset, "longitude")
@@ -171,7 +173,7 @@ def show_assets_table(
                 coords = f"{float(lat_str):.4f}, {float(lon_str):.4f}"
         except (ValueError, TypeError):
             pass
-        table.add_row(name[:40], atype, entity, address[:30], coords)
+        table.add_row(name[:40], atype, entity, address[:30], coords, status)
 
     if len(assets) > max_rows:
         table.add_row("...", f"+{len(assets) - max_rows} more", "", "", "")

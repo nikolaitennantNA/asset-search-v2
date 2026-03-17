@@ -5,6 +5,8 @@ from __future__ import annotations
 import csv
 from pathlib import Path
 
+from typing import Any
+
 from pydantic import BaseModel, Field
 
 
@@ -145,7 +147,7 @@ class ExtractedAsset(BaseModel):
         description="6-digit GICS industry code for this asset. "
         "See the GICS reference in the prompt for valid codes and descriptions.",
     )
-    supplementary_details: dict[str, str] = Field(
+    supplementary_details: dict[str, Any] = Field(
         default_factory=dict,
         description="Dict of additional context with descriptive keys "
         "(e.g. fuel_type, year_built, technology, additional_capacity).",
@@ -160,6 +162,7 @@ class Asset(ExtractedAsset):
     attribution_source: str = ""
     source_url: str = ""
     domain_source: str = ""
+    qa_flag: str = ""  # set by QA: "underreported", "low_confidence", etc.
 
 
 class CoverageFlag(BaseModel):

@@ -82,10 +82,30 @@ def _save_extractions(run_dir: Path, assets: list[Asset]) -> None:
     )
 
 
+_ASSET_CSV_FIELDS = [
+    "asset_id", "asset_name", "entity_name", "entity_isin", "parent_name",
+    "entity_stake_pct", "latitude", "longitude", "address", "status",
+    "capacity", "capacity_units", "asset_type_raw", "naturesense_asset_type",
+    "industry_code", "source_url", "domain_source", "date_researched",
+    "supplementary_details", "qa_flag",
+]
+
+
 def _save_merged(run_dir: Path, assets: list[Asset]) -> None:
     (run_dir / "final_assets.json").write_text(
         json.dumps([a.model_dump() for a in assets], indent=2, default=str)
     )
+    # Also save as CSV
+    path = run_dir / "final_assets.csv"
+    with open(path, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=_ASSET_CSV_FIELDS, extrasaction="ignore")
+        writer.writeheader()
+        for a in assets:
+            row = a.model_dump()
+            # Flatten supplementary_details to string for CSV
+            if row.get("supplementary_details"):
+                row["supplementary_details"] = json.dumps(row["supplementary_details"])
+            writer.writerow({k: row.get(k, "") for k in _ASSET_CSV_FIELDS})
 
 
 def _save_qa(run_dir: Path, qa_report: QAReport) -> None:
@@ -247,6 +267,13 @@ async def run(
     stages_run.append("qa")
     _save_qa(run_dir, qa_report)
 
+    # Flag assets if QA found high-severity issues
+    high_flags = [f for f in (qa_report.coverage_flags or []) if f.severity == "high"]
+    if high_flags:
+        flag_text = "; ".join(f.description for f in high_flags)
+        for asset in assets:
+            asset.qa_flag = flag_text
+
     # Persist QA report (including coverage flags) to DB
     from .db import get_connection, save_qa_report
     conn = get_connection(config)
@@ -254,6 +281,9 @@ async def run(
         save_qa_report(conn, issuer_id, qa_report.model_dump())
     finally:
         conn.close()
+
+    # Re-save final assets with QA flags
+    _save_merged(run_dir, assets)
 
     # --- Display results ---
     from .display import show_assets_table, show_cost_summary, show_coverage_flags

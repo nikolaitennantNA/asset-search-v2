@@ -70,11 +70,16 @@ async def run_qa(
 
     qa_tools.append(scrape_and_extract)
 
+    model_str = _to_pydantic_ai_model(config.qa_model)
+    if builtin_tools and model_str.startswith("openai:"):
+        model_str = model_str.replace("openai:", "openai-responses:", 1)
+
     agent = Agent(
-        _to_pydantic_ai_model(config.qa_model),
+        model_str,
         system_prompt=system_prompt,
         output_type=QAReport,
-        tools=qa_tools + search_tools + builtin_tools,
+        tools=qa_tools + search_tools,
+        builtin_tools=builtin_tools,
     )
 
     qa_report = QAReport()
