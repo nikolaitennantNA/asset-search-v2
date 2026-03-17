@@ -124,7 +124,7 @@ def stage_progress(
         console=console,
         transient=False,
     ) as progress:
-        task = progress.add_task(f"  {label}", total=total)
+        task = progress.add_task(f"   {label}", total=total)
         yield progress, task
 
 

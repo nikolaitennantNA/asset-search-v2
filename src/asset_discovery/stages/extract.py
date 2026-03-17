@@ -730,7 +730,7 @@ async def run_extract(
                 return []
             try:
                 from rag import RAGStore
-                rag = RAGStore(config.rag_config(), config.corpgraph_db_url)
+                rag = RAGStore(config.corpgraph_db_url, config=config.rag_config())
                 rag_extracted: list[ExtractedAsset] = []
                 for page in rag_only_pages:
                     url_short = page["url"][:60]

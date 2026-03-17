@@ -196,7 +196,8 @@ async def run_scrape(
             except Exception as e:
                 show_warning(f"RAG ingestion failed: {e}")
 
-    # Panel footer
+    # Footer
+    console.print()
     elapsed = time.monotonic() - start
     mins, secs = divmod(int(elapsed), 60)
     time_str = f"{mins}m {secs:02d}s" if mins else f"{secs}s"
