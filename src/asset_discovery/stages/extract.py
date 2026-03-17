@@ -217,16 +217,26 @@ async def run_extract(
         with show_spinner(f"Counting assets across {len(documents)} pages..."):
             count_results = await asyncio.gather(*[_count_one(doc) for doc in documents])
 
+        RAG_ONLY_THRESHOLD = 120  # pages with 120+ assets → skip to RAG for QA
+        rag_only_docs: list[tuple[Document, int]] = []
+
         for doc, count in count_results:
-            if count > EXHAUSTIVE_THRESHOLD:
+            if count >= RAG_ONLY_THRESHOLD:
+                url_short = doc.metadata.get("url", "?")[:60]
+                show_detail(f"  ~{count} assets in {url_short} → RAG-only (QA will query)")
+                rag_only_docs.append((doc, count))
+            elif count > EXHAUSTIVE_THRESHOLD:
                 url_short = doc.metadata.get("url", "?")[:60]
                 show_detail(f"  ~{count} assets in {url_short} (exhaustive)")
                 exhaustive_docs.append((doc, count))
             else:
                 normal_docs.append(doc)
 
-        total_estimated = sum(c for _, c in exhaustive_docs)
-        show_detail(f"Routing: {len(normal_docs)} pages normal, {len(exhaustive_docs)} pages exhaustive")
+        show_detail(
+            f"Routing: {len(normal_docs)} normal, "
+            f"{len(exhaustive_docs)} exhaustive, "
+            f"{len(rag_only_docs)} RAG-only"
+        )
 
         # Normal extraction for standard pages
         extracted: list[ExtractedAsset] = []
@@ -245,7 +255,7 @@ async def run_extract(
                 )
             show_detail(f"Extracted {len(extracted)} assets from {len(normal_docs)} pages")
 
-        # Exhaustive extraction for high-count pages
+        # Exhaustive extraction for medium-high-count pages
         for i, (doc, estimated_count) in enumerate(exhaustive_docs):
             url_short = doc.metadata.get("url", "?")[:60]
             with show_spinner(f"Exhaustive extraction ({i+1}/{len(exhaustive_docs)}): {url_short}"):
