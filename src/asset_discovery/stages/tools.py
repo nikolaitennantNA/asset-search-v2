@@ -86,7 +86,9 @@ async def _spider_fetch_raw(url: str) -> dict[str, str]:
         return {"url": url, "content": "", "error": str(e)}
 
 
-async def fetch_sitemap(domain: str, sitemap: str | None = None) -> list[dict[str, str]]:
+async def fetch_sitemap(
+    domain: str, sitemap: str | None = None
+) -> list[dict[str, str]]:
     """Fetch and parse sitemaps for a domain via Spider Cloud.
 
     Uses Spider /scrape with raw format to get the actual XML through WAF,
@@ -143,7 +145,9 @@ async def fetch_sitemap(domain: str, sitemap: str | None = None) -> list[dict[st
         raw_results = list(raw_results) + list(extra_results)
 
     if _costs:
-        fetched = sum(1 for r in raw_results if not isinstance(r, Exception) and r.get("content"))
+        fetched = sum(
+            1 for r in raw_results if not isinstance(r, Exception) and r.get("content")
+        )
         _costs.track_spider(fetched, cost_usd=0)
 
     # Parse all XML responses
@@ -197,8 +201,12 @@ async def fetch_sitemap(domain: str, sitemap: str | None = None) -> list[dict[st
     if sitemap:
         # Child sitemap fetch
         name = sitemap.rsplit("/", 1)[-1] if "/" in sitemap else sitemap
-        _emit("sitemap_urls", domain=_norm_domain(domain), sitemap=name,
-              count=len(indexes) + len(urls))
+        _emit(
+            "sitemap_urls",
+            domain=_norm_domain(domain),
+            sitemap=name,
+            count=len(indexes) + len(urls),
+        )
     elif indexes:
         _emit("sitemap_indexes", domain=_norm_domain(domain), count=len(indexes))
     elif urls:
@@ -243,7 +251,8 @@ async def crawl_page(
     usage = Usage()
     try:
         pages = await scrape(
-            [url], _config.spider_api_key,
+            [url],
+            _config.spider_api_key,
             configs=configs,
             usage=usage,
         )
@@ -256,14 +265,24 @@ async def crawl_page(
     if not pages or not pages[0].success:
         error = "Failed to scrape" if not pages else f"Status {pages[0].status_code}"
         parsed = urlparse(url)
-        _emit("crawl_result", domain=_norm_domain(parsed.netloc),
-              url=url, path=parsed.path or "/", success=False)
+        _emit(
+            "crawl_result",
+            domain=_norm_domain(parsed.netloc),
+            url=url,
+            path=parsed.path or "/",
+            success=False,
+        )
         return {"markdown": "", "error": error}
 
     page = pages[0]
     parsed = urlparse(url)
-    _emit("crawl_result", domain=_norm_domain(parsed.netloc),
-          url=url, path=parsed.path or "/", success=True)
+    _emit(
+        "crawl_result",
+        domain=_norm_domain(parsed.netloc),
+        url=url,
+        path=parsed.path or "/",
+        success=True,
+    )
     return {
         "markdown": page.markdown,
         "links_internal": page.links_internal,
@@ -458,6 +477,14 @@ async def save_sitemap_urls(
     # Use cached sitemap results if available, otherwise fetch
     cache_key = f"{domain}:{sitemap or ''}"
     results = _sitemap_cache.get(cache_key)
+    if results is None and not sitemap:
+        # Fall back to any cached sitemaps for this domain if explicitly requested was empty
+        domain_caches = [
+            v for k, v in _sitemap_cache.items() if k.startswith(f"{domain}:")
+        ]
+        if domain_caches:
+            results = max(domain_caches, key=len)
+
     if results is None:
         results = await fetch_sitemap(domain, sitemap)
     if not results:
@@ -499,15 +526,18 @@ async def save_sitemap_urls(
             filtered.append(url)
 
     if not filtered:
-        _emit("bulk_save_empty", domain=_norm_domain(domain),
-              total_sitemap=len(results_flat),
-              include=include, exclude=exclude)
+        _emit(
+            "bulk_save_empty",
+            domain=_norm_domain(domain),
+            total_sitemap=len(results_flat),
+            include=include,
+            exclude=exclude,
+        )
         return 0
 
     # Build URL dicts and delegate to save_urls
     url_dicts: list[dict[str, Any]] = [
-        {"url": u, "category": category, "notes": notes}
-        for u in filtered
+        {"url": u, "category": category, "notes": notes} for u in filtered
     ]
     count = await save_urls(url_dicts)
     return count
@@ -550,17 +580,19 @@ async def save_urls(
     conn = _get_conn()
     try:
         existing = get_discovered_urls(conn, iid)
-        existing_urls = {e["url"] for e in existing}
-        # Drop URLs already in DB
-        new_urls = [v for v in validated if v["url"] not in existing_urls]
         budget = (_config.max_urls_per_run if _config else 5000) - len(existing)
-        if budget <= 0 or not new_urls:
+        if budget <= 0:
             return 0
-        new_urls = new_urls[:budget]
-        count = save_discovered_urls(conn, iid, new_urls)
+
+        # Optional: you could deduct how many of our valid URLs are already in 'existing'
+        # so they don't count towards the current insertion budget, but for simplicity
+        # just slice down the additions to whatever fits the remaining space.
+        insert_batch = validated[:budget] if len(validated) > budget else validated
+
+        count = save_discovered_urls(conn, iid, insert_batch)
         domain = ""
-        if new_urls:
-            domain = _norm_domain(urlparse(new_urls[0].get("url", "")).netloc)
+        if insert_batch:
+            domain = _norm_domain(urlparse(insert_batch[0].get("url", "")).netloc)
         _emit("save_result", domain=domain, count=count)
         return count
     finally:
@@ -588,12 +620,12 @@ async def remove_urls(patterns: list[str]) -> int:
     try:
         existing = get_discovered_urls(conn, iid)
         to_remove = [
-            e["url"] for e in existing
-            if any(pat in e["url"] for pat in patterns)
+            e["url"] for e in existing if any(pat in e["url"] for pat in patterns)
         ]
         if not to_remove:
             return 0
         from ..db import delete_discovered_urls
+
         count = delete_discovered_urls(conn, iid, to_remove)
         _emit("remove_result", count=count, patterns=patterns)
         return count
@@ -642,8 +674,13 @@ async def probe_urls(urls: list[str]) -> list[dict[str, Any]]:
     found = [r for r in results if 200 <= r.get("status", 0) < 400]
     found_paths = [urlparse(r["url"]).path for r in found]
     domain = _norm_domain(urlparse(urls[0]).netloc) if urls else ""
-    _emit("probe_result", domain=domain, total=len(urls), exist=len(found),
-          paths=found_paths)
+    _emit(
+        "probe_result",
+        domain=domain,
+        total=len(urls),
+        exist=len(found),
+        paths=found_paths,
+    )
     return results
 
 
@@ -682,8 +719,14 @@ async def _probe_one(client: httpx.AsyncClient, url: str) -> dict[str, Any]:
         }
     except Exception as e:
         return {
-            "url": url, "status": 0, "content_type": "", "content_length": 0,
-            "title": "", "server": "", "waf_blocked": False, "error": str(e),
+            "url": url,
+            "status": 0,
+            "content_type": "",
+            "content_length": 0,
+            "title": "",
+            "server": "",
+            "waf_blocked": False,
+            "error": str(e),
         }
 
 
@@ -717,6 +760,7 @@ async def spawn_worker(task: str) -> str:
 
     if _config.search_provider == "openai":
         from pydantic_ai import WebSearchTool
+
         builtin_tools.append(WebSearchTool())
         if model_str.startswith("openai:"):
             model_str = model_str.replace("openai:", "openai-responses:", 1)
@@ -729,8 +773,13 @@ async def spawn_worker(task: str) -> str:
             "Start calling tools right away. Save URLs to the database as you find them."
         ),
         tools=[
-            fetch_sitemap, crawl_page, map_domain, spider_links,
-            probe_urls, save_urls, get_saved_urls,
+            fetch_sitemap,
+            crawl_page,
+            map_domain,
+            spider_links,
+            probe_urls,
+            save_urls,
+            get_saved_urls,
         ],
         builtin_tools=builtin_tools,
     )
@@ -744,7 +793,9 @@ async def spawn_worker(task: str) -> str:
                 )
                 if _costs and result.usage():
                     _costs.track_pydantic_ai(
-                        result.usage(), _config.discover_model, "discover-worker",
+                        result.usage(),
+                        _config.discover_model,
+                        "discover-worker",
                     )
                 return result.output
     except (TimeoutError, asyncio.TimeoutError):

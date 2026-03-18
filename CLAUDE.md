@@ -59,19 +59,21 @@ uv run ald-check output/.../final_assets.csv --fix --fix-llm
 ### Pipeline Stages (`pipeline.py`)
 
 ```
-Profile → Discover → Scrape → Extract → Merge → (Geocode) → QA
-   ↓          ↓          ↓         ↓         ↓        ↓         ↓
-context   discovered   scraped   extracted  merged  geo-       qa_report
- _doc      _urls       _pages    _assets   _assets  resolved   + gaps
+Profile → Places → Discover → Scrape → Extract → Merge → (Geocode) → (Verify) → QA
+   ↓        ↓          ↓          ↓         ↓         ↓        ↓          ↓         ↓
+context   places_    discovered  scraped   extracted  merged  geo-       verified   qa_report
+ _doc     assets      _urls      _pages    _assets   _assets  resolved   _assets    + gaps
 ```
 
-1. **Profile** — Load company context from corp-graph Postgres or JSON file. Optional LLM enrichment via `corp_profile.enrich`. Produces `context_doc` (markdown) consumed by all downstream agents.
-2. **Discover** — Supervisor-worker pattern: a pydantic-ai supervisor agent spawns up to `max_discover_workers` focused worker agents (e.g. subsidiary exploration, regulatory DB searches). Both supervisor and workers share tools (`fetch_sitemap`, `spider_links`, `crawl_page`, `map_domain`, `probe_urls`, `group_by_prefix`, `save_urls`, `save_sitemap_urls`, `remove_urls`, `get_saved_urls`) + pluggable web search (Exa/Brave/Tavily/OpenAI). Workers use `spawn_worker(task)` tool. URLs saved progressively to DB with structured scrape hints (strategy, proxy_mode, wait_for, js_code). Timeout + tool-call limits protect against runaway agents.
-3. **Scrape** — Reads discovered URLs from DB, checks page cache for freshness (`page_stale_days`). Builds per-URL `ScrapeConfig` from agent's structured fields. Crawl4AI Cloud API via `web-scraper` package. Injects pages into RAG store if available.
-4. **Extract** — instructor structured extraction via `doc-extractor`. Batches pages by token budget (`max_batch_tokens`). Cache keyed on `(page_id, model, content_hash)` — invalidates if page content changes. Deduplicates by coordinates (55m threshold).
-5. **Merge** — Concurrent batch dedup (50 assets per batch with `asyncio.Lock`), then cross-batch LLM dedup for duplicates spanning batch boundaries, then existing asset matching from `discovered_assets` table. NatureSense classification maps raw types to predefined categories. Sets `asset_id`, `naturesense_asset_type`, `industry_code`.
-6. **Geocode** (optional) — Uses `geo-resolve` package to geocode assets with valid addresses but missing lat/lon. Gracefully skips if not installed.
-7. **QA** — pydantic-ai agent evaluates coverage, fills gaps via `rag_query` (cheapest — searches already-scraped pages) and `scrape_and_extract` (web search + scrape + extract new URLs). Outputs `QAReport` with quality score, summary, missing types/regions, and `CoverageFlag`s (with severity levels). High-severity flags propagate to asset `qa_flag` fields.
+1. **Profile** — Load company context from corp-graph Postgres or JSON file. Optional LLM enrichment via `corp_profile.enrich`. Produces `context_doc` (markdown) with `estimated_asset_count` consumed by all downstream stages.
+2. **Places** (new) — Zero-cost location discovery via `places-discovery` package. Queries All The Places (4,100+ company store locator spiders), Overture Maps (64M+ POIs via local geoparquet), and Foursquare OS Places (100M+ POIs). Deduplicates across sources at 50m threshold. Result count compared to Profile's `estimated_asset_count` — if coverage is near-complete, Discover is told to skip store-level URLs and only find non-retail assets (DCs, offices, plants). If Places finds nothing, Discover runs unconstrained.
+3. **Discover** — Supervisor-worker pattern: a pydantic-ai supervisor agent spawns up to `max_discover_workers` focused worker agents (e.g. subsidiary exploration, regulatory DB searches). Both supervisor and workers share tools (`fetch_sitemap`, `spider_links`, `crawl_page`, `map_domain`, `probe_urls`, `group_by_prefix`, `save_urls`, `save_sitemap_urls`, `remove_urls`, `get_saved_urls`) + pluggable web search (Exa/Brave/Tavily/OpenAI). Workers use `spawn_worker(task)` tool. URLs saved progressively to DB with structured scrape hints (strategy, proxy_mode, wait_for, js_code). Timeout + tool-call limits protect against runaway agents. When Places found assets, the supervisor's context includes a summary so it focuses on gaps.
+4. **Scrape** — Reads discovered URLs from DB, checks page cache for freshness (`page_stale_days`). Builds per-URL `ScrapeConfig` from agent's structured fields. Spider Cloud API via `web-scraper` package. Injects pages into RAG store if available.
+5. **Extract** — instructor structured extraction via `doc-extractor`. Batches pages by token budget (`max_batch_tokens`). Cache keyed on `(page_id, model, content_hash)` — invalidates if page content changes. Deduplicates by coordinates (55m threshold).
+6. **Merge** — Concurrent batch dedup (50 assets per batch with `asyncio.Lock`), then cross-batch LLM dedup for duplicates spanning batch boundaries, then existing asset matching from `discovered_assets` table. Also merges Places-stage assets with pipeline-discovered assets. NatureSense classification maps raw types to predefined categories. Sets `asset_id`, `naturesense_asset_type`, `industry_code`.
+7. **Geocode** (optional) — Uses `geo-resolve` package to geocode assets with valid addresses but missing lat/lon. Gracefully skips if not installed.
+8. **Verify** (optional) — Uses `geo-verify` package for multi-signal location verification. 14 deterministic + vision signals produce a feature matrix, CatBoost classifier assigns confidence scores. Reprompt API integration for business legitimacy validation and cross-source matching. Active learning loop exports uncertain predictions for manual labeling. Most useful for pipeline-discovered assets with uncertain coordinates. Gracefully skips if not installed.
+9. **QA** — pydantic-ai agent evaluates coverage, fills gaps via `rag_query` (cheapest — searches already-scraped pages) and `scrape_and_extract` (web search + scrape + extract new URLs). Outputs `QAReport` with quality score, summary, missing types/regions, and `CoverageFlag`s (with severity levels). High-severity flags propagate to asset `qa_flag` fields.
 
 Each run saves intermediate files to `output/<company_slug>_<issuer_id>/<timestamp>/`. Final output: `final_assets.json`, `final_assets.csv` (ALD format), `final_assets.xlsx` (with "Key" sheet for QA summary + "Assets" data sheet).
 
@@ -94,16 +96,18 @@ Five sibling repos are linked as editable deps via `[tool.uv.sources]` in pyproj
 | Package | Path | Purpose |
 |---|---|---|
 | `corp-profile` | `../corp-profile` | Company profiling from corp-graph + LLM enrichment |
-| `web-scraper` | `../web-scraper` | Crawl4AI Cloud API wrapper with batching + proxy |
+| `web-scraper` | `../web-scraper` | Spider Cloud API wrapper with batching + proxy |
 | `doc-extractor` | `../doc-extractor` | LLM structured extraction via instructor |
 | `rag` | `../rag` | pgvector ingest + Cohere rerank retrieval |
 | `geo-resolve` | `../geo-resolve` | Geocoding (address → lat/lon) |
+| `places-discovery` | `../places-discovery` | Multi-source location discovery (ATP + Overture + Foursquare) |
+| `geo-verify` | `../geo-verify` | Multi-signal location verification + CatBoost classifier |
 | `ald-checker` | `../ald-checker` | ALD output validation + auto-fix (22 checks) |
 
 ### Key Patterns
 
 - **Idempotent caching**: All stages check Postgres cache before doing work. Pages stale after `page_stale_days`. Extraction cache keyed on `(page_id, model, content_hash)` — re-extracts if page content changes.
-- **Cost tracking**: `CostTracker` (`cost.py`) tracks per-model tokens, per-stage tokens, and non-LLM API costs (Crawl4AI credits, Exa searches, embedding tokens, Cohere rerank calls). Use `track_pydantic_ai()` for agent results, `track_litellm()` for direct litellm calls.
+- **Cost tracking**: `CostTracker` (`cost.py`) tracks per-model tokens, per-stage tokens, and non-LLM API costs (Spider credits, Exa searches, embedding tokens, Cohere rerank calls). Use `track_pydantic_ai()` for agent results, `track_litellm()` for direct litellm calls.
 - **Global tool state**: `stages/tools.py` uses module-level `_config`, `_issuer_id`, `_costs` initialized via `init_tools()`. Discover and QA agents share these tools.
 - **Supervisor-worker discovery**: Supervisor delegates subtasks to worker agents via `spawn_worker(task)`. Workers run in parallel (up to `max_discover_workers`), each with the full tool set plus web search. Both save URLs independently to DB.
 - **Lazy imports**: `pipeline.py` imports stage modules and display functions inside the stage blocks, not at the top. This keeps startup fast and avoids importing heavy deps for partial runs.
@@ -125,7 +129,7 @@ Five sibling repos are linked as editable deps via `[tool.uv.sources]` in pyproj
 | `src/asset_discovery/stages/prompts.py` | System prompts for discover and QA agents |
 | `src/asset_discovery/stages/tools.py` | Agent tools (sitemap, spider, crawl, map, probe, save/get URLs, spawn_worker) |
 | `src/asset_discovery/stages/discover.py` | Stage 2: supervisor-worker URL discovery |
-| `src/asset_discovery/stages/scrape.py` | Stage 3: Crawl4AI Cloud API via web-scraper |
+| `src/asset_discovery/stages/scrape.py` | Stage 3: Spider Cloud API via web-scraper |
 | `src/asset_discovery/stages/extract.py` | Stage 4: instructor structured extraction |
 | `src/asset_discovery/stages/merge.py` | Stage 5: concurrent batch dedup + classification |
 | `src/asset_discovery/stages/qa.py` | Stage 6: pydantic-ai QA + gap-fill agent |
