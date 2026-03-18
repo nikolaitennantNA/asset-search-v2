@@ -36,3 +36,4 @@ scripts/scrape_dg_stores.py
 scripts/classify_dg_satellite.py
 scripts/process_overture.py
 scripts/scrape_dg_cities.py
+.DS_Store
