@@ -37,3 +37,4 @@ scripts/classify_dg_satellite.py
 scripts/process_overture.py
 scripts/scrape_dg_cities.py
 .DS_Store
+OSM_LEGAL_ASSESSMENT.md

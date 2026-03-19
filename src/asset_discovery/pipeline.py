@@ -348,6 +348,16 @@ async def run(
         except Exception as e:
             show_detail(f"Geocoding failed: {e}")
 
+    # --- Verify (optional) ---
+    try:
+        from .stages.verify import run_verify
+        assets = await run_verify(assets, config, costs=costs)
+        stages_run.append("verify")
+    except ImportError:
+        pass
+    except Exception as e:
+        show_detail(f"Verification skipped: {e}")
+
     # --- Stage 6: QA ---
     from .stages.qa import run_qa
 
